@@ -1,11 +1,12 @@
 "use client";
 import Image from 'next/image'
-import styles from './page.module.css'
+import styles from './page.css'
 import {db} from './firebase-config'
 import { useEffect, useState } from 'react'
 import { Timestamp, doc, getDoc, updateDoc  } from "firebase/firestore";
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+//import redX from '../public'
 
 export default function Home() {
   const [streak, setStreak] = useState({}) 
@@ -24,6 +25,10 @@ export default function Home() {
     const docData = docSnap.data()
     const startDate = docData.start_date.toDate();
     const lastCompletedDay = docData.last_completed_day.toDate().toLocaleDateString("en-US");
+
+    await updateDoc(docRef, {
+      current_day: new Date()
+    });
 
     
     
@@ -135,25 +140,25 @@ export default function Home() {
 
 
   return (
-    <main className={styles.main}>
-      <div>
-        <h1>{streak.name}</h1>
-        <h1>Streak: {streak.streak}</h1>
-        <h3>Is Completed: {streak.is_completed ?(<p>{`${streak.is_completed}`}</p>):(<p>{`${streak.is_completed}`}</p>)}</h3>
-
-        <h3>{streak.start_date ? (
+    <main >
+      <center>
+      <div className='card' onClick={completeStreak}>
+        <h3>{streak.name}</h3>
+        <h3><img src='fastforward.png' className='fastforward'/> {streak.streak}</h3>
+        <div className='imageholder'>{streak.is_completed == false ?(<img src='x.png' className='myimg'></img>):(<img src='fire.gif' className='myimg'></img>)}</div>
+        <h6>{streak.start_date ? (
       <p>Start Date: {streak.start_date.toDate().toLocaleDateString("en-US")}</p>
     ) : (
       <p>Loading...</p>
-    )}</h3>
+    )}</h6>
 
-    <h3>Today: {String(streak.current_day)}</h3>
-    <h3>Last Completed: {String(streak.last_completed_day)}</h3>
+    {/* <h6>Today: {String(streak.current_day)}</h6> */}
+    <h6>Last Completed: {String(streak.last_completed_day)}</h6>
     
-    <button onClick={completeStreak}>Yes!</button>
+    
       </div>
 
-        
+     </center>   
       
     </main>
   )

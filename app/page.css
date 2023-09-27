@@ -1,0 +1,75 @@
+.card{
+    background-color: antiquewhite;
+    border: 3px solid;
+    display: inline-block;
+    border-radius: 5%;
+    box-shadow:  2px 2px black;
+    margin: 0;
+    padding: 0;
+    transition-duration: 0.4s;
+    
+}
+
+.card:hover{
+    box-shadow:  5px 5px black;
+
+    transition:
+     box-shadow 0.3s ease-in-out;
+    
+}
+
+.card:active{
+    transform: translateY(4px);
+    box-shadow: 1px 1px black;
+    
+}
+
+.card h3{
+    text-align: center;
+    margin: 0;
+
+}
+
+.myimg{
+    /* border: 5px solid; */
+    width: 50px;
+    height: 50px;
+    /* margin-right: 50px; */
+    margin: 0;
+    padding: 0;
+    
+
+}
+
+/* .card:after{
+    content: "";
+  opacity: 0;
+  transition: all 5s;
+  border: 3px solid red;
+}
+
+.card:active:after{
+    border: 3px solid red;
+  
+  opacity: 1;
+  transition: 0s;
+} */
+
+.card h6{
+    text-align: left;
+    margin: 0;
+
+}
+
+.fastforward{
+    width: 15px;
+    height: 15px;
+    margin: 0;
+    
+
+}
+
+.imageholder{
+    margin: 0;
+    padding: 0;
+}
