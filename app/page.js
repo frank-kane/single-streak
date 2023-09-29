@@ -13,6 +13,8 @@ export default function Home() {
     const [stats, setStats] = useState({})
     const [isHovering, setIsHovering] = useState(false);
 
+    const[characterAnimation, setCharacterAnimation] = useState('character-idle.gif');
+
     const handleMouseOver = () => {
         setIsHovering(true);
       };
@@ -95,7 +97,24 @@ export default function Home() {
   },[]);
 
 
-  //==============================================================================//
+  //============================functions============================================//
+  const delay = ms => new Promise(
+    resolve => setTimeout(resolve, ms)
+  );
+
+  async function performCharacterAnimation(){
+    if(streak.is_completed==false){
+      setCharacterAnimation('character-success.gif');
+      await delay(2000);
+      
+
+    }else{
+      setCharacterAnimation('character-failure.gif');
+      await delay(500);
+      
+    }
+    setCharacterAnimation('character-idle.gif');
+  }
 
   async function completeStreak(){
     const today = new Date();
@@ -150,7 +169,7 @@ export default function Home() {
     
     
     
-    
+    performCharacterAnimation();
   }
 
 
@@ -162,6 +181,7 @@ export default function Home() {
         
         
         </div>
+        
         {/* //=========================Habit Card===================// */}
       <center>
       <div className='card' onClick={completeStreak} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
@@ -182,7 +202,11 @@ export default function Home() {
 
       
 
-     </center>   
+     </center>
+     <div className='character-holder'>
+          <img src={characterAnimation} alt="" />
+
+        </div>   
       
     </main>
   )
