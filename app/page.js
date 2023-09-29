@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { Timestamp, doc, getDoc, updateDoc  } from "firebase/firestore";
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import background from "../public/background.jpg"
 //import redX from '../public'
 
 export default function Home() {
