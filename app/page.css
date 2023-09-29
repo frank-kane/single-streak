@@ -41,19 +41,6 @@
 
 }
 
-/* .card:after{
-    content: "";
-  opacity: 0;
-  transition: all 5s;
-  border: 3px solid red;
-}
-
-.card:active:after{
-    border: 3px solid red;
-  
-  opacity: 1;
-  transition: 0s;
-} */
 
 .card h6{
     text-align: left;
@@ -72,4 +59,21 @@
 .imageholder{
     margin: 0;
     padding: 0;
+}
+
+.potentials{
+    display:inline-block;
+    /* border:3px solid black; */
+    color: gold;
+    margin: 0;
+    padding: 0;
+}
+
+.exp{
+    /* border:3px solid black; */
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+
+
 }

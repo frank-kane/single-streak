@@ -11,6 +11,15 @@ import 'firebase/firestore';
 export default function Home() {
     const [streak, setStreak] = useState({}) 
     const [stats, setStats] = useState({})
+    const [isHovering, setIsHovering] = useState(false);
+
+    const handleMouseOver = () => {
+        setIsHovering(true);
+      };
+    
+      const handleMouseOut = () => {
+        setIsHovering(false);
+      };
 
 
   useEffect(()  =>{
@@ -149,12 +158,13 @@ export default function Home() {
     <main >
         <div className='stats'>
         <h3>lvl: {stats.lvl}</h3>
-        <h3>exp: {stats.exp}</h3>
+        <h3 className='exp'>exp: {stats.exp} {isHovering &&(<p className='potentials'>+10</p>)}</h3>
+        
         
         </div>
         {/* //=========================Habit Card===================// */}
       <center>
-      <div className='card' onClick={completeStreak}>
+      <div className='card' onClick={completeStreak} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
         <h3>{streak.name}</h3>
         <h3><img src='fastforward.png' className='fastforward'/> {streak.streak}</h3>
         <div className='imageholder'>{streak.is_completed == false ?(<img src='x.png' className='myimg'></img>):(<img src='fire.gif' className='myimg'></img>)}</div>
