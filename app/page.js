@@ -78,13 +78,7 @@ export default function Home() {
 
     }
 
-    // if (docSnap.exists()) {
-    //   console.log("Document data:", docData);
 
-    // } else {
-    //   // docSnap.data() will be undefined in this case
-    //   console.log("No such document!");
-    // }
 
     }fetchData()
   },[]);
