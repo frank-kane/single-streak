@@ -9,8 +9,8 @@ import 'firebase/firestore';
 //import redX from '../public'
 
 export default function Home() {
-  const [streak, setStreak] = useState({}) 
-
+    const [streak, setStreak] = useState({}) 
+    const [stats, setStats] = useState({})
 
 
   useEffect(()  =>{
@@ -29,6 +29,10 @@ export default function Home() {
     await updateDoc(docRef, {
       current_day: new Date()
     });
+    setStats({
+        lvl: docData.stats.lvl,
+        exp:docData.stats.exp
+    })
 
     
     
@@ -96,7 +100,8 @@ export default function Home() {
       await updateDoc(docRef, {
         is_completed: false,
         last_completed_day: yesterday,
-        streak: docData.streak-1
+        streak: docData.streak-1,
+        'stats.exp':docData.stats.exp -10
       });
       setStreak({
         current_day: today.toLocaleDateString("en-US"),
@@ -106,13 +111,18 @@ export default function Home() {
         last_completed_day: yesterday.toLocaleDateString("en-US"),
         streak : docData.streak-1
       });
+
+      setStats({
+        exp: docData.stats.exp -10
+      })
       
     }
     else if(docData.is_completed==false){
       await updateDoc(docRef, {
         is_completed: true,
         last_completed_day:today,
-        streak: docData.streak +1
+        streak: docData.streak +1,
+        'stats.exp':docData.stats.exp +10
       });
       setStreak({
         current_day: today.toLocaleDateString("en-US"),
@@ -122,6 +132,10 @@ export default function Home() {
         last_completed_day: today.toLocaleDateString("en-US"),
         streak : docData.streak+1
       });
+
+      setStats({
+        exp: docData.stats.exp +10
+      })
 
     }
     
@@ -133,6 +147,12 @@ export default function Home() {
 
   return (
     <main >
+        <div className='stats'>
+        <h3>lvl: {stats.lvl}</h3>
+        <h3>exp: {stats.exp}</h3>
+        
+        </div>
+        {/* //=========================Habit Card===================// */}
       <center>
       <div className='card' onClick={completeStreak}>
         <h3>{streak.name}</h3>
@@ -149,6 +169,8 @@ export default function Home() {
     
     
       </div>
+
+      
 
      </center>   
       
