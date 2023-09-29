@@ -64,9 +64,28 @@
 .potentials{
     display:inline-block;
     /* border:3px solid black; */
-    color: gold;
     margin: 0;
     padding: 0;
+}
+
+.potentials-good{
+    
+        color: gold;
+        display:inline-block;
+    /* border:3px solid black; */
+    margin: 0;
+    padding: 0;
+   
+}
+
+.potentials-bad{
+    
+    color: red;
+    display:inline-block;
+/* border:3px solid black; */
+margin: 0;
+padding: 0;
+
 }
 
 .exp{

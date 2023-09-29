@@ -177,7 +177,7 @@ export default function Home() {
     <main >
         <div className='stats'>
         <h3>lvl: {stats.lvl}</h3>
-        <h3 className='exp'>exp: {stats.exp} {isHovering &&(<p className='potentials'>+10</p>)}</h3>
+        <h3 className='exp'>exp: {stats.exp} {isHovering &&(<p className='potentials'>{streak.is_completed == true ?(<p className='potentials-bad'>-10</p>):(<p className='potentials-good'>+10</p>)}</p>)}</h3>
         
         
         </div>
