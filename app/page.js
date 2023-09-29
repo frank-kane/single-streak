@@ -77,10 +77,8 @@ export default function Home() {
       });
 
     }
-
-
-
-    }fetchData()
+    }
+    fetchData()
   },[]);
 
 
