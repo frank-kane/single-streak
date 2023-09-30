@@ -6,7 +6,10 @@ import { useEffect, useState } from 'react'
 import { Timestamp, doc, getDoc, updateDoc  } from "firebase/firestore";
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import background from "../public/background.jpg"
+import useSound from 'use-sound';
+//import boopSfx from "../public/completed.wav";
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 //import redX from '../public'
 
 export default function Home() {
@@ -23,6 +26,20 @@ export default function Home() {
       const handleMouseOut = () => {
         setIsHovering(false);
       };
+      const playAudio = () => {
+        if (streak.is_completed ==false){
+          const audio = new Audio('/completed.wav');
+          audio.play();
+
+        }else{
+          const audio = new Audio('/failure.wav');
+          audio.play();
+
+        }
+        
+      };
+
+      
 
 
   useEffect(()  =>{
@@ -55,6 +72,8 @@ export default function Home() {
     
     console.log("streak: "+streak)
     console.log("last COmpleted Day: "+lastCompletedDay)
+
+    
     
 
     //streak was true for 
@@ -102,6 +121,21 @@ export default function Home() {
   const delay = ms => new Promise(
     resolve => setTimeout(resolve, ms)
   );
+
+  const handleNameChange = async(e)=>{
+    e.preventDefault()
+    
+    const docRef = doc(db, "my-info", "1R01JaSkN66l356PKmnM");
+    const docSnap = await getDoc(docRef);
+    const docData = docSnap.data()
+  
+    await updateDoc(docRef, {
+      name: String(streak.name)
+    });
+    
+  }
+
+  
 
   async function performCharacterAnimation(){
     if(streak.is_completed==false){
@@ -171,6 +205,8 @@ export default function Home() {
     
     
     performCharacterAnimation();
+    playAudio();
+    
   }
 
 
@@ -180,8 +216,34 @@ export default function Home() {
         <h3>lvl: {stats.lvl}</h3>
         <h3 className='exp'>exp: {stats.exp} {isHovering &&(<p className='potentials'>{streak.is_completed == true ?(<p className='potentials-bad'>-10</p>):(<p className='potentials-good'>+10</p>)}</p>)}</h3>
         
-        
         </div>
+        <Popup trigger=
+                {<button> Edit Habit </button>}
+                modal nested>
+                {
+                    close => (
+                        <div className='modal'>
+                            <div className='content'>
+                                <form onSubmit={handleNameChange}>
+                                  <label>Enter Title: </label>
+                                  <input type="text" value={streak.name}
+                                  onChange={e => setStreak({...streak,name: e.target.value})}
+                                  
+                                  
+                                  />
+                                  <input type="submit" />
+                                </form>
+                            </div>
+                            <div>
+                                <button onClick=
+                                    {() => close()}>
+                                        Close
+                                </button>
+                            </div>
+                        </div>
+                    )
+                }
+            </Popup>
         
         {/* //=========================Habit Card===================// */}
       <center>
