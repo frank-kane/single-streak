@@ -13,6 +13,7 @@
     "next": "13.4.19",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-tabs": "^6.0.2",
     "reactjs-popup": "^2.0.6",
     "use-sound": "^4.0.1"
   }

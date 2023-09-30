@@ -105,3 +105,48 @@ body{
 .stats{
     color: whitesmoke;
 }
+
+
+.floor-shadow{
+    z-index: 0;
+    position: relative;
+    bottom: 70px;
+    left: 90px;
+    padding: 0;
+    opacity: 80%;
+    /* display: block; */
+    /* border: 3px solid; */
+}
+
+.character-holder{
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+
+}
+
+/* .character{
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    border: 3px solid;
+
+} */
+
+.my-tabs{
+    background-color:burlywood;
+    color: whitesmoke;
+    vertical-align: top;
+    width: 50%;
+    max-width: 550px;
+    height:400px;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    border: 3px solid;
+}
+
+.habits-holder{
+    border: 3px solid;
+    
+}

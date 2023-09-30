@@ -10,11 +10,12 @@ import useSound from 'use-sound';
 //import boopSfx from "../public/completed.wav";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-//import redX from '../public'
+import MyTabs from "./tabs"
 
 export default function Home() {
     const [streak, setStreak] = useState({}) 
     const [stats, setStats] = useState({})
+    const [userInfo, setUserInfo] = useState({})
     const [isHovering, setIsHovering] = useState(false);
 
     const[characterAnimation, setCharacterAnimation] = useState('character-idle.gif');
@@ -60,8 +61,18 @@ export default function Home() {
     });
     setStats({
         lvl: docData.stats.lvl,
-        exp:docData.stats.exp
+        exp:docData.stats.exp,
+        str:docData.stats.str,
+        int:docData.stats.int,
+        dex:docData.stats.dex
     })
+
+
+    setUserInfo({
+      bfp: docData.user_info.bfp,
+      height: docData.user_info.height,
+      weight:docData.user_info.weight
+  })
 
     
     
@@ -212,6 +223,9 @@ export default function Home() {
 
   return (
     <main >
+      <div>
+
+      
         <div className='stats'>
         <h3>lvl: {stats.lvl}</h3>
         <h3 className='exp'>exp: {stats.exp} {isHovering &&(<p className='potentials'>{streak.is_completed == true ?(<p className='potentials-bad'>-10</p>):(<p className='potentials-good'>+10</p>)}</p>)}</h3>
@@ -246,30 +260,40 @@ export default function Home() {
             </Popup>
         
         {/* //=========================Habit Card===================// */}
-      <center>
-      <div className='card' onClick={completeStreak} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
-        <h3>{streak.name}</h3>
-        <h3><img src='fastforward.png' className='fastforward'/> {streak.streak}</h3>
-        <div className='imageholder'>{streak.is_completed == false ?(<img src='x.png' className='myimg'></img>):(<img src='fire.gif' className='myimg'></img>)}</div>
-        <h6>{streak.start_date ? (
-      <p>Start Date: {streak.start_date.toDate().toLocaleDateString("en-US")}</p>
-    ) : (
-      <p>Loading...</p>
-    )}</h6>
-
-    {/* <h6>Today: {String(streak.current_day)}</h6> */}
-    <h6>Last Completed: {String(streak.last_completed_day)}</h6>
-    
-    
-      </div>
-
+      <div className='habits-holder'>
+        <center>
+          <div className='card' onClick={completeStreak} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+            <h3>{streak.name}</h3>
+            <h3><img src='fastforward.png' className='fastforward'/> {streak.streak}</h3>
+            <div className='imageholder'>{streak.is_completed == false ?(<img src='x.png' className='myimg'></img>):(<img src='fire.gif' className='myimg'></img>)}</div>
+            <h6>{streak.start_date ? (
+            <p>Start Date: {streak.start_date.toDate().toLocaleDateString("en-US")}</p>
+              ) : (
+            <p>Loading...</p>
+            )}</h6>
+            <h6>Last Completed: {String(streak.last_completed_day)}</h6>
+          </div>
+          
+        </center>
       
 
-     </center>
+      </div>
      <div className='character-holder'>
-          <img src={characterAnimation} alt="" />
-
-        </div>   
+           
+          <img className='character' src={characterAnimation} alt="" />
+          {/* <img className='floor-shadow' src="floor-shadow.png" alt="" /> */}
+          
+      </div>
+      <MyTabs
+        height={userInfo.height}
+        bfp={userInfo.bfp*100}
+        weight={userInfo.weight}
+        str={stats.str}
+        int={stats.int}
+        dex={stats.dex}
+      />
+      
+      </div>  
       
     </main>
   )
