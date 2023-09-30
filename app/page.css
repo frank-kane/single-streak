@@ -124,7 +124,7 @@ body{
 .character-holder{
     /* margin: 0;
     padding: 0; */
-    margin-right: 230px;
+    margin-right: 200px;
     display: inline-block;
     /* border: 3px solid; */
 
@@ -142,7 +142,7 @@ body{
     background-color:burlywood;
     color: whitesmoke;
     vertical-align: top;
-    width: 50%;
+    width: 40%;
     max-width: 550px;
     height:400px;
     display: inline-block;
@@ -152,7 +152,7 @@ body{
 }
 
 .habits-holder{
-    border: 3px solid;
+    /* border: 3px solid; */
     margin-bottom: 5%;
     
 }
