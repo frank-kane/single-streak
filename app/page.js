@@ -17,6 +17,9 @@ export default function Home() {
     const [stats, setStats] = useState({})
     const [userInfo, setUserInfo] = useState({})
     const [isHovering, setIsHovering] = useState(false);
+    const [myDoc,setMyDoc]= useState("1R01JaSkN66l356PKmnM")
+    const [myHabits,setMyHabits]= useState([])
+    
 
     const[characterAnimation, setCharacterAnimation] = useState('character-idle.gif');
 
@@ -42,6 +45,95 @@ export default function Home() {
 
       
 
+      
+
+
+  // useEffect(()  =>{
+  //   const today = new Date().toLocaleDateString("en-US");
+  //   var yesterday = new Date();
+  //   yesterday.setDate(yesterday.getDate()-1)
+  //   yesterday = yesterday.toLocaleDateString("en-US")
+    
+  //   async function fetchData() {
+  //   const docRef = doc(db, "my-info", myDoc);
+  //   const docSnap = await getDoc(docRef);
+  //   const docData = docSnap.data()
+  //   const startDate = docData.start_date.toDate();
+  //   const lastCompletedDay = docData.last_completed_day.toDate().toLocaleDateString("en-US");
+
+  //   await updateDoc(docRef, {
+  //     current_day: new Date()
+  //   });
+  //   setStats({
+  //       lvl: docData.stats.lvl,
+  //       exp:docData.stats.exp,
+  //       str:docData.stats.str,
+  //       int:docData.stats.int,
+  //       dex:docData.stats.dex
+  //   })
+
+
+  //   setUserInfo({
+  //     bfp: docData.user_info.bfp,
+  //     height: docData.user_info.height,
+  //     weight:docData.user_info.weight
+  // })
+
+    
+    
+  //   console.log("Todays Date: "+today)
+  //   console.log("Yesterdays Date: "+yesterday)
+  //   console.log("Start: "+startDate)
+  //   console.log("Last Completed: "+lastCompletedDay)
+    
+  //   console.log("streak: "+streak)
+  //   console.log("last COmpleted Day: "+lastCompletedDay)
+
+    
+    
+
+  //   //streak was true for 
+  //   if(lastCompletedDay == today){
+  //     console.log('Outline 1')
+  //     setStreak({
+  //       current_day: today,
+  //       is_completed: true,
+  //       name: docData.name,
+  //       start_date: docData.start_date,
+  //       last_completed_day: lastCompletedDay,
+  //       streak : docData.streak
+  //     });
+
+  //   }
+  //   else if(lastCompletedDay == yesterday){
+  //     console.log('Outline 2')
+  //     setStreak({
+  //       current_day: today,
+  //       is_completed: false,
+  //       name: docData.name,
+  //       start_date: docData.start_date,
+  //       last_completed_day: lastCompletedDay,
+  //       streak : docData.streak
+  //     });
+
+  //   }else{
+  //     console.log('Outline 3')
+  //     setStreak({
+  //       current_day: today,
+  //       is_completed: false,
+  //       name: docData.name,
+  //       start_date: docData.start_date,
+  //       last_completed_day: lastCompletedDay,
+  //       streak : 0
+  //     });
+
+  //   }
+  //   }
+  //   fetchData()
+  // },[]);
+
+
+  //=======================Use Effect 2========================================//
 
   useEffect(()  =>{
     const today = new Date().toLocaleDateString("en-US");
@@ -50,11 +142,15 @@ export default function Home() {
     yesterday = yesterday.toLocaleDateString("en-US")
     
     async function fetchData() {
-    const docRef = doc(db, "my-info", "1R01JaSkN66l356PKmnM");
+      //k6r7dDqNYDPPahiuz945 
+      //1R01JaSkN66l356PKmnM
+    const docRef = doc(db, "my-info", "k6r7dDqNYDPPahiuz945");
     const docSnap = await getDoc(docRef);
     const docData = docSnap.data()
-    const startDate = docData.start_date.toDate();
-    const lastCompletedDay = docData.last_completed_day.toDate().toLocaleDateString("en-US");
+    setMyHabits(docData.habits)
+    console.log("Habits: "+String(myHabits))
+    // const startDate = docData.start_date.toDate();
+    // const lastCompletedDay = docData.last_completed_day.toDate().toLocaleDateString("en-US");
 
     await updateDoc(docRef, {
       current_day: new Date()
@@ -76,53 +172,53 @@ export default function Home() {
 
     
     
-    console.log("Todays Date: "+today)
-    console.log("Yesterdays Date: "+yesterday)
-    console.log("Start: "+startDate)
-    console.log("Last Completed: "+lastCompletedDay)
+    // console.log("Todays Date: "+today)
+    // console.log("Yesterdays Date: "+yesterday)
+    // console.log("Start: "+startDate)
+    // console.log("Last Completed: "+lastCompletedDay)
     
-    console.log("streak: "+streak)
-    console.log("last COmpleted Day: "+lastCompletedDay)
+    // console.log("streak: "+streak)
+    // // console.log("last COmpleted Day: "+lastCompletedDay)
 
     
     
 
-    //streak was true for 
-    if(lastCompletedDay == today){
-      console.log('Outline 1')
-      setStreak({
-        current_day: today,
-        is_completed: true,
-        name: docData.name,
-        start_date: docData.start_date,
-        last_completed_day: lastCompletedDay,
-        streak : docData.streak
-      });
+    // //streak was true for 
+    // if(lastCompletedDay == today){
+    //   console.log('Outline 1')
+    //   setStreak({
+    //     current_day: today,
+    //     is_completed: true,
+    //     name: docData.name,
+    //     start_date: docData.start_date,
+    //     last_completed_day: lastCompletedDay,
+    //     streak : docData.streak
+    //   });
 
-    }
-    else if(lastCompletedDay == yesterday){
-      console.log('Outline 2')
-      setStreak({
-        current_day: today,
-        is_completed: false,
-        name: docData.name,
-        start_date: docData.start_date,
-        last_completed_day: lastCompletedDay,
-        streak : docData.streak
-      });
+    // }
+    // else if(lastCompletedDay == yesterday){
+    //   console.log('Outline 2')
+    //   setStreak({
+    //     current_day: today,
+    //     is_completed: false,
+    //     name: docData.name,
+    //     start_date: docData.start_date,
+    //     last_completed_day: lastCompletedDay,
+    //     streak : docData.streak
+    //   });
 
-    }else{
-      console.log('Outline 3')
-      setStreak({
-        current_day: today,
-        is_completed: false,
-        name: docData.name,
-        start_date: docData.start_date,
-        last_completed_day: lastCompletedDay,
-        streak : 0
-      });
+    // }else{
+    //   console.log('Outline 3')
+    //   setStreak({
+    //     current_day: today,
+    //     is_completed: false,
+    //     name: docData.name,
+    //     start_date: docData.start_date,
+    //     last_completed_day: lastCompletedDay,
+    //     streak : 0
+    //   });
 
-    }
+    // }
     }
     fetchData()
   },[]);
@@ -220,6 +316,21 @@ export default function Home() {
     
   }
 
+  const listItems = myHabits.map(habit =>
+    <div className='card' onClick={completeStreak} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+            <h3>{habit.name}</h3>
+            <h3><img src='fastforward.png' className='fastforward'/> {habit.streak}</h3>
+            <div className='imageholder'>{habit.is_completed == false ?(<img src='x.png' className='myimg'></img>):(<img src='fire.gif' className='myimg'></img>)}</div>
+            <h6>{habit.start_date ? (
+            <p>Start Date: {habit.start_date.toDate().toLocaleDateString("en-US")}</p>
+              ) : (
+            <p>Loading...</p>
+            )}</h6>
+            <h6>Last Completed: {String(habit.last_completed_day)}</h6>
+          </div>
+    
+  );
+
 
   return (
     <main >
@@ -229,7 +340,7 @@ export default function Home() {
         <div className='stats'>
         <h3>lvl: {stats.lvl}</h3>
         <h3 className='exp'>exp: {stats.exp} {isHovering &&(<p className='potentials'>{streak.is_completed == true ?(<p className='potentials-bad'>-10</p>):(<p className='potentials-good'>+10</p>)}</p>)}</h3>
-        
+        {/* <button onClick={myDoc == "1R01JaSkN66l356PKmnM"?setMyDoc("k6r7dDqNYDPPahiuz945"):setMyDoc("1R01JaSkN66l356PKmnM")}/> */}
         </div>
         <Popup trigger=
                 {<button> Edit Habit </button>}
@@ -262,7 +373,7 @@ export default function Home() {
         {/* //=========================Habit Card===================// */}
       <div className='habits-holder'>
         <center>
-          <div className='card' onClick={completeStreak} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+          {/* <div className='card' onClick={completeStreak} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
             <h3>{streak.name}</h3>
             <h3><img src='fastforward.png' className='fastforward'/> {streak.streak}</h3>
             <div className='imageholder'>{streak.is_completed == false ?(<img src='x.png' className='myimg'></img>):(<img src='fire.gif' className='myimg'></img>)}</div>
@@ -283,8 +394,9 @@ export default function Home() {
             <p>Loading...</p>
             )}</h6>
             <h6>Last Completed: {String(streak.last_completed_day)}</h6>
-          </div>
+          </div> */}
           
+          {listItems}
         </center>
       
 

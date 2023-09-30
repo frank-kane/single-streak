@@ -7,8 +7,11 @@
     margin-left: 25px;
     padding: 0;
     transition-duration: 0.4s;
+    width:150px
     
 }
+
+
 
 .card:hover{
     box-shadow:  5px 5px black;
@@ -149,7 +152,7 @@ body{
 }
 
 .habits-holder{
-    /* border: 3px solid; */
+    border: 3px solid;
     margin-bottom: 5%;
     
 }
