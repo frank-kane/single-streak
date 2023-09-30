@@ -273,6 +273,17 @@ export default function Home() {
             )}</h6>
             <h6>Last Completed: {String(streak.last_completed_day)}</h6>
           </div>
+          <div className='card' onClick={completeStreak} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+            <h3>{streak.name}</h3>
+            <h3><img src='fastforward.png' className='fastforward'/> {streak.streak}</h3>
+            <div className='imageholder'>{streak.is_completed == false ?(<img src='x.png' className='myimg'></img>):(<img src='fire.gif' className='myimg'></img>)}</div>
+            <h6>{streak.start_date ? (
+            <p>Start Date: {streak.start_date.toDate().toLocaleDateString("en-US")}</p>
+              ) : (
+            <p>Loading...</p>
+            )}</h6>
+            <h6>Last Completed: {String(streak.last_completed_day)}</h6>
+          </div>
           
         </center>
       

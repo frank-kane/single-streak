@@ -4,7 +4,7 @@
     display: inline-block;
     border-radius: 5%;
     box-shadow:  2px 2px black;
-    margin: 0;
+    margin-left: 25px;
     padding: 0;
     transition-duration: 0.4s;
     
@@ -119,9 +119,11 @@ body{
 }
 
 .character-holder{
-    margin: 0;
-    padding: 0;
+    /* margin: 0;
+    padding: 0; */
+    margin-right: 230px;
     display: inline-block;
+    /* border: 3px solid; */
 
 }
 
@@ -147,6 +149,7 @@ body{
 }
 
 .habits-holder{
-    border: 3px solid;
+    /* border: 3px solid; */
+    margin-bottom: 5%;
     
 }
