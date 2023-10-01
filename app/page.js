@@ -70,17 +70,17 @@ export default function Home() {
         return habit;
         
       }
-      // else{
-      //   habit.is_completed = false;
-      //   habit.streak = 0;
-      //   return habit;
+      else{
+        habit.is_completed = false;
+        habit.streak = 0;
+        return habit;
 
-      // }
+      }
     }
     )
     console.log("Habits: "+String(habitsArray))
     await updateDoc(docRef, {
-      habits: newHabits    
+      habits: newHabits   
     });
     setMyHabits(docData.habits)
 
@@ -115,7 +115,7 @@ export default function Home() {
   const handleNameChange = async(e)=>{
     e.preventDefault()
     
-    const docRef = doc(db, "my-info", "1R01JaSkN66l356PKmnM");
+    const docRef = doc(db, "my-info", "k6r7dDqNYDPPahiuz945");
     const docSnap = await getDoc(docRef);
     const docData = docSnap.data()
   
