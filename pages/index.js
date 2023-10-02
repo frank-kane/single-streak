@@ -14,7 +14,7 @@ export default function Home(){
     const [password, setPassword] = useState('');
        
     const onLogin = (e) => {
-        console.log("Emal: "+email);
+        console.log("Email: "+email);
         console.log("password: "+password);
          
         e.preventDefault();

@@ -13,7 +13,7 @@ import NavBar from "../components/navbar"
 // import styles from'../styles/page.css';
 import UserContent from "../components/user-content"
 import User from '../components/user';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/router';
 
 export default function UserPage() {
     const [streak, setStreak] = useState({}) 
@@ -23,9 +23,9 @@ export default function UserPage() {
     const [myDoc,setMyDoc]= useState("1R01JaSkN66l356PKmnM")
     const [myHabits,setMyHabits]= useState([])
     const router = useRouter();
-    const { my_email } = router.query || { my_email: '' };
+    const email =  router.query.my_email;
 
-    console.log("The Data: "+String(my_email))
+    console.log("The Data: "+String(email))
     
     
 
@@ -53,7 +53,7 @@ export default function UserPage() {
 
 
   useEffect(()  =>{
-    var docID; 
+    
     const today = new Date().toLocaleDateString("en-US");
     var yesterday = new Date();
     yesterday.setDate(yesterday.getDate()-1)
@@ -62,17 +62,14 @@ export default function UserPage() {
     // console.log("Email: "+email)
     
     async function fetchData() {
-      try {
-        if (!my_email) {
-          console.error("my_email is not defined.");
-          return;
-        }
-      }
-      catch (error) {
-        console.error("Error fetching data:", error);
+      var docID; 
+      if (!email) {
+        // Handle the case when email is undefined, e.g., show an error message
+        console.error("Email is undefined");
+        return;
       }
       const UsersRef = collection(db, "my-info");
-      const q = query(UsersRef, where("email", "==", String(my_email)));
+      const q = query(UsersRef, where("email", "==", "frankmyster@gmail.com"));
       const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
           // doc.data() is never undefined for query doc snapshots
@@ -82,7 +79,7 @@ export default function UserPage() {
       //k6r7dDqNYDPPahiuz945 
       //1R01JaSkN66l356PKmnM
       
-    const docRef = doc(db, "my-info", docID);
+    const docRef = doc(db, "my-info", "k6r7dDqNYDPPahiuz945");
     const docSnap = await getDoc(docRef);
     const docData = docSnap.data()
     const habitsArray = docData.habits
@@ -134,7 +131,7 @@ export default function UserPage() {
 
     }
     fetchData()
-  },[[router.isReady]]);
+  },[[email]]);
 
 
   //============================functions============================================//
