@@ -20,10 +20,10 @@ export default function UserPage() {
     const [stats, setStats] = useState({})
     const [userInfo, setUserInfo] = useState({})
     const [isHovering, setIsHovering] = useState(false);
-    const [myDoc,setMyDoc]= useState("1R01JaSkN66l356PKmnM")
+    const [docID,setDocID]= useState("")
     const [myHabits,setMyHabits]= useState([])
     const router = useRouter();
-    const email =  router.query.my_email;
+    const { email } = router.query;
 
     console.log("The Data: "+String(email))
     
@@ -53,6 +53,7 @@ export default function UserPage() {
 
 
   useEffect(()  =>{
+
     
     const today = new Date().toLocaleDateString("en-US");
     var yesterday = new Date();
@@ -61,77 +62,99 @@ export default function UserPage() {
 
     // console.log("Email: "+email)
     
-    async function fetchData() {
-      var docID; 
-      if (!email) {
-        // Handle the case when email is undefined, e.g., show an error message
-        console.error("Email is undefined");
-        return;
-      }
-      const UsersRef = collection(db, "my-info");
-      const q = query(UsersRef, where("email", "==", "frankmyster@gmail.com"));
-      const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          docID = String(doc.id)
-          console.log(doc.id, " => ", doc.data());
-        });
+    async function fetchData() {   
       //k6r7dDqNYDPPahiuz945 
       //1R01JaSkN66l356PKmnM
-      
-    const docRef = doc(db, "my-info", "k6r7dDqNYDPPahiuz945");
-    const docSnap = await getDoc(docRef);
-    const docData = docSnap.data()
-    const habitsArray = docData.habits
-    
-    // console.log("Habits: "+String(habitsArray[0].last_completed_day.toDate().toLocaleDateString("en-US")))  
+      var docID ="";
+        // let docRef = null;
+      const q = query(collection(db, "my-info"), where("user_info.email", "==", email));
 
-    var newHabits = habitsArray.map(habit => {
-      if(habit.last_completed_day == String(today)){
-        habit.is_completed = true;
-        return habit;
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+        docID = String(doc.id);
+      });
+      console.log("Doc ID PLEASE: "+docID)
+      const docRef = doc(db, "my-info", docID);
+      const docSnap = await getDoc(docRef);
+      const docData = docSnap.data()
+      const habitsArray = docData.habits
+      console.log("Habits Length: "+String(habitsArray.length))
+        // console.log("Habits: "+String(habitsArray[0].last_completed_day.toDate().toLocaleDateString("en-US")))  
+      if(habitsArray.length == 0){
+        await updateDoc(docRef, {
+          current_day: new Date()
+        });
+        setStats({
+            lvl: docData.stats.lvl,
+            exp:docData.stats.exp,
+            str:docData.stats.str,
+            int:docData.stats.int,
+            dex:docData.stats.dex
+        })
 
-      }else if(habit.last_completed_day  ==  String(yesterday)){
-        habit.is_completed = false;
-        return habit;
+
+        setUserInfo({
+          user_name: docData.user_info.user_name,
+          bfp: docData.user_info.bfp,
+          height: docData.user_info.height,
+          weight:docData.user_info.weight
+        })
+
+      }else{
+
         
+        var newHabits = habitsArray.map(habit => {
+          if(habit.last_completed_day == String(today)){
+            habit.is_completed = true;
+            return habit;
+
+        }
+        else if(habit.last_completed_day  ==  String(yesterday)){
+          habit.is_completed = false;
+          return habit;
+          
+        }
+        else{
+          habit.is_completed = false;
+          habit.streak = 0;
+          return habit;
+
+        }
+        }
+        )
+        console.log("Habits: "+String(habitsArray))
+        await updateDoc(docRef, {
+          habits: newHabits   
+        });
+        setMyHabits(docData.habits)
+
+        await updateDoc(docRef, {
+          current_day: new Date()
+        });
+        setStats({
+            lvl: docData.stats.lvl,
+            exp:docData.stats.exp,
+            str:docData.stats.str,
+            int:docData.stats.int,
+            dex:docData.stats.dex
+        })
+
+
+        setUserInfo({
+          user_name: docData.user_info.user_name,
+          bfp: docData.user_info.bfp,
+          height: docData.user_info.height,
+          weight:docData.user_info.weight
+        })
       }
-      else{
-        habit.is_completed = false;
-        habit.streak = 0;
-        return habit;
 
-      }
-    }
-    )
-    console.log("Habits: "+String(habitsArray))
-    await updateDoc(docRef, {
-      habits: newHabits   
-    });
-    setMyHabits(docData.habits)
+  }
 
-    await updateDoc(docRef, {
-      current_day: new Date()
-    });
-    setStats({
-        lvl: docData.stats.lvl,
-        exp:docData.stats.exp,
-        str:docData.stats.str,
-        int:docData.stats.int,
-        dex:docData.stats.dex
-    })
-
-
-    setUserInfo({
-      user_name: docData.user_info.user_name,
-      bfp: docData.user_info.bfp,
-      height: docData.user_info.height,
-      weight:docData.user_info.weight
-  })
-
-    }
+    
     fetchData()
-  },[[email]]);
+  },[]);
 
 
   //============================functions============================================//
@@ -139,18 +162,18 @@ export default function UserPage() {
     resolve => setTimeout(resolve, ms)
   );
 
-  const handleNameChange = async(e)=>{
-    e.preventDefault()
+  // const handleNameChange = async(e)=>{
+  //   e.preventDefault()
     
-    const docRef = doc(db, "my-info", "k6r7dDqNYDPPahiuz945");
-    const docSnap = await getDoc(docRef);
-    const docData = docSnap.data()
+  //   const docRef = doc(db, "my-info", "k6r7dDqNYDPPahiuz945");
+  //   const docSnap = await getDoc(docRef);
+  //   const docData = docSnap.data()
   
-    await updateDoc(docRef, {
-      name: String(streak.name)
-    });
+  //   await updateDoc(docRef, {
+  //     name: String(streak.name)
+  //   });
     
-  }
+  // }
 
   
 
