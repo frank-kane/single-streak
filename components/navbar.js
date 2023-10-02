@@ -1,0 +1,30 @@
+// import Image from 'next/image'
+import {db} from './firebase-config'
+import { useEffect, useState } from 'react'
+import { Timestamp, doc, getDoc, updateDoc  } from "firebase/firestore";
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import useSound from 'use-sound';
+//import boopSfx from "../public/completed.wav";
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
+
+
+export default function NavBar(props){
+
+    return(
+        <div className='nav-bar'>
+          <img src="favicon.ico" alt="" className='website-icon'/>
+          <h3>News</h3>
+          <h3>Party</h3>
+          <h3>About</h3>  
+          <h3>Help</h3>
+          <img src="user-account-icon.png" alt="" className='user-account-icon' />
+
+        </div>
+        
+    )
+}

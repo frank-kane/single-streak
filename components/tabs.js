@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import styles from './page.css'
+// import styles from '../styles/tabs.css'
 import {db} from './firebase-config'
 import { useEffect, useState } from 'react'
 import { Timestamp, doc, getDoc, updateDoc  } from "firebase/firestore";

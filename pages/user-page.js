@@ -1,24 +1,32 @@
-"use client";
-import Image from 'next/image'
-import styles from './page.css'
-import {db} from './firebase-config'
+// import styles from './page.css'
+import {db} from '../components/firebase-config'
 import { useEffect, useState } from 'react'
-import { Timestamp, doc, getDoc, updateDoc, collection  } from "firebase/firestore";
+import { Timestamp, doc, getDoc, getDocs,updateDoc, collection,query,where  } from "firebase/firestore";
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import useSound from 'use-sound';
 //import boopSfx from "../public/completed.wav";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-import MyTabs from "./tabs"
+import MyTabs from "../components/tabs"
+import NavBar from "../components/navbar"
+// import styles from'../styles/page.css';
+import UserContent from "../components/user-content"
+import User from '../components/user';
+import { useRouter } from 'next/navigation'
 
-export default function Home() {
+export default function UserPage() {
     const [streak, setStreak] = useState({}) 
     const [stats, setStats] = useState({})
     const [userInfo, setUserInfo] = useState({})
     const [isHovering, setIsHovering] = useState(false);
     const [myDoc,setMyDoc]= useState("1R01JaSkN66l356PKmnM")
     const [myHabits,setMyHabits]= useState([])
+    const router = useRouter();
+    const { my_email } = router.query || { my_email: '' };
+
+    console.log("The Data: "+String(my_email))
+    
     
 
     const[characterAnimation, setCharacterAnimation] = useState('character-idle.gif');
@@ -45,15 +53,36 @@ export default function Home() {
 
 
   useEffect(()  =>{
+    var docID; 
     const today = new Date().toLocaleDateString("en-US");
     var yesterday = new Date();
     yesterday.setDate(yesterday.getDate()-1)
     yesterday = yesterday.toLocaleDateString("en-US")
+
+    // console.log("Email: "+email)
     
     async function fetchData() {
+      try {
+        if (!my_email) {
+          console.error("my_email is not defined.");
+          return;
+        }
+      }
+      catch (error) {
+        console.error("Error fetching data:", error);
+      }
+      const UsersRef = collection(db, "my-info");
+      const q = query(UsersRef, where("email", "==", String(my_email)));
+      const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          docID = String(doc.id)
+          console.log(doc.id, " => ", doc.data());
+        });
       //k6r7dDqNYDPPahiuz945 
       //1R01JaSkN66l356PKmnM
-    const docRef = doc(db, "my-info", "k6r7dDqNYDPPahiuz945");
+      
+    const docRef = doc(db, "my-info", docID);
     const docSnap = await getDoc(docRef);
     const docData = docSnap.data()
     const habitsArray = docData.habits
@@ -97,6 +126,7 @@ export default function Home() {
 
 
     setUserInfo({
+      user_name: docData.user_info.user_name,
       bfp: docData.user_info.bfp,
       height: docData.user_info.height,
       weight:docData.user_info.weight
@@ -104,7 +134,7 @@ export default function Home() {
 
     }
     fetchData()
-  },[]);
+  },[[router.isReady]]);
 
 
   //============================functions============================================//
@@ -203,12 +233,15 @@ export default function Home() {
     
   }
 
-  const listItems = myHabits.map((habit,key) =>
+  const listHabits = myHabits.map((habit,key) =>
     <div className='card' onClick={()=>completeStreak(key)} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} key={key} >
-            <h3>{habit.name}</h3>
+            
             <h3><img src='fastforward.png' className='fastforward'/> {habit.streak}</h3>
-            <div className='imageholder'>{habit.is_completed == false ?(<img src='x.png' className='myimg'></img>):(<img src='fire.gif' className='myimg'></img>)}</div>
-            <h6>{habit.start_date ? (
+            <center>
+            <div className='habit-image-holder'>{habit.is_completed == false ?(<img src='x.png' className='habit-image'></img>):(<img src='fire.gif' className='habit-image'></img>)}</div>
+            </center>
+            <h3>{habit.name}</h3>
+            {/* <h6>{habit.start_date ? (
             <p>Start Date: {habit.start_date.toDate().toLocaleDateString("en-US")}</p>
               ) : (
             <p>Loading...</p>
@@ -217,7 +250,7 @@ export default function Home() {
             <p>Last Completed Day: {String(habit.last_completed_day)}</p>
               ) : (
             <p>Loading...</p>
-            )}</h6>
+            )}</h6> */}
 
           </div>
     
@@ -225,16 +258,21 @@ export default function Home() {
 
 
   return (
-    <main >
-      <div>
+    <main className='main'>
 
-      
-        <div className='stats'>
-        <h3>lvl: {stats.lvl}</h3>
-        <h3 className='exp'>exp: {stats.exp} {isHovering &&(<p className='potentials'>{myHabits[0].is_completed == true ?(<p className='potentials-bad'>-10</p>):(<p className='potentials-good'>+10</p>)}</p>)}</h3>
-        {/* <button onClick={myDoc == "1R01JaSkN66l356PKmnM"?setMyDoc("k6r7dDqNYDPPahiuz945"):setMyDoc("1R01JaSkN66l356PKmnM")}/> */}
-        </div>
-        <Popup trigger=
+        <NavBar/>
+
+
+        <UserContent
+        lvl={stats.lvl}
+        exp={stats.exp}
+        isHovering={isHovering}
+        is_completed={streak.is_completed}
+        name={streak.name}
+        user_name = {userInfo.user_name}
+        habits = {listHabits}
+        />
+        {/* <Popup trigger=
                 {<button> Edit Habit </button>}
                 modal nested>
                 {
@@ -260,33 +298,34 @@ export default function Home() {
                         </div>
                     )
                 }
-            </Popup>
-        
-        {/* //=========================Habit Card===================// */}
-      <div className='habits-holder'>
-        <center>
+            </Popup> */}
+      <div className='main-content-holder'>
+        <div className='main-content'>
           
-          {listItems}
-        </center>
-      
+          
+          
+          {/* //=========================Habit Cards===================// */}
+          
+          
+          <div className='character-holder'>
+              
+              <img className='character' src={characterAnimation} alt="" />
+              {/* <img className='floor-shadow' src="floor-shadow.png" alt="" /> */}
+              
+          </div>
+          <MyTabs
+            height={userInfo.height}
+            bfp={userInfo.bfp*100}
+            weight={userInfo.weight}
+            str={stats.str}
+            int={stats.int}
+            dex={stats.dex}
+          />
 
+        </div>
       </div>
-     <div className='character-holder'>
-           
-          <img className='character' src={characterAnimation} alt="" />
-          {/* <img className='floor-shadow' src="floor-shadow.png" alt="" /> */}
-          
-      </div>
-      <MyTabs
-        height={userInfo.height}
-        bfp={userInfo.bfp*100}
-        weight={userInfo.weight}
-        str={stats.str}
-        int={stats.int}
-        dex={stats.dex}
-      />
+
       
-      </div>  
       
     </main>
   )
