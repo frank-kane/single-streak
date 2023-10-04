@@ -1,10 +1,11 @@
 .nav-bar{
-    float:left;
-    clear:none; 
+    /* float:left; */
+    /* clear:none;  */
+    /* border: 1px solid black; */
     width: 100%;
     height: 64px;
     background-image: url('../public/banner.jpg') ;
-    background-size:auto;
+    /* background-size:auto; */
 }
 
 .nav-bar * { float: left; margin-left: 15px; vertical-align: middle; }

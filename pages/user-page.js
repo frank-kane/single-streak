@@ -25,6 +25,8 @@ export default function UserPage() {
     const router = useRouter();
     const { email } = router.query;
 
+    const[myEmail, setMyEmail] = useState(email)
+
     console.log("The Data: "+String(email))
     
     
@@ -51,6 +53,11 @@ export default function UserPage() {
         
       };
 
+    //   const handleCallback = (childData) => {
+    //     setMyEmail(childData)
+    // }
+ 
+
 
   useEffect(()  =>{
 
@@ -74,6 +81,7 @@ export default function UserPage() {
         // doc.data() is never undefined for query doc snapshots
         console.log(doc.id, " => ", doc.data());
         docID = String(doc.id);
+        setDocID(doc.id)
       });
       console.log("Doc ID PLEASE: "+docID)
       const docRef = doc(db, "my-info", docID);
@@ -197,7 +205,7 @@ export default function UserPage() {
     const today = new Date();
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate()-1)
-    const docRef = doc(db, "my-info", "k6r7dDqNYDPPahiuz945");
+    const docRef = doc(db, "my-info", docID);
     const docSnap = await getDoc(docRef);
     const docData = docSnap.data()
     const habitsArray = docData.habits
@@ -291,6 +299,9 @@ export default function UserPage() {
         name={streak.name}
         user_name = {userInfo.user_name}
         habits = {listHabits}
+        docID = {docID}
+        my_email = {myEmail}
+        // returnEmail={handleCallback}
         />
         {/* <Popup trigger=
                 {<button> Edit Habit </button>}

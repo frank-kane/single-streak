@@ -1,0 +1,48 @@
+.login-container{
+    width: fit-content;
+    border: 5px solid black;
+    margin-top: 25%;
+    height: 225px;
+    border-radius: 5%;
+}
+
+.login-box{
+    
+    display: grid;
+    row-gap:5px
+
+}
+
+.login-box *{
+    
+    font-size: larger;
+}
+
+
+
+.signup-box{
+    display: grid;
+    row-gap: 5px;
+}
+
+.signup-box *{
+    
+    font-size: larger;
+}
+
+#tabs-holder{
+    font-size: larger;
+}
+
+#tabs-holder{
+    font-size: larger;
+}
+
+.login-image{
+    margin: 5px;
+    width: 40px;
+}
+
+.index-container{
+    /* border: 5px solid transparent; */
+}

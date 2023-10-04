@@ -1,7 +1,7 @@
 // import styles from '../styles/user-content.css'
 import {db} from './firebase-config'
 import { useEffect, useState } from 'react'
-import { Timestamp, doc, getDoc, updateDoc  } from "firebase/firestore";
+import { Timestamp, doc, getDoc, updateDoc,arrayUnion, arrayRemove  } from "firebase/firestore";
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import useSound from 'use-sound';
@@ -15,23 +15,58 @@ import 'react-tabs/style/react-tabs.css';
 
 export default function UserContent(props){
 
+  const [addedHabit, setAddedHabit] = useState({})
 
 
-    const handleNameChange = async(e)=>{
+
+    const handleAddHabit = async(e)=>{
         e.preventDefault()
         
-        const docRef = doc(db, "my-info", "k6r7dDqNYDPPahiuz945");
+        const docRef = doc(db, "my-info", props.docID);
         const docSnap = await getDoc(docRef);
         const docData = docSnap.data()
+        console.log("Added Habit: " + String(addedHabit))
       
         await updateDoc(docRef, {
-          name: String(props.name)
+          habits: arrayUnion(addedHabit)
         });
+        // props.returnEmail(props.my_email)
         
       }
 
     return(
         <div className='user-content'>
+          <Popup trigger=
+                {<button> Add Habit </button>}
+                modal nested>
+                {
+                    close => (
+                        <div className='modal'>
+                            <div className='content'>
+                                <form onSubmit={handleAddHabit}>
+                                  <label>Enter Title: </label>
+                                  <input type="text"
+                                  onChange={e => setAddedHabit(
+                                    {
+                                      name: e.target.value,
+                                      is_completed: false,
+                                      streak: 0,
+                                      last_completed_day: "",
+                                      start_date: new Date().toLocaleDateString("en-US")
+                                      })}/>
+                                  <input type="submit" />
+                                </form>
+                            </div>
+                            <div>
+                                <button onClick=
+                                    {() => close()}>
+                                        Close
+                                </button>
+                            </div>
+                        </div>
+                    )
+                }
+            </Popup>
 
 
           <div className='user-left-side'>
@@ -50,6 +85,8 @@ export default function UserContent(props){
           <div className='habits-holder'>
             {props.habits}
           </div>
+
+          
            
             
             
