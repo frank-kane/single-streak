@@ -14,6 +14,7 @@ import NavBar from "../components/navbar"
 import UserContent from "../components/user-content"
 import User from '../components/user';
 import { useRouter } from 'next/router';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function UserPage() {
     const [streak, setStreak] = useState({}) 
@@ -24,8 +25,10 @@ export default function UserPage() {
     const [myHabits,setMyHabits]= useState([])
     const router = useRouter();
     const { email } = router.query;
+    const auth = getAuth();
+    
 
-    const[myEmail, setMyEmail] = useState(email)
+    // const [cookies, setCookie] = useCookies(['user']);
 
     console.log("The Data: "+String(email))
     
@@ -61,7 +64,20 @@ export default function UserPage() {
 
   useEffect(()  =>{
 
-    
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // User is signed in, you can fetch the user's data here
+          fetchData(user.email);
+        } else {
+          // No user is signed in, you can handle this case (e.g., redirect to login page)
+          router.push({
+            pathname: '/404notfound',
+          });
+        }
+        return () => unsubscribe();
+      });
+  
+       // Cleanup the listener when the component unmount
     const today = new Date().toLocaleDateString("en-US");
     var yesterday = new Date();
     yesterday.setDate(yesterday.getDate()-1)
@@ -69,7 +85,7 @@ export default function UserPage() {
 
     // console.log("Email: "+email)
     
-    async function fetchData() {   
+    async function fetchData(email) {   
       //k6r7dDqNYDPPahiuz945 
       //1R01JaSkN66l356PKmnM
       var docID ="";
@@ -161,7 +177,25 @@ export default function UserPage() {
   }
 
     
-    fetchData()
+    
+
+    // const auth = getAuth();
+    // const user = auth.currentUser;
+
+    // if (user) {
+    //   fetchData(user.email)
+      
+      
+    // } else {
+    //   router.push({
+    //     pathname: '/404notfound',
+    //   })
+    // }
+    
+
+
+    
+    
   },[]);
 
 
@@ -300,7 +334,7 @@ export default function UserPage() {
         user_name = {userInfo.user_name}
         habits = {listHabits}
         docID = {docID}
-        my_email = {myEmail}
+        // my_email = {myEmail}
         // returnEmail={handleCallback}
         />
         {/* <Popup trigger=

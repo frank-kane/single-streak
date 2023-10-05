@@ -12,6 +12,7 @@
     "firebase": "^10.3.1",
     "next": "13.4.19",
     "react": "18.2.0",
+    "react-cookie": "^6.1.1",
     "react-dom": "18.2.0",
     "react-router-dom": "^6.16.0",
     "react-tabs": "^6.0.2",

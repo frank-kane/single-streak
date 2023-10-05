@@ -1,6 +1,6 @@
 'use client';
 import React, {useState} from 'react';
-import {  getAuth,signInWithEmailAndPassword   } from 'firebase/auth';
+import {  getAuth,signInWithEmailAndPassword,setPersistence,browserSessionPersistence, browserLocalPersistence   } from 'firebase/auth';
 import { auth } from '../components/firebase-config';
 import { NavLink, Router, useNavigate } from 'react-router-dom'
 import Link from 'next/link'
@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import NavBar from "../components/navbar"
+import {db} from '../components/firebase-config'
 
 export default function Home(){
 
@@ -21,13 +22,17 @@ export default function Home(){
   const handleLogin = async () => {
     
     const auth = getAuth();
+    setPersistence(auth, browserLocalPersistence)
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
+        // console.log("Logged in User: "+user);
+        // localStorage.setItem("user", user);
+        // console.log("Logged in User: "+String(user.email));
         router.push({
             pathname: '/user-page',
-            query: { email: email },
+            query: { email: user.email },
           })
         // ...
     }).finally(() => {
@@ -37,19 +42,20 @@ export default function Home(){
 
 const handleSignUp = async () => {
     
-  // const auth = getAuth();
-  // signUpWithEmailAndPassword(auth, email, password)
-  // .then((userCredential) => {
-  //     // Signed in 
-  //     const user = userCredential.user;
-  //     router.push({
-  //         pathname: '/user-page',
-  //         query: { email: email },
-  //       })
-  //     // ...
-  // }).finally(() => {
-  //     console.log("Hello")
-  // })
+  const auth = getAuth();
+  setPersistence(auth, browserLocalPersistence)
+  signUpWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
+      router.push({
+          pathname: '/user-page',
+          query: { email: email },
+        })
+      // ...
+  }).finally(() => {
+      console.log("Hello")
+  })
 }
 
 

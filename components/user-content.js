@@ -16,6 +16,7 @@ import 'react-tabs/style/react-tabs.css';
 export default function UserContent(props){
 
   const [addedHabit, setAddedHabit] = useState({})
+  const [show, setShow] = useState(false)
 
 
 
@@ -31,43 +32,39 @@ export default function UserContent(props){
           habits: arrayUnion(addedHabit)
         });
         // props.returnEmail(props.my_email)
+        // window.location.reload(false);
+        setShow(false)
         
       }
 
     return(
         <div className='user-content'>
-          <Popup trigger=
-                {<button> Add Habit </button>}
-                modal nested>
-                {
-                    close => (
-                        <div className='modal'>
-                            <div className='content'>
-                                <form onSubmit={handleAddHabit}>
-                                  <label>Enter Title: </label>
-                                  <input type="text"
-                                  onChange={e => setAddedHabit(
-                                    {
-                                      name: e.target.value,
-                                      is_completed: false,
-                                      streak: 0,
-                                      last_completed_day: "",
-                                      start_date: new Date().toLocaleDateString("en-US")
-                                      })}/>
-                                  <input type="submit" />
-                                </form>
-                            </div>
-                            <div>
-                                <button onClick=
-                                    {() => close()}>
-                                        Close
-                                </button>
-                            </div>
-                        </div>
-                    )
-                }
-            </Popup>
-
+          {show &&     
+          <div className='modal'>
+              <div className='content'>
+                  <form onSubmit={handleAddHabit}>
+                    <label>Enter Title: </label>
+                    <input type="text"
+                    onChange={e => setAddedHabit(
+                      {
+                        name: e.target.value,
+                        is_completed: false,
+                        streak: 0,
+                        last_completed_day: "",
+                        start_date: new Date().toLocaleDateString("en-US")
+                        })}/>
+                    <input type="submit" />
+                  </form>
+              </div>
+              <div>
+                  <button onClick=
+                      {() => setShow(false)}>
+                          Close
+                  </button>
+              </div>
+          </div>
+            
+                      }
 
           <div className='user-left-side'>
             <img src="anime-loading-circle.gif" alt="" className='user-icon' />
@@ -79,11 +76,13 @@ export default function UserContent(props){
               (<p className='potentials'>{props.is_completed == true ?
               (<p className='potentials-bad'>-10</p>):(<p className='potentials-good'>+10</p>)}</p>)}</h3>
             </div>
+            
           </div>
 
 
           <div className='habits-holder'>
             {props.habits}
+            <img src="add-button.png" alt="" className='add-btn' onClick={()=>setShow(true)} />
           </div>
 
           
