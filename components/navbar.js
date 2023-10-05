@@ -8,17 +8,23 @@ import useSound from 'use-sound';
 //import boopSfx from "../public/completed.wav";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-
+import { useRouter } from 'next/router';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 
 
 export default function NavBar(props){
 
+  const router = useRouter();
+
     return(
         <div className='nav-bar'>
-          <img src="favicon.ico" alt="" className='website-icon'/>
-          <h3>News</h3>
+          <img src="favicon.ico" alt="" className='website-icon'  onClick={()=>router.push({
+            pathname: '/',
+          })}/>
+          <h3 onClick={()=>router.push({
+            pathname: '/news',
+          })}>News</h3>
           <h3>Party</h3>
           <h3>About</h3>  
           <h3>Help</h3>

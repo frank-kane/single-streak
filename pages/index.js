@@ -1,6 +1,7 @@
 'use client';
 import React, {useState} from 'react';
-import {  getAuth,signInWithEmailAndPassword,setPersistence,browserSessionPersistence, browserLocalPersistence   } from 'firebase/auth';
+import { useEffect } from 'react'
+import {  getAuth,signInWithEmailAndPassword,setPersistence,browserSessionPersistence, browserLocalPersistence,createUserWithEmailAndPassword,onAuthStateChanged  } from 'firebase/auth';
 import { auth } from '../components/firebase-config';
 import { NavLink, Router, useNavigate } from 'react-router-dom'
 import Link from 'next/link'
@@ -11,18 +12,39 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import NavBar from "../components/navbar"
 import {db} from '../components/firebase-config'
+import { doc, setDoc, addDoc,collection } from "firebase/firestore"; 
 
 export default function Home(){
 
-    const [email,setEmail] = useState("")
-    const [password,setPassword] = useState("")
-   
+  const [email,setEmail] = useState("")
+  const [password,setPassword] = useState("")
+  const [username,setUsername] = useState("")
+  const collectionRef = collection(db, 'my-info');
   const router = useRouter();
 
-  const handleLogin = async () => {
-    
+
+  useEffect(()  =>{
     const auth = getAuth();
-    setPersistence(auth, browserLocalPersistence)
+    
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, you can fetch the user's data here
+        router.push({
+          pathname: '/user-page',
+          query: { email: email },
+        })
+      } else {
+        // No user is signed in, you can handle this case (e.g., redirect to login page)
+        
+      }
+      return () => unsubscribe();
+    });
+
+  },[]);
+  const handleLogin = async () => {
+    const auth = getAuth();
+    setPersistence(auth, browserSessionPersistence)
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         // Signed in 
@@ -40,22 +62,55 @@ export default function Home(){
     })
 }
 
+//===================sign up=============================//
+
 const handleSignUp = async () => {
     
   const auth = getAuth();
-  setPersistence(auth, browserLocalPersistence)
-  signUpWithEmailAndPassword(auth, email, password)
+  setPersistence(auth, browserSessionPersistence)
+  createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
       // Signed in 
       const user = userCredential.user;
-      router.push({
-          pathname: '/user-page',
-          query: { email: email },
-        })
+      console.log("Sign Up User: "+user)
+      
       // ...
   }).finally(() => {
       console.log("Hello")
   })
+  const data = {
+    current_day: new Date(),
+    habits: [],
+    stats: {
+      dex: 0,
+      exp: 0,
+      int: 0,
+      lvl: 0,
+      str: 0
+    },
+    user_info:{
+      bfp: 0.0,
+      email: email,
+      height: "",
+      password: password,
+      user_name: username,
+      weight: 0
+    }
+  }
+  await addDoc(collectionRef, data)
+  .then((docRef) => {
+    console.log('Document written with ID: ', docRef.id);
+  })
+  .catch((error) => {
+    console.error('Error adding document: ', error);
+  });
+
+  router.push({
+    pathname: '/user-page',
+    query: { email: email },
+  })
+
+
 }
 
 

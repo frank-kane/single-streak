@@ -34,12 +34,14 @@ export default function UserContent(props){
         // props.returnEmail(props.my_email)
         // window.location.reload(false);
         setShow(false)
+        window.location.reload();
         
       }
 
     return(
         <div className='user-content'>
-          {show &&     
+          {show &&
+           <div className="modal-overlay">    
           <div className='modal'>
               <div className='content'>
                   <form onSubmit={handleAddHabit}>
@@ -61,6 +63,7 @@ export default function UserContent(props){
                       {() => setShow(false)}>
                           Close
                   </button>
+              </div>
               </div>
           </div>
             
