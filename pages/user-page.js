@@ -17,24 +17,29 @@ import { useRouter } from 'next/router';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function UserPage() {
+  const router = useRouter();
+  // const { user } = router.query;
+  const receivedData = router.query.gender
+  console.log("The Data: "+String(receivedData))
+
+
     const [streak, setStreak] = useState({}) 
     const [stats, setStats] = useState({})
     const [userInfo, setUserInfo] = useState({})
     const [isHovering, setIsHovering] = useState(false);
     const [docID,setDocID]= useState("")
     const [myHabits,setMyHabits]= useState([])
-    const router = useRouter();
-    const { email } = router.query;
+    const[characterAnimation, setCharacterAnimation] = useState(`${String(receivedData)}-character-idle.gif`);
+    
+    
     const auth = getAuth();
     
 
-    // const [cookies, setCookie] = useCookies(['user']);
-
-    console.log("The Data: "+String(email))
+    
     
     
 
-    const[characterAnimation, setCharacterAnimation] = useState('character-idle.gif');
+    // console.log("Character Model: "+characterAnimation)
 
     const handleMouseOver = () => {
         setIsHovering(true);
@@ -105,6 +110,7 @@ export default function UserPage() {
       const docData = docSnap.data()
       const habitsArray = docData.habits
       console.log("Habits Length: "+String(habitsArray.length))
+      console.log("Character Model: "+characterAnimation)
         // console.log("Habits: "+String(habitsArray[0].last_completed_day.toDate().toLocaleDateString("en-US")))  
       if(habitsArray.length == 0){
         await updateDoc(docRef, {
@@ -123,7 +129,8 @@ export default function UserPage() {
           user_name: docData.user_info.user_name,
           bfp: docData.user_info.bfp,
           height: docData.user_info.height,
-          weight:docData.user_info.weight
+          weight:docData.user_info.weight,
+          gender: docData.user_info.gender
         })
 
       }else{
@@ -170,7 +177,8 @@ export default function UserPage() {
           user_name: docData.user_info.user_name,
           bfp: docData.user_info.bfp,
           height: docData.user_info.height,
-          weight:docData.user_info.weight
+          weight:docData.user_info.weight,
+          gender: docData.user_info.gender
         })
       }
 
@@ -221,16 +229,16 @@ export default function UserPage() {
 
   async function performCharacterAnimation(onOrOff){
     if(onOrOff==true){
-      setCharacterAnimation('character-success.gif');
+      setCharacterAnimation(`${userInfo.gender}-character-success.gif`);
       await delay(2000);
       
 
     }else{
-      setCharacterAnimation('character-failure.gif');
+      setCharacterAnimation(`${userInfo.gender}-character-failure.gif`);
       await delay(500);
       
     }
-    setCharacterAnimation('character-idle.gif');
+    setCharacterAnimation(`${userInfo.gender}-character-idle.gif`);
   }
 
 
