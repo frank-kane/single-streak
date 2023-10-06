@@ -29,7 +29,7 @@ export default function UserPage() {
     const [isHovering, setIsHovering] = useState(false);
     const [docID,setDocID]= useState("")
     const [myHabits,setMyHabits]= useState([])
-    const[characterAnimation, setCharacterAnimation] = useState(`${String(receivedData)}-character-idle.gif`);
+    const[characterAnimation, setCharacterAnimation] = useState(`male-character-idle.gif`);
     
     
     const auth = getAuth();
