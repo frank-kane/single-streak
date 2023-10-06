@@ -45,12 +45,14 @@ export default function NavBar(props){
           <img src="favicon.ico" alt="" className='website-icon'  onClick={()=>router.push({
             pathname: '/',
           })}/>
+          <img src="my-anime-life.png" alt="" className='logo'  />
           <h3 onClick={()=>router.push({
             pathname: '/news',
           })}>News</h3>
           <h3>Party</h3>
           <h3>About</h3>  
           <h3>Help</h3>
+          
           <img src="user-account-icon.png" alt="" className='user-account-icon' onClick={()=> setShowUserInfo(true)} />
           {showUserInfo &&
           <div className='user-info-modal-overlay'>

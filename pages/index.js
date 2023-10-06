@@ -12,13 +12,19 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import NavBar from "../components/navbar"
 import {db} from '../components/firebase-config'
-import { doc, setDoc, addDoc,collection } from "firebase/firestore"; 
+import { Timestamp, doc, getDoc, getDocs,updateDoc, collection,query,where,addDoc  } from "firebase/firestore";
 
 export default function Home(){
 
   const [email,setEmail] = useState("")
   const [password,setPassword] = useState("")
   const [username,setUsername] = useState("")
+  const [signUpPage,setSignUpPage] = useState(0)
+  const [signedInUser, setSignedInUser] = useState({})
+  const [bfp, setBFP] = useState()
+  const [height, setHeight] = useState()
+  const [weight, setWeight] = useState()
+  const [gender, setGender] = useState()
   const collectionRef = collection(db, 'my-info');
   const router = useRouter();
 
@@ -30,10 +36,10 @@ export default function Home(){
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is signed in, you can fetch the user's data here
-        router.push({
-          pathname: '/user-page',
-          query: { email: email },
-        })
+        // router.push({
+        //   pathname: '/user-page',
+        //   query: { email: email },
+        // })
       } else {
         // No user is signed in, you can handle this case (e.g., redirect to login page)
         
@@ -49,16 +55,32 @@ export default function Home(){
     .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        // console.log("Logged in User: "+user);
-        // localStorage.setItem("user", user);
-        // console.log("Logged in User: "+String(user.email));
-        router.push({
-            pathname: '/user-page',
-            query: { email: user.email },
-          })
+        
         // ...
-    }).finally(() => {
-        console.log("Hello")
+    })
+
+    const q = query(collection(db, "my-info"), where("user_info.email", "==", email));
+    var docID ="";
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+      docID = String(doc.id);
+      
+      
+    });
+    const docRef = doc(db, "my-info", docID);
+    const docSnap = await getDoc(docRef);
+    const docData = docSnap.data()
+    // setSignedInUser(docData)
+    console.log("Signed In User: "+docData.user_info.gender)
+    
+
+
+    router.push({
+      pathname: '/user-page',
+      query: { gender: docData.user_info.gender },
     })
 }
 
@@ -89,12 +111,13 @@ const handleSignUp = async () => {
       str: 0
     },
     user_info:{
-      bfp: 0.0,
+      bfp: bfp,
       email: email,
-      height: "",
+      height: height,
       password: password,
       user_name: username,
-      weight: 0
+      weight: weight,
+      gender: gender
     }
   }
   await addDoc(collectionRef, data)
@@ -113,6 +136,20 @@ const handleSignUp = async () => {
 
 }
 
+  const handlePageChange = (page, info) => {
+
+    if(page == 1){
+      setSignUpPage(1)
+    }else if(page==2){
+        setGender(info)
+        setSignUpPage(2)
+    }
+    
+
+
+  }
+
+
 
       
 
@@ -122,6 +159,7 @@ const handleSignUp = async () => {
     <div className='index-container'>
       <NavBar/>
       <center>
+        {signUpPage == 0 &&
         <div className='login-container'>
         <Tabs>
                 <TabList id='tabs-holder'>
@@ -130,7 +168,7 @@ const handleSignUp = async () => {
                 </TabList>
                 <TabPanel>
                   <div className='login-box'>
-                    <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)}/>
+                    <input type="email" id="email" name="email" autoComplete="on" onChange={(e) => setEmail(e.target.value)}/>
                     <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
                     <button className='login-btn' onClick={handleLogin}>Login</button>
                     
@@ -143,7 +181,7 @@ const handleSignUp = async () => {
                     <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)}/>
                     <input type="username" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
                     <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-                    <button className='login-btn' onClick={handleSignUp}>Sign Up</button>
+                    <button className='login-btn' onClick={()=>handlePageChange(1,"null")}>Sign Up</button>
                   </div>
                 
 
@@ -152,7 +190,30 @@ const handleSignUp = async () => {
                   <img className='login-image' src="user-account-icon.png" />
                   <img className='login-image' src="ig-logo.png" />
                   <img className='login-image' src="fb-logo.png" />
-        </div>  
+        </div> 
+        
+        }
+
+        {signUpPage == 1 &&
+          <div className='login-container'>
+            <div className='login-box'>
+          <h1>Gender</h1>
+          <button className='login-btn' onClick={()=>handlePageChange(2,"male")}>Male</button>
+          <button className='login-btn' onClick={()=>handlePageChange(2,"female")}>Female</button>
+          </div>
+                  </div>}
+        
+        {signUpPage == 2 &&
+          <div className='login-container'>
+            <div className='login-box'>
+          <h1>Fitness Info</h1>
+          <input placeholder="Body Fat Percentage" onChange={(e) => setBFP(e.target.value)}/>
+          <input placeholder="Height" onChange={(e) => setHeight(e.target.value)} />
+          <input placeholder="Weight" onChange={(e) => setWeight(e.target.value)} />
+          <button className='login-btn' onClick={handleSignUp}>Finish</button>
+          </div>
+                  </div>}
+         
 
       </center>
     </div>
