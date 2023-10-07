@@ -168,7 +168,7 @@ const handleSignUp = async () => {
                 </TabList>
                 <TabPanel>
                   <div className='login-box'>
-                    <input type="email" id="email" name="email" autoComplete="on" onChange={(e) => setEmail(e.target.value)}/>
+                    <input type="email" placeholder="Email" id="email" name="email" autoComplete="on" onChange={(e) => setEmail(e.target.value)}/>
                     <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
                     <button className='login-btn' onClick={handleLogin}>Login</button>
                     

@@ -129,3 +129,16 @@
     align-items: center;
     z-index: 1000; /* Ensure it's above other elements on the page */
   }
+
+  .red-x{
+    /* float: right; */
+    width:25px;
+    height:25px;
+    /* display:block; */
+    position: absolute;
+    margin-left:100px;
+    margin-bottom: 140px;
+  }
+  .red-x:hover{
+    cursor:pointer
+  }

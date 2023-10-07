@@ -1,7 +1,7 @@
 // import styles from './page.css'
 import {db} from '../components/firebase-config'
 import { useEffect, useState } from 'react'
-import { Timestamp, doc, getDoc, getDocs,updateDoc, collection,query,where  } from "firebase/firestore";
+import { Timestamp, doc, getDoc, getDocs,updateDoc, collection,query,where,arrayRemove  } from "firebase/firestore";
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import useSound from 'use-sound';
@@ -15,6 +15,8 @@ import UserContent from "../components/user-content"
 import User from '../components/user';
 import { useRouter } from 'next/router';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useSpring, animated } from 'react-spring';
+
 
 export default function UserPage() {
   const router = useRouter();
@@ -60,6 +62,24 @@ export default function UserPage() {
         }
         
       };
+
+      const handleRemoveHabit = async(key)=>{
+        console.log("KEY: "+String(key))
+        const docRef = doc(db, "my-info", docID);
+        const docSnap = await getDoc(docRef);
+        const docData = docSnap.data()
+        const newArray = docData.habits;
+        newArray.splice(key, 1); // Remove the item at the specified index
+        setMyHabits(newArray)
+
+        console.log("New Array: "+String(newArray))
+        // const habitsArray = docData.habits
+        await updateDoc(docRef, {
+          habits: newArray
+      });
+      
+
+      }
 
     //   const handleCallback = (childData) => {
     //     setMyEmail(childData)
@@ -304,23 +324,20 @@ export default function UserPage() {
   }
 
   const listHabits = myHabits.map((habit,key) =>
-    <div className='card' onClick={()=>completeStreak(key)} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} key={key} >
+    <div className='card' onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} key={key} >
+            {isHovering &&<img src='red-x.png' className='red-x' onClick={()=>handleRemoveHabit(key)}/>}
+            <div onClick={()=>completeStreak(key)} >
+              <h3><img src='fastforward.png' className='fastforward'/> {habit.streak}</h3>
+              
+              
+              <center>
+              <div className='habit-image-holder'>{habit.is_completed == false ?(<img src='x.png' className='habit-image'></img>):(<img src='fire.gif' className='habit-image'></img>)}</div>
+              </center>
+              <h3>{habit.name}</h3>
+
+            </div>
             
-            <h3><img src='fastforward.png' className='fastforward'/> {habit.streak}</h3>
-            <center>
-            <div className='habit-image-holder'>{habit.is_completed == false ?(<img src='x.png' className='habit-image'></img>):(<img src='fire.gif' className='habit-image'></img>)}</div>
-            </center>
-            <h3>{habit.name}</h3>
-            {/* <h6>{habit.start_date ? (
-            <p>Start Date: {habit.start_date.toDate().toLocaleDateString("en-US")}</p>
-              ) : (
-            <p>Loading...</p>
-            )}</h6>
-            <h6>{habit.last_completed_day ? (
-            <p>Last Completed Day: {String(habit.last_completed_day)}</p>
-              ) : (
-            <p>Loading...</p>
-            )}</h6> */}
+            
 
           </div>
     
