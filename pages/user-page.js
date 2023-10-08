@@ -16,6 +16,7 @@ import User from '../components/user';
 import { useRouter } from 'next/router';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useSpring, animated } from 'react-spring';
+import Footer from "../components/footer"
 
 
 export default function UserPage() {
@@ -24,8 +25,23 @@ export default function UserPage() {
 
     const [signedInUser, setSignedInUser] = useState() 
     const [isHovering, setIsHovering] = useState(false);
+    const [page, setPage]= useState(0);
     const[characterAnimation, setCharacterAnimation] = useState(`male-character-idle.gif`);
     const auth = getAuth();
+
+    // const user_info =
+    //         <div>
+    //           <h1>{signedInUser.user_info.gender}</h1>
+    //           <h1>{signedInUser.user_info.weight}</h1>
+    //           <h1>{signedInUser.user_info.height}</h1>
+    //           <h1>{signedInUser.user_info.bfp}</h1>
+    //         </div>
+        
+        
+      
+      
+      
+    
     
 
     
@@ -50,12 +66,23 @@ export default function UserPage() {
 
   return (
     <main className='main'>
+      <NavBar/>
 
 {signedInUser ? (
-        <h1>{signedInUser.login.username}</h1>
+  <div>
+    <h1>{signedInUser.login.username}</h1>
+    {/* <div>{user_info}</div> */}
+
+  </div>
+        
       ) : (
         <p>User not signed in.</p>
       )}
+
+
+  
+
+      <Footer/>
 
     </main>
   )
