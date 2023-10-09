@@ -15,6 +15,45 @@ import 'react-tabs/style/react-tabs.css';
 
 export default function Habits(props){
 
+  const handleMouseOver = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
+  };
+  const playAudio = (onOrOff) => {
+    if (onOrOff ==true){
+      const audio = new Audio('/completed.wav');
+      audio.play();
+
+    }else{
+      const audio = new Audio('/failure.wav');
+      audio.play();
+
+    }
+    
+  };
+
+  const handleRemoveHabit = async(key)=>{
+    console.log("KEY: "+String(key))
+    const docRef = doc(db, "my-info", docID);
+    const docSnap = await getDoc(docRef);
+    const docData = docSnap.data()
+    const newArray = docData.habits;
+    newArray.splice(key, 1); // Remove the item at the specified index
+    setMyHabits(newArray)
+
+    console.log("New Array: "+String(newArray))
+    // const habitsArray = docData.habits
+    await updateDoc(docRef, {
+      habits: newArray
+  });
+  
+
+  }
+
+
   const listHabits = props.habits.map((habit,key) =>
     <div className='card' onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} key={key} >
             {isHovering &&<img src='red-x.png' className='red-x' onClick={()=>handleRemoveHabit(key)}/>}
