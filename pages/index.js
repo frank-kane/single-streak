@@ -13,7 +13,11 @@ import 'react-tabs/style/react-tabs.css';
 import NavBar from "../components/navbar"
 import {db} from '../components/firebase-config'
 import { Timestamp, doc, getDoc, getDocs,updateDoc, collection,query,where,addDoc  } from "firebase/firestore";
-// import UnityGame from "./unity-game"
+import UserContent from "../components/user-content"
+import MyTabs from "../components/tabs"
+
+import Habits from "../components/habits"
+
 
 
 export default function Home(){
@@ -103,13 +107,19 @@ useEffect(() => {
   return (
     <div className='index-container'>
     <NavBar />
-    <center>
-      {/* <UnityGame/> */}
-
-      <h1>User Information</h1>
       {user && Object.keys(user).length > 0 ? (
         <div>
-          <p>Email: {user.login.email}</p>
+        <UserContent
+        username = {user.login.username}
+        lvl = {user.stats.lvl}
+        exp = {user.stats.exp}
+        habits = {user.habits}
+        />
+        <MyTabs/>
+
+
+
+          {/* <p>Email: {user.login.email}</p>
           <p>Username: {user.login.username}</p>
           <p>Gender: {user.user_info.gender}</p>
           <p>BFP: {user.user_info.bfp}</p>
@@ -120,12 +130,11 @@ useEffect(() => {
           <p>Strength: {user.stats.str}</p>
           <p>Intelligence: {user.stats.int}</p>
           <p>Dexterity: {user.stats.dex}</p>
-          <p>Habits: {JSON.stringify(user.habits)}</p>
+          <p>Habits: {JSON.stringify(user.habits)}</p> */}
         </div>
       ) : (
         <p>No user data found in localStorage.</p>
       )}
-    </center>
   </div>
     
   );

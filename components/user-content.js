@@ -73,11 +73,10 @@ export default function UserContent(props){
             <img src="anime-loading-circle.gif" alt="" className='user-icon' />
 
             <div className='user-info'>
-              <h3 className='user-name-text'>{props.user_name}</h3>
+              <h3 className='user-name-text'>{props.username}</h3>
               <h3 className='lvl'>lvl: {props.lvl}</h3>
-              <h3 className='exp'>exp: {props.exp} {props.isHovering &&
-              (<p className='potentials'>{props.is_completed == true ?
-              (<p className='potentials-bad'>-10</p>):(<p className='potentials-good'>+10</p>)}</p>)}</h3>
+              <h3 className='exp'>exp: {props.exp}</h3>
+        
             </div>
             
           </div>

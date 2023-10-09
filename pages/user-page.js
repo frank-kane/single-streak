@@ -68,13 +68,11 @@ export default function UserPage() {
     <main className='main'>
       <NavBar/>
 
-{signedInUser ? (
-  <div>
-    <h1>{signedInUser.login.username}</h1>
-    {/* <div>{user_info}</div> */}
-
-  </div>
-        
+      {signedInUser ? (
+      <div>
+      <h1>{signedInUser.login.username}</h1>
+      {/* <div>{user_info}</div> */}
+      </div>
       ) : (
         <p>User not signed in.</p>
       )}
@@ -82,7 +80,7 @@ export default function UserPage() {
 
   
 
-      <Footer/>
+      
 
     </main>
   )
