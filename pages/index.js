@@ -113,7 +113,11 @@ useEffect(() => {
         username = {user.login.username}
         lvl = {user.stats.lvl}
         exp = {user.stats.exp}
+        />
+
+        <Habits
         habits = {user.habits}
+        
         />
         <MyTabs/>
 

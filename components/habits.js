@@ -15,11 +15,29 @@ import 'react-tabs/style/react-tabs.css';
 
 export default function Habits(props){
 
+  const listHabits = props.habits.map((habit,key) =>
+    <div className='card' onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} key={key} >
+            {isHovering &&<img src='red-x.png' className='red-x' onClick={()=>handleRemoveHabit(key)}/>}
+            <div onClick={()=>completeStreak(key)} >
+              <h3><img src='fastforward.png' className='fastforward'/> {habit.streak}</h3>
+              
+              
+              <center>
+              <div className='habit-image-holder'>{habit.is_completed == false ?(<img src='x.png' className='habit-image'></img>):(<img src='fire.gif' className='habit-image'></img>)}</div>
+              </center>
+              <h3>{habit.name}</h3>
+
+            </div>
+            
+            
+
+          </div>
+  )
 
     return(
     
           <div className='habits-holder'>
-            {props.habits}
+            {listHabits}
           </div>
 
           
