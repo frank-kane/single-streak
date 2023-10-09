@@ -11,6 +11,7 @@ import 'reactjs-popup/dist/index.css';
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
+import Habits from "../components/habits"
 
 
 export default function UserContent(props){
@@ -83,7 +84,7 @@ export default function UserContent(props){
 
 
           <div className='habits-holder'>
-            {props.habits}
+            <Habits habits = {props.habits}/>
             <img src="add-button.png" alt="" className='add-btn' onClick={()=>setShow(true)} />
           </div>
 

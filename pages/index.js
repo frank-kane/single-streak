@@ -15,7 +15,6 @@ import {db} from '../components/firebase-config'
 import { Timestamp, doc, getDoc, getDocs,updateDoc, collection,query,where,addDoc  } from "firebase/firestore";
 import UserContent from "../components/user-content"
 import MyTabs from "../components/tabs"
-
 import Habits from "../components/habits"
 
 
@@ -113,28 +112,10 @@ useEffect(() => {
         username = {user.login.username}
         lvl = {user.stats.lvl}
         exp = {user.stats.exp}
-        />
-
-        <Habits
         habits = {user.habits}
-        
         />
         <MyTabs/>
 
-
-
-          {/* <p>Email: {user.login.email}</p>
-          <p>Username: {user.login.username}</p>
-          <p>Gender: {user.user_info.gender}</p>
-          <p>BFP: {user.user_info.bfp}</p>
-          <p>Height: {user.user_info.height}</p>
-          <p>Weight: {user.user_info.weight}</p>
-          <p>Level: {user.stats.lvl}</p>
-          <p>Experience: {user.stats.exp}</p>
-          <p>Strength: {user.stats.str}</p>
-          <p>Intelligence: {user.stats.int}</p>
-          <p>Dexterity: {user.stats.dex}</p>
-          <p>Habits: {JSON.stringify(user.habits)}</p> */}
         </div>
       ) : (
         <p>No user data found in localStorage.</p>

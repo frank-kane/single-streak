@@ -15,6 +15,8 @@ import 'react-tabs/style/react-tabs.css';
 
 export default function Habits(props){
 
+  const [isHovering, setIsHovering] = useState(false);
+
   const handleMouseOver = () => {
     setIsHovering(true);
   };

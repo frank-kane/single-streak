@@ -24,6 +24,7 @@ export default function UserPage() {
   // const { user } = router.query;
 
     const [signedInUser, setSignedInUser] = useState() 
+    
     const [isHovering, setIsHovering] = useState(false);
     const [page, setPage]= useState(0);
     const[characterAnimation, setCharacterAnimation] = useState(`male-character-idle.gif`);
