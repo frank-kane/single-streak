@@ -114,6 +114,7 @@ useEffect(() => {
         exp = {user.stats.exp}
         habits = {user.habits}
         />
+        
         <MyTabs/>
 
         </div>

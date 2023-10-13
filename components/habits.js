@@ -8,14 +8,29 @@ import useSound from 'use-sound';
 //import boopSfx from "../public/completed.wav";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 
+// import { completeStreak } from './firebase-functions';
+
 
 export default function Habits(props){
-
+  const [habits, setHabits] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+
+
+  // useEffect(() => {
+  //   // Retrieve user data from localStorage
+  //   const userData = localStorage.getItem('user');
+  
+  //   if (userData) {
+  //     // Parse the stored JSON data back into an object
+  //     const parsedUserData = JSON.parse(userData);
+      
+  //     // Set the user state with the retrieved data
+  //     // setUser(parsedUserData);
+  //   }
+  // }, [habits]);
 
   const handleMouseOver = () => {
     setIsHovering(true);
@@ -54,6 +69,73 @@ export default function Habits(props){
   
 
   }
+
+  const completeStreak = async(index)=>{
+    const userData = localStorage.getItem('user');
+    var parsedUserData = {};
+    if (userData) {
+      // Parse the stored JSON data back into an object
+      parsedUserData = JSON.parse(userData);
+    }
+    console.log("index: " + index);
+    console.log("=>" + JSON.stringify(parsedUserData));
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate()-1)
+    const docRef = doc(db, "my-info", String(parsedUserData.docID));
+    const docSnap = await getDoc(docRef);
+    const docData = docSnap.data()
+    console.log(docData);
+    const habitsArray = docData.habits
+    console.log("Habits array: "+habitsArray);
+    
+    //changiing from true to false
+    if (habitsArray[index].is_completed == true){
+    console.log("Habit completed: "+habitsArray[index].is_completed)
+    habitsArray[index].is_completed = false;
+    habitsArray[index].last_completed_day = new Date(yesterday).toLocaleDateString("en-US");
+    habitsArray[index].streak = habitsArray[index].streak-1
+    console.log("Last COmpleted Type: "+typeof(habitsArray[index].last_completed_day));
+    //Update the database
+    await updateDoc(docRef, {
+        habits: habitsArray,
+        'stats.exp':docData.stats.exp -10
+    });
+
+    //set habits
+    setHabits(habitsArray)
+    parsedUserData.habits = habits
+    localStorage.setItem('user', JSON.stringify(parsedUserData));
+  
+    }
+
+    //changiing from false to true
+    else if(habitsArray[index].is_completed==false){
+    console.log("Habit completed: "+habitsArray[index].is_completed)
+    habitsArray[index].is_completed = true;
+    habitsArray[index].last_completed_day = new Date(today).toLocaleDateString("en-US");
+    habitsArray[index].streak = habitsArray[index].streak+1
+    console.log(habitsArray);
+    // await docRef.update({ habits: habitsArray});
+    await updateDoc(docRef, {
+        habits: habitsArray,
+        'stats.exp':docData.stats.exp +10
+    });
+    setHabits(habitsArray)
+    parsedUserData.habits = habits
+    localStorage.setItem('user', JSON.stringify(parsedUserData));
+    
+
+
+    
+
+    }
+    else{
+    console.log("Error updating habit")
+    }
+
+
+}
 
 
   const listHabits = props.habits.map((habit,key) =>
