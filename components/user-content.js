@@ -144,6 +144,7 @@ export default function UserContent(props){
 }
   const handleAddHabit = async(e)=>{
     e.preventDefault()
+    const docID = localStorage.getItem('user');
     
     const docRef = doc(db, "my-info", props.docID);
     const docSnap = await getDoc(docRef);

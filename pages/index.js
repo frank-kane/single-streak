@@ -25,7 +25,7 @@ export default function Home(){
   const collectionRef = collection(db, 'my-info');
   // const router = useRouter();
 
-
+  
   useEffect(() => {
     const fetchData = async () => {
       const q = query(collectionRef, where("login.email", "==", "frankmyster2@gmail.com"));

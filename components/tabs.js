@@ -23,6 +23,7 @@ export default function MyTabs(props){
                     <Tab>Stats</Tab>
                     <Tab>Inventory</Tab>
                     <Tab>Quests</Tab>
+                    <Tab>Anime</Tab>
                 </TabList>
 
                 <TabPanel>
@@ -35,10 +36,13 @@ export default function MyTabs(props){
                     
                 </TabPanel>
                 <TabPanel>
-                    <h2>Any content 2</h2>
+                    <h2>Inventory</h2>
                 </TabPanel>
                 <TabPanel>
-                    <h2>Any content 3</h2>
+                    <h2>Quests</h2>
+                </TabPanel>
+                <TabPanel>
+                    <h2>Anime</h2>
                 </TabPanel>
             </Tabs>
 
