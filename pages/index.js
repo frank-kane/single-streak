@@ -6,6 +6,9 @@ import { auth } from '../components/firebase-config';
 import { NavLink, Router, useNavigate } from 'react-router-dom'
 import Link from 'next/link'
 import firebase from 'firebase/app';
+import axios from 'axios';
+import cheerio from 'cheerio';
+// import puppeteer from 'puppeteer';
 
 import 'firebase/auth';
 import { useRouter } from 'next/router';
@@ -21,32 +24,17 @@ import { arrayUnion, arrayRemove  } from "firebase/firestore";
 import { onSnapshot } from "firebase/firestore";
 
 
-
-// import {allAnimeJson} from '../components/all-anime' 
-
-
-
-
-
-
 export default function Home(){
   const [stats, setStats] = useState({});
   const [habits, setHabits] = useState([]);
   const [items, setItems] = useState([]);
-  const [siteAnime, setSiteAnime] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newHabitData, setNewHabitData] = useState({
     name: '',
     type: '',
   });
   const usersCollection = collection(db, 'users'); // Reference to the "users" collection
-  const siteInfo = collection(db, 'site-info');
-  const animeDocRef = doc(siteInfo,'86Ei9tz05EgTUGAaq1Ts')
-  const animeCollection = collection(animeDocRef,'all-anime')
-  
   const userDocRef = doc(usersCollection, '8yciXAQXy9GTxmuclEX6'); // Reference to the specific user document
-
-  // Then, if you want to access a subcollection within the user document (e.g., "habits"):
   const habitsRef = collection(userDocRef, 'habits');
   const itemsRef = collection(userDocRef, 'items');
   const today = new Date(); // Current date and time
@@ -67,6 +55,9 @@ export default function Home(){
       [name]: value,
     });
   };
+  
+
+ 
 
 
 
@@ -125,17 +116,19 @@ React.useEffect(() => {
   return unsubscribe
 }, []);
 
-React.useEffect(() => {
-  const unsubscribe = onSnapshot(animeCollection, function(snapshot) {
-      // Sync up our local notes array with the snapshot data
-      const animeArr = snapshot.docs.map(doc => ({
-          ...doc.data(),
-          id: doc.id
-      }))
-      setSiteAnime(animeArr)
-  })
-  return unsubscribe
-}, []);
+
+
+// React.useEffect(() => {
+//   const unsubscribe = onSnapshot(animeCollection, function(snapshot) {
+//       // Sync up our local notes array with the snapshot data
+//       const animeArr = snapshot.docs.map(doc => ({
+//           ...doc.data(),
+//           id: doc.id
+//       }))
+//       setSiteAnime(animeArr)
+//   })
+//   return unsubscribe
+// }, []);
 
 React.useEffect(() => {
   const unsubscribe = onSnapshot(userDocRef, (docSnapshot) => {
@@ -170,7 +163,7 @@ async function createNewHabit() {
   // }
   // const newHabitRef = await addDoc(habitsRef, newHabit)
 
-  const newHabit = { ...newHabitData, is_completed: false, last_completed: '', streak: 0 };
+  const newHabit = { ...newHabitData, is_completed: false, last_completed: new Date(), streak: 0 };
   await addDoc(habitsRef, newHabit);
 
   // Close the modal
@@ -196,6 +189,8 @@ async function completeHabit(noteId) {
   const userCurrentData = userSnapshot.data();
   const updatedIsCompleted = !currentData.is_completed; // Toggle the value
   const streak = currentData.is_completed ? -1 : 1;
+  const level = currentData.is_completed ? -1 : 1;
+  const new_next_exp = currentData.is_completed ? -1 : 1;
   const statIncrease = currentData.is_completed ? -3 : 3;
   const expIncrease = currentData.is_completed ? -10 : 10;
   const dateChange = currentData.is_completed ?yesterday : today;
@@ -207,29 +202,51 @@ async function completeHabit(noteId) {
       last_completed: dateChange
     });
 
-    await updateDoc(userDocRef, {
-      'stats.current_exp': userCurrentData.stats.current_exp+expIncrease
-    });
+    if(userCurrentData.stats.current_exp+expIncrease>=userCurrentData.stats.next_exp){
+      await updateDoc(userDocRef, {
+        'stats.level': userCurrentData.stats.level+level,
+        'stats.current_exp': 0,
+        'stats.prev_current_exp':userCurrentData.stats.current_exp,
+        'stats.prev_next_exp':userCurrentData.stats.next_exp,
+        'stats.next_exp': Math.floor(userCurrentData.stats.next_exp*(1.15))
+
+      });
+      
+  }
+    else if(currentData.is_completed == true && userCurrentData.stats.current_exp+expIncrease<0){
+      await updateDoc(userDocRef, {
+        'stats.level': userCurrentData.stats.level+level,
+        'stats.current_exp': userCurrentData.stats.prev_next_exp+expIncrease,
+        'stats.prev_current_exp':userCurrentData.stats.current_exp,
+        'stats.next_exp': userCurrentData.stats.prev_next_exp,
+
+      });
+    
+    }else{
+      await updateDoc(userDocRef, {
+        'stats.current_exp': userCurrentData.stats.current_exp+expIncrease,
+        'stats.prev_current_exp':userCurrentData.stats.current_exp
+      });
+
+    }
 
     if(currentData.type == "physical"){
       await updateDoc(userDocRef, {
-        'stats.current_exp': userCurrentData.stats.current_exp+expIncrease,
         'stats.strength':userCurrentData.stats.strength+statIncrease
       });
     }else if(currentData.type == "intellect"){
       await updateDoc(userDocRef, {
-        'stats.current_exp': userCurrentData.stats.current_exp+expIncrease,
         'stats.intellect':userCurrentData.stats.intellect+statIncrease
       });
 
     }else if(currentData.type == "dexerity"){
       await updateDoc(userDocRef, {
-        'stats.current_exp': userCurrentData.stats.current_exp+expIncrease,
         'stats.intellect':userCurrentData.stats.dexerity+statIncrease
       });
-
-    }
+    
+  }
 }
+
 
  
 
@@ -247,6 +264,7 @@ return (
     )}
 
     <h1>Habits</h1>
+    <button onClick={openOrCloseModal}>Add Habit</button>
     {isModalOpen && (
   <div className="modal">
     <div className="modal-content">
@@ -296,39 +314,30 @@ return (
     <div >
         {items.length > 0 ? items.map((item) => (
           <div>
-          {/* <h1>'['</h1> */}
           <ul>
             <li>
               <img className='item' src={`${item.name}.png`}/>
             </li>
           <li key={item.id}>
             {item.name}
-            {" "}
+          </li>
+          <li>Dmg:
             {item.damage}
           </li>
       </ul>
-      {/* <h1>']'</h1> */}
       </div>
         )) : <h1>No Items</h1>}
     </div>
 
     <h1>Anime</h1>
 
-    <div className='animeScroller'>
-        {siteAnime.length > 0 ? siteAnime.map((anime) => (
-          <ul>
-          <li key={anime.id}>
-            {anime.name}
-          </li>
-         
-        
-      </ul>
-        )) : <h1>No Anime</h1>}
-    </div>
+    
 
     <h1>Site Anime</h1>
 
-    {/* {allAnimeJson} */}
+    
+
+   
   </div>
 );
 
