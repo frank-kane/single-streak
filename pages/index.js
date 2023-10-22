@@ -6,6 +6,7 @@ import { auth } from '../components/firebase-config';
 import { NavLink, Router, useNavigate } from 'react-router-dom'
 import Link from 'next/link'
 import firebase from 'firebase/app';
+
 import 'firebase/auth';
 import { useRouter } from 'next/router';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
@@ -18,8 +19,10 @@ import { arrayUnion, arrayRemove  } from "firebase/firestore";
 // import MyTabs from "../components/tabs"
 // import Habits from "../components/habits"
 import { onSnapshot } from "firebase/firestore";
-// import '../styles/index.css'
-// import styles from '../styles/index.module.css'; 
+
+
+
+// import {allAnimeJson} from '../components/all-anime' 
 
 
 
@@ -65,7 +68,7 @@ export default function Home(){
     });
   };
 
-  
+
 
   React.useEffect(() => {
     const unsubscribe = onSnapshot(habitsRef, function (snapshot) {
@@ -235,11 +238,11 @@ return (
     <h1>User</h1>
     {stats && (
       <div>
-        <h6>Lvl: {stats.level||0}</h6>
-        <h6>exp: {stats.current_exp||0}/{stats.next_exp}</h6>
-        <h6>str: {stats.strength||0}</h6>
-        <h6>dex: {stats.dexerity||0}</h6>
-        <h6>int: {stats.intellect||0}</h6>
+        <h4>Lvl: {stats.level||0}</h4>
+        <h4>exp: {stats.current_exp||0}/{stats.next_exp}</h4>
+        <h4>str: {stats.strength||0}</h4>
+        <h4>dex: {stats.dexerity||0}</h4>
+        <h4>int: {stats.intellect||0}</h4>
       </div>
     )}
 
@@ -322,6 +325,10 @@ return (
       </ul>
         )) : <h1>No Anime</h1>}
     </div>
+
+    <h1>Site Anime</h1>
+
+    {/* {allAnimeJson} */}
   </div>
 );
 
