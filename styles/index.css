@@ -14,3 +14,41 @@
     border: 5px solid black;
     overflow: scroll;
 }
+.habits-container{
+    border: 2px solid red;
+
+}
+
+.items-container{
+    border: 2px solid red;
+
+}
+
+.habit{
+    background-color: bisque;
+    width: fit-content;
+    margin: 10px;
+    border: 2px solid blue;
+}
+
+.all-habits{
+    display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: stretch;
+	align-content: stretch;
+    border: 3px solid black;
+
+}
+
+.all-items{
+    border: 3px solid black;
+    display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: stretch;
+	align-content: stretch;
+    border: 3px solid black;
+}

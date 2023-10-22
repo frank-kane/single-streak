@@ -262,7 +262,7 @@ return (
         <h4>int: {stats.intellect||0}</h4>
       </div>
     )}
-
+    <div className='habits-container'>
     <h1>Habits</h1>
     <button onClick={openOrCloseModal}>Add Habit</button>
     {isModalOpen && (
@@ -290,28 +290,33 @@ return (
     </div>
   </div>
 )}
-    <div >
+        <div className='all-habits'>
         {habits.length > 0 ? habits.map((habit) => (
-          <ul>
-          <li key={habit.id}>
-            {habit.name}
-            {" "}
-            {habit.streak}
-          </li>
-          <li >
-          {habit.is_completed == false && habit.last_completed <= yesterday?<img onClick={() => completeHabit(habit.id)} className='icon' src="frozen-flame.png" alt="" />:<img onClick={() => completeHabit(habit.id)} className='icon' src="fire.gif" alt="" />}
           
-        </li>
-        <li >
-        <button onClick={() => deleteHabit(habit.id)}>Delete</button>
-      </li>
-      </ul>
-        )) : <h1>No Habits</h1>}
+          <div key={habit.id} className='habit'>
+            <table >
+              <tr>{habit.name}</tr>
+              <tr>{habit.streak}</tr>
+              <tr>{habit.is_completed == false && habit.last_completed <= yesterday?<img onClick={() => completeHabit(habit.id)} className='icon' src="frozen-flame.png" alt="" />:<img onClick={() => completeHabit(habit.id)} className='icon' src="fire.gif" alt="" />}</tr>
+              <tr><button onClick={() => deleteHabit(habit.id)}>Delete</button></tr>
+            </table>
+          </div>
+          )) : <div>
+          <h1>No Habits</h1>
+
+        </div> 
+        }
+      </div>
+      
+
+        
     </div>
 
+    
+    <div className='items-container'> 
     <h1>Items</h1>
 
-    <div >
+    <div className='all-items'>
         {items.length > 0 ? items.map((item) => (
           <div>
           <ul>
@@ -327,6 +332,8 @@ return (
       </ul>
       </div>
         )) : <h1>No Items</h1>}
+    </div>
+
     </div>
 
     <h1>Anime</h1>
