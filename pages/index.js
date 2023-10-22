@@ -29,19 +29,28 @@ import { onSnapshot } from "firebase/firestore";
 export default function Home(){
   const [stats, setStats] = useState({});
   const [habits, setHabits] = useState([]);
+  const [items, setItems] = useState([]);
+  const [siteAnime, setSiteAnime] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newHabitData, setNewHabitData] = useState({
     name: '',
     type: '',
   });
   const usersCollection = collection(db, 'users'); // Reference to the "users" collection
+  const siteInfo = collection(db, 'site-info');
+  const animeDocRef = doc(siteInfo,'86Ei9tz05EgTUGAaq1Ts')
+  const animeCollection = collection(animeDocRef,'all-anime')
+  
   const userDocRef = doc(usersCollection, '8yciXAQXy9GTxmuclEX6'); // Reference to the specific user document
 
   // Then, if you want to access a subcollection within the user document (e.g., "habits"):
   const habitsRef = collection(userDocRef, 'habits');
+  const itemsRef = collection(userDocRef, 'items');
   const today = new Date(); // Current date and time
   const yesterday = new Date(today);
   yesterday.setDate(today.getDate() - 1);
+  const twoDaysAgo = new Date(today);
+  twoDaysAgo.setDate(today.getDate() - 2);
 
   const openOrCloseModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -59,15 +68,70 @@ export default function Home(){
   
 
   React.useEffect(() => {
-    const unsubscribe = onSnapshot(habitsRef, function(snapshot) {
-        // Sync up our local notes array with the snapshot data
-        const habitsArr = snapshot.docs.map(doc => ({
-            ...doc.data(),
-            id: doc.id
-        }))
-        setHabits(habitsArr)
-    })
-    return unsubscribe
+    const unsubscribe = onSnapshot(habitsRef, function (snapshot) {
+      const habitsArr = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      
+      const today = new Date(); // Current date
+      const yesterday = new Date(today);
+      yesterday.setDate(today.getDate() - 1);
+      yesterday.setHours(0, 0, 0, 0);
+  
+      // Iterate through habits and check if the habit should be reset
+      const updatedHabits = habitsArr.map((habit) => {
+        // Check if the habit was missed on the previous day (yesterday)
+        const lastCompletedDate = habit.last_completed.toDate();
+        lastCompletedDate.setHours(0, 0, 0, 0);
+        console.log(lastCompletedDate)
+  
+        if (lastCompletedDate < yesterday) {
+          // If it was completed and missed yesterday, reset the streak
+          return {
+            ...habit,
+            is_completed: false,
+            streak: 0,
+          };
+        }
+        
+        return habit; // No changes required
+      });
+  
+      // Update habits in the database
+      updatedHabits.forEach(async (updatedHabit) => {
+        const habitDocRef = doc(habitsRef, updatedHabit.id);
+        await updateDoc(habitDocRef, updatedHabit);
+      });
+  
+      setHabits(updatedHabits);
+    });
+  
+    return unsubscribe;
+}, []);
+
+React.useEffect(() => {
+  const unsubscribe = onSnapshot(itemsRef, function(snapshot) {
+      // Sync up our local notes array with the snapshot data
+      const itemsArr = snapshot.docs.map(doc => ({
+          ...doc.data(),
+          id: doc.id
+      }))
+      setItems(itemsArr)
+  })
+  return unsubscribe
+}, []);
+
+React.useEffect(() => {
+  const unsubscribe = onSnapshot(animeCollection, function(snapshot) {
+      // Sync up our local notes array with the snapshot data
+      const animeArr = snapshot.docs.map(doc => ({
+          ...doc.data(),
+          id: doc.id
+      }))
+      setSiteAnime(animeArr)
+  })
+  return unsubscribe
 }, []);
 
 React.useEffect(() => {
@@ -223,7 +287,41 @@ return (
       </ul>
         )) : <h1>No Habits</h1>}
     </div>
-    <button onClick={openOrCloseModal}>Add New Habit</button>
+
+    <h1>Items</h1>
+
+    <div >
+        {items.length > 0 ? items.map((item) => (
+          <div>
+          {/* <h1>'['</h1> */}
+          <ul>
+            <li>
+              <img className='item' src={`${item.name}.png`}/>
+            </li>
+          <li key={item.id}>
+            {item.name}
+            {" "}
+            {item.damage}
+          </li>
+      </ul>
+      {/* <h1>']'</h1> */}
+      </div>
+        )) : <h1>No Items</h1>}
+    </div>
+
+    <h1>Anime</h1>
+
+    <div className='animeScroller'>
+        {siteAnime.length > 0 ? siteAnime.map((anime) => (
+          <ul>
+          <li key={anime.id}>
+            {anime.name}
+          </li>
+         
+        
+      </ul>
+        )) : <h1>No Anime</h1>}
+    </div>
   </div>
 );
 

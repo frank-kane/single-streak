@@ -2,3 +2,15 @@
     height: 50px;
     width: 50px;
 }
+
+.item{
+    height: 80px;
+    width: 80px;
+}
+
+.animeScroller{
+    height: 100px;
+    width: fit-content;
+    border: 5px solid black;
+    overflow: scroll;
+}
