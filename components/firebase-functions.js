@@ -1,58 +1,31 @@
-// import styles from '../styles/user-content.css'
-import {db} from './firebase-config'
-import { useEffect, useState } from 'react'
-import { Timestamp, doc, getDoc, updateDoc,arrayUnion, arrayRemove  } from "firebase/firestore";
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import useSound from 'use-sound';
-//import boopSfx from "../public/completed.wav";
-import Popup from 'reactjs-popup';
-import 'reactjs-popup/dist/index.css';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
-
-// import { completeStreak } from './firebase-functions';
 
 
-export default function Habits(props){
-  const [habits, setHabits] = useState(false);
-  const [isHovering, setIsHovering] = useState(false);
 
 
-  // useEffect(() => {
-  //   // Retrieve user data from localStorage
-  //   const userData = localStorage.getItem('user');
   
-  //   if (userData) {
-  //     // Parse the stored JSON data back into an object
-  //     const parsedUserData = JSON.parse(userData);
-      
-  //     // Set the user state with the retrieved data
-  //     // setUser(parsedUserData);
-  //   }
-  // }, [habits]);
-
-  const handleMouseOver = () => {
-    setIsHovering(true);
-  };
-
-  const handleMouseOut = () => {
-    setIsHovering(false);
-  };
-  const playAudio = (onOrOff) => {
-    if (onOrOff ==true){
-      const audio = new Audio('/completed.wav');
-      audio.play();
-
-    }else{
-      const audio = new Audio('/failure.wav');
-      audio.play();
-
-    }
+  const handleAddHabit = async(e)=>{
+    e.preventDefault()
+    const docID = localStorage.getItem('user');
     
-  };
+    const docRef = doc(db, "my-info", props.docID);
+    const docSnap = await getDoc(docRef);
+    const docData = docSnap.data()
+    console.log("Added Habit: " + String(addedHabit))
 
-  const handleRemoveHabit = async(key)=>{
+    await updateDoc(docRef, {
+      habits: arrayUnion(addedHabit)
+    });
+    // props.returnEmail(props.my_email)
+    // window.location.reload(false);
+    setShow(false)
+    window.location.reload();
+    
+  }
+  
+  
+  
+  
+  export const handleRemoveHabit = async(key)=>{
     console.log("KEY: "+String(key))
     const docRef = doc(db, "my-info", docID);
     const docSnap = await getDoc(docRef);
@@ -70,7 +43,7 @@ export default function Habits(props){
 
   }
 
-  const completeStreak = async(index)=>{
+  export const completeStreak = async(index)=>{
     const userData = localStorage.getItem('user');
     var parsedUserData = {};
     if (userData) {
@@ -135,40 +108,4 @@ export default function Habits(props){
     }
 
 
-}
-
-
-  const listHabits = props.habits.map((habit,key) =>
-    <div className='card' onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} key={key} >
-            {isHovering &&<img src='red-x.png' className='red-x' onClick={()=>handleRemoveHabit(key)}/>}
-            <div onClick={()=>completeStreak(key)} >
-              <h3><img src='fastforward.png' className='fastforward'/> {habit.streak}</h3>
-              
-              
-              <center>
-              <div className='habit-image-holder'>{habit.is_completed == false ?(<img src='x.png' className='habit-image'></img>):(<img src='fire.gif' className='habit-image'></img>)}</div>
-              </center>
-              <h3>{habit.name}</h3>
-
-            </div>
-            
-            
-
-          </div>
-  )
-
-    return(
-    
-          <div className='habits-holder'>
-            {listHabits}
-          </div>
-
-          
-           
-            
-            
-        
-     
-        
-    )
 }
