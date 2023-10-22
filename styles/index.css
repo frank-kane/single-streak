@@ -1,3 +1,31 @@
+.index-container{
+    display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: stretch;
+	align-content: stretch;
+    border: 3px solid black;
+    width: fit-content;
+
+}
+
+.anime-list{
+    overflow-y: scroll;
+    max-height: 300px;
+}
+
+.all-my-anime{
+    overflow-y: scroll;
+    max-height: 300px;
+}
+
+.index-container *{
+    margin: 5px;
+
+}
+
+
 .icon{
     height: 50px;
     width: 50px;
@@ -16,11 +44,25 @@
 }
 .habits-container{
     border: 2px solid red;
+    width: fit-content;
 
 }
 
 .items-container{
     border: 2px solid red;
+    width: fit-content;
+
+}
+
+.anime-container{
+    border: 2px solid red;
+    width: fit-content;
+
+}
+
+.anime-site-container{
+    border: 2px solid red;
+    width: fit-content;
 
 }
 
@@ -39,6 +81,22 @@
 	align-items: stretch;
 	align-content: stretch;
     border: 3px solid black;
+    width: fit-content;
+
+}
+
+.all-weapons{
+    display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: stretch;
+	align-content: stretch;
+    border: 3px solid black;
+    width: fit-content;
+    max-width: 470px;
+    max-height: 200px;
+    overflow-y: scroll;
 
 }
 
@@ -51,4 +109,29 @@
 	align-items: stretch;
 	align-content: stretch;
     border: 3px solid black;
+    width: fit-content;
+}
+
+.main-stats{
+    border: 3px solid black;
+    width: fit-content;
+    
+}
+
+.user-info{
+    border: 3px solid black;
+    width: fit-content;
+    
+}
+
+
+.weapon{
+    border: 1px dotted black;
+    width: fit-content;
+}
+
+.item-container{
+    border: 1px dotted black;
+    width: fit-content;
+
 }
