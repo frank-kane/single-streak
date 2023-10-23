@@ -205,25 +205,4 @@
     height:50px
   }
 
-  .modal {
-    position: fixed;
-    border: 1px dotted black;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    z-index: 1000; /* Higher value to ensure it's on top of the page content */
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
-    z-index: 999; /* Lower value than modal to be below the modal */
-  }
+

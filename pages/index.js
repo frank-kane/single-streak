@@ -69,7 +69,7 @@ const handleContentChange = function(num){
   
 }
 
-  const openOrCloseModal = () => {
+function openOrCloseModal () {
     console.log("openOrCloseModal function called");
     console.log("Modal: "+isModalOpen);
     setIsModalOpen(!isModalOpen);
@@ -436,11 +436,12 @@ return (
     
               </div> 
               }
-              {habits.length <7 &&<button className='add-habit' onClick={openOrCloseModal}>Add Habit</button>}
+              {habits.length <7 &&<button className='add-habit' onClick={()=>openOrCloseModal()}>Add Habit</button>}
             </div>
-            {isModalOpen && (
-              <div className="modal">
-                <div className="modal-content">
+    
+
+              {isModalOpen && (
+                <div>
                   <h2>Add a New Habit</h2>
                   <form>
                     <input
@@ -461,7 +462,6 @@ return (
                   <button onClick={createNewHabit}>Create Habit</button>
                   <button onClick={openOrCloseModal}>Cancel</button>
                 </div>
-              </div>
             )}
             
           
