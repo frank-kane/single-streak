@@ -24,9 +24,12 @@ import AnimeList from './anime-list.json'; // Adjust the path to match your file
 import AnimeList2 from './anime-list'
 import animeData from './anime-list.json';
 import NavBar from '@/components/navbar';
+import ProgressBar from 'react-bootstrap/ProgressBar';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 export default function Home(){
+  const [content, setContent] = useState(0);
   const [myAnimeTitles, setMyAnimeTitles] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [stats, setStats] = useState({});
@@ -52,10 +55,25 @@ export default function Home(){
 
 
   
+const handleContentChange = function(num){
+  if(content == 0 && num ==-1){
+    setContent(3)
 
+  }else if(content == 3 && num ==1){
+    setContent(0)
+
+  }else{
+    setContent(content+num)
+
+  }
+  
+}
 
   const openOrCloseModal = () => {
+    console.log("openOrCloseModal function called");
+    console.log("Modal: "+isModalOpen);
     setIsModalOpen(!isModalOpen);
+    console.log("New Modal: "+isModalOpen);
   };
 
   //this is actually cooler than it looks because it changes the value based on the key which is dynamic
@@ -82,6 +100,9 @@ export default function Home(){
     })
     return unsubscribe
   }, []);
+
+
+
 
 
   React.useEffect(() => {
@@ -122,10 +143,15 @@ export default function Home(){
       });
   
       setHabits(updatedHabits);
+      subtractHealth();
     });
   
     return unsubscribe;
 }, []);
+
+
+
+
 
 React.useEffect(() => {
   const unsubscribe = onSnapshot(weaponsRef, function(snapshot) {
@@ -186,10 +212,58 @@ React.useEffect(() => {
     // Unsubscribe from both snapshots when the component unmounts
     unsubscribe();
     // Unsubscribe from the habits snapshot as well (you can include your existing habits-related code here)
-  };
-}, []); // Add userDocRef as a dependency to trigger the effect
+    };
+  }, []);
 
-// ... (other code, including your habits-related code)
+
+
+  async function subtractHealth() {
+    const today = new Date(); // Current date
+      const yesterday = new Date(today);
+      yesterday.setDate(today.getDate() - 1);
+      yesterday.setHours(0, 0, 0, 0);
+        
+        
+
+    var healthLoss = 0;
+    habits.forEach((habit) => {
+      const lastCompletedDate = habit.last_completed.toDate();
+      lastCompletedDate.setHours(0, 0, 0, 0);
+        console.log(lastCompletedDate)
+      if(lastCompletedDate<yesterday){
+        
+        healthLoss = healthLoss-1
+        console.log("Health Loss: " + healthLoss)
+      }
+    });
+
+    console.log("Health Loss: " + healthLoss)
+
+    const userDocRef = doc(usersCollection, '8yciXAQXy9GTxmuclEX6');
+    const habitsRef = collection(userDocRef, 'habits');
+    
+    // const docRef = doc(userDocRef, noteId)
+    // const docSnapshot = await getDoc(docRef);
+    const userSnapshot = await getDoc(userDocRef);
+    
+    const currentData = userSnapshot.data();
+    const userCurrentData = userSnapshot.data();
+    const newHealth = currentData.stats.current_health +healthLoss
+    console.log("New Health: " + newHealth)
+    await updateDoc(userDocRef, {
+      'stats.current_health':newHealth
+    });
+    
+
+
+
+  };
+
+    // Fetch habits data using a similar onSnapshot block as you did for habits
+
+   
+
+
 
 
 async function createNewHabit() {
@@ -249,8 +323,15 @@ async function completeHabit(noteId) {
     await updateDoc(docRef, {
       is_completed: updatedIsCompleted,
       streak: currentData.streak+streak,
-      last_completed: dateChange
+      last_completed: dateChange,
     });
+
+    if(userCurrentData.stats.current_health < userCurrentData.stats.total_health){
+      await updateDoc(userDocRef, {
+        'stats.current_health':userCurrentData.stats.current_health+level
+      });
+
+    }
 
     if(userCurrentData.stats.current_exp+expIncrease>=userCurrentData.stats.next_exp){
       await updateDoc(userDocRef, {
@@ -305,85 +386,121 @@ return (
     <NavBar/>
 
     <div className='upper-tab'>
-    <div className='user-info'>
-      <h1>User</h1>
-      <h4>{userInfo.username||""}</h4>
-      <h4>${userInfo.money||0}</h4>
-      <h4>Lvl: {stats.level||0}</h4>
-      <h4>exp: {stats.current_exp||0}/{stats.next_exp}</h4>
-    </div>
-    
-
-
-    {stats && (
-        <div className='main-stats'>
-          <h1>Stats</h1>
-          <div className='stats-grid'>
-              <div><h2>str: {stats.strength||0}</h2></div>
-              <div><h2>dex: {stats.dexerity||0}</h2></div>
-              <div><h2>int: {stats.intellect||0}</h2></div>
-              <div><h2>chr: {stats.charisma||0}</h2></div>
-              <div><h2>con: {stats.constitution||0}</h2></div>
-              <div><h2>wis: {stats.wisdom||0}</h2></div>
-          </div>
-        </div>
-    )}
-    <div className='habits-container'>
-    <h1>Habits</h1>
-        <div className='all-habits'>
-        {habits.length > 0 ? habits.map((habit) => (
-          
-          <div key={habit.id} className='habit'>
-            <div >
-              <div>{habit.name}</div>
-              <div>{habit.streak}</div>
-              <div>{habit.is_completed == false && habit.last_completed <= yesterday?<img onClick={() => completeHabit(habit.id)} className='icon' src="frozen-flame.png" alt="" />:<img onClick={() => completeHabit(habit.id)} className='icon' src="fire.gif" alt="" />}</div>
-              <div><button onClick={() => deleteHabit(habit.id)}>Delete</button></div>
-            </div>
-          </div>
-          )) : <div>
-          <h1>No Habits</h1>
-
-        </div> 
-        }
-        {habits.length <7 &&<button className='add-habit' onClick={openOrCloseModal}>Add Habit</button>}
+      <div className='user-info'>
+        <h1>User</h1>
+        <h4>{userInfo.username||""}</h4>
+        <h4>${userInfo.money||0}</h4>
+        <h4>Lvl: {stats.level||0}</h4>
+        <h4>exp: {stats.current_exp||0}/{stats.next_exp}</h4>
+        <h4>health: {stats.current_health||0}/{stats.total_health}</h4>
+        <ProgressBar now={(stats.current_health/stats.total_health)/0.01}/>
+        
       </div>
       
-    
-    {isModalOpen && (
-  <div className="modal">
-    <div className="modal-content">
-      <h2>Add a New Habit</h2>
-      <form>
-        <input
-          type="text"
-          name="name"
-          placeholder="Habit name"
-          value={newHabitData.name}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          name="type"
-          placeholder="Habit type"
-          value={newHabitData.type}
-          onChange={handleInputChange}
-        />
-      </form>
-      <button onClick={createNewHabit}>Create Habit</button>
-      <button onClick={openOrCloseModal}>Cancel</button>
-    </div>
-  </div>
-)}
       
 
-        
-    </div>
-    </div>
+      {stats && (
+          <div className='main-stats'>
+            <h1>Stats</h1>
+            <div className='stats-grid'>
+                <div><h2>str: {stats.strength||0}</h2></div>
+                <div><h2>dex: {stats.dexerity||0}</h2></div>
+                <div><h2>int: {stats.intellect||0}</h2></div>
+                <div><h2>chr: {stats.charisma||0}</h2></div>
+                <div><h2>con: {stats.constitution||0}</h2></div>
+                <div><h2>wis: {stats.wisdom||0}</h2></div>
+            </div>
+          </div>
+      )}
+
+      <h1 onClick={()=>handleContentChange(1)}>Left</h1>
+
+
+{content == 0
+          ? <div className='habits-container'>
+          <h1>Habits</h1>
+              <div className='all-habits'>
+              {habits.length > 0 ? habits.map((habit) => (
+                
+                <div key={habit.id} className='habit'>
+                  <div >
+                    <div>{habit.name}</div>
+                    <div><img src="fastforward.png" alt="" className='fficon'/></div>
+                    <div>{habit.streak}</div>
+                    <div>{habit.is_completed == false && habit.last_completed <= yesterday?<img onClick={() => completeHabit(habit.id)} className='icon' src="frozen-flame.png" alt="" />:<img onClick={() => completeHabit(habit.id)} className='icon' src="fire.gif" alt="" />}</div>
+                    <div><button onClick={() => deleteHabit(habit.id)}>Delete</button></div>
+                  </div>
+                </div>
+                )) : <div>
+                <h1>No Habits</h1>
+    
+              </div> 
+              }
+              {habits.length <7 &&<button className='add-habit' onClick={openOrCloseModal}>Add Habit</button>}
+            </div>
+            {isModalOpen && (
+              <div className="modal">
+                <div className="modal-content">
+                  <h2>Add a New Habit</h2>
+                  <form>
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="Habit name"
+                      value={newHabitData.name}
+                      onChange={handleInputChange}
+                    />
+                    <input
+                      type="text"
+                      name="type"
+                      placeholder="Habit type"
+                      value={newHabitData.type}
+                      onChange={handleInputChange}
+                    />
+                  </form>
+                  <button onClick={createNewHabit}>Create Habit</button>
+                  <button onClick={openOrCloseModal}>Cancel</button>
+                </div>
+              </div>
+            )}
+            
+          
+          
+            
+    
+              
+          </div>
+          : content == 1
+          ? <div className='anime-container'>
+          <h1>My Anime</h1>
+          <div className='all-my-anime'>
+              {myAnimeTitles.length > 0 ? myAnimeTitles.map((anime) => (
+                
+                
+                  <div key={anime.id} className='anime'>
+                      <div key={anime.id}>{anime.name}</div>
+                      <img src={anime.img} key={anime.id} className='anime-icon' />
+                      <button onClick={()=>deleteAnime(anime.id)}>-</button>
+                  
+                  </div>
+                )) : <div>
+                <h1>No Habits</h1>
+      
+              </div> 
+              }
+            </div>
+      
+          </div>
+          : content == 2 ?<p className='anime-container'>The number is not greater than 0.</p>
+          : <p className='anime-container'>The number is not greater than 0.</p>
+        }
+
+<h1 onClick={()=>handleContentChange(-1)}>Right</h1>
+      
+  </div>
 
 
     <div className='lower-tab'>
-    
     <div className='items-container'> 
     <h1>Items</h1>
     <Tabs>
@@ -432,29 +549,9 @@ return (
 
     </div>
 
-    <div className='anime-container'>
-    <h1>My Anime</h1>
-    <div className='all-my-anime'>
-        {myAnimeTitles.length > 0 ? myAnimeTitles.map((anime) => (
-          
-          <div key={anime.id} className='habit'>
-            <div >
-                <div key={anime.id}>{anime.name}</div>
-                <img src={anime.img} key={anime.id} />
-                <button onClick={()=>deleteAnime(anime.id)}>-</button>
-            
-            </div>
-          </div>
-          )) : <div>
-          <h1>No Habits</h1>
+    
 
-        </div> 
-        }
-      </div>
-
-    </div>
-
-      <div className='anime-site-container'>
+      {/* <div className='anime-site-container'>
         <h1>Site Anime</h1>
         <div className='anime-list'>
       <div>
@@ -473,7 +570,7 @@ return (
       
     </div>
         
-      </div>
+      </div> */}
 
     
       </div>
