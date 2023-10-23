@@ -23,6 +23,7 @@ import cheerio from 'cheerio';
 import AnimeList from './anime-list.json'; // Adjust the path to match your file structure
 import AnimeList2 from './anime-list'
 import animeData from './anime-list.json';
+import NavBar from '@/components/navbar';
 
 
 export default function Home(){
@@ -301,6 +302,9 @@ async function completeHabit(noteId) {
 
 return (
   <div className='index-container'>
+    <NavBar/>
+
+    <div className='upper-tab'>
     <div className='user-info'>
       <h1>User</h1>
       <h4>{userInfo.username||""}</h4>
@@ -314,25 +318,37 @@ return (
     {stats && (
         <div className='main-stats'>
           <h1>Stats</h1>
-          <div>
-            <div>
+          <div className='stats-grid'>
               <div><h2>str: {stats.strength||0}</h2></div>
               <div><h2>dex: {stats.dexerity||0}</h2></div>
-            </div>
-            <div>
               <div><h2>int: {stats.intellect||0}</h2></div>
               <div><h2>chr: {stats.charisma||0}</h2></div>
-            </div>
-            <div>
               <div><h2>con: {stats.constitution||0}</h2></div>
               <div><h2>wis: {stats.wisdom||0}</h2></div>
-            </div>
           </div>
         </div>
     )}
     <div className='habits-container'>
     <h1>Habits</h1>
-    {habits.length <7 &&<button onClick={openOrCloseModal}>Add Habit</button>}
+        <div className='all-habits'>
+        {habits.length > 0 ? habits.map((habit) => (
+          
+          <div key={habit.id} className='habit'>
+            <div >
+              <div>{habit.name}</div>
+              <div>{habit.streak}</div>
+              <div>{habit.is_completed == false && habit.last_completed <= yesterday?<img onClick={() => completeHabit(habit.id)} className='icon' src="frozen-flame.png" alt="" />:<img onClick={() => completeHabit(habit.id)} className='icon' src="fire.gif" alt="" />}</div>
+              <div><button onClick={() => deleteHabit(habit.id)}>Delete</button></div>
+            </div>
+          </div>
+          )) : <div>
+          <h1>No Habits</h1>
+
+        </div> 
+        }
+        {habits.length <7 &&<button className='add-habit' onClick={openOrCloseModal}>Add Habit</button>}
+      </div>
+      
     
     {isModalOpen && (
   <div className="modal">
@@ -354,33 +370,19 @@ return (
           onChange={handleInputChange}
         />
       </form>
-      <button onClick={createNewHabit}>Add Habit</button>
+      <button onClick={createNewHabit}>Create Habit</button>
       <button onClick={openOrCloseModal}>Cancel</button>
     </div>
   </div>
 )}
-        <div className='all-habits'>
-        {habits.length > 0 ? habits.map((habit) => (
-          
-          <div key={habit.id} className='habit'>
-            <div >
-              <div>{habit.name}</div>
-              <div>{habit.streak}</div>
-              <div>{habit.is_completed == false && habit.last_completed <= yesterday?<img onClick={() => completeHabit(habit.id)} className='icon' src="frozen-flame.png" alt="" />:<img onClick={() => completeHabit(habit.id)} className='icon' src="fire.gif" alt="" />}</div>
-              <div><button onClick={() => deleteHabit(habit.id)}>Delete</button></div>
-            </div>
-          </div>
-          )) : <div>
-          <h1>No Habits</h1>
-
-        </div> 
-        }
-      </div>
       
 
         
     </div>
+    </div>
 
+
+    <div className='lower-tab'>
     
     <div className='items-container'> 
     <h1>Items</h1>
@@ -474,7 +476,7 @@ return (
       </div>
 
     
-
+      </div>
     
 
     

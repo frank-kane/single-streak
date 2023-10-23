@@ -1,4 +1,4 @@
-// import '../styles/navbar.css';
+import '../styles/navbar.css';
 // import '../styles/page.css';
 // import '../styles/tabs.css';
 // import '../styles/user-content.css';

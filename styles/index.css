@@ -135,3 +135,30 @@
     width: fit-content;
 
 }
+
+.upper-tab{
+    border: 1px dotted red;
+    width: 100%;
+    display: flex;
+    background-color: aquamarine;
+
+}
+
+.lower-tab{
+    display: flex;
+    border: 1px dotted blue;
+    background-color:antiquewhite;
+
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+  }
+
+  .add-habit{
+    opacity: 0.5;
+  }
