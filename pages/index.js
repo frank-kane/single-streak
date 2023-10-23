@@ -219,9 +219,13 @@ React.useEffect(() => {
 
   async function subtractHealth() {
     const today = new Date(); // Current date
-      const yesterday = new Date(today);
-      yesterday.setDate(today.getDate() - 1);
-      yesterday.setHours(0, 0, 0, 0);
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    // yesterday.setHours(0, 0, 0, 0);
+    const userDocRef = doc(usersCollection, '8yciXAQXy9GTxmuclEX6');
+    const userSnapshot = await getDoc(userDocRef);
+    const currentData = userSnapshot.data();
+  
         
         
 
@@ -229,7 +233,7 @@ React.useEffect(() => {
     habits.forEach((habit) => {
       const lastCompletedDate = habit.last_completed.toDate();
       lastCompletedDate.setHours(0, 0, 0, 0);
-        console.log(lastCompletedDate)
+        // console.log(lastCompletedDate)
       if(lastCompletedDate<yesterday){
         
         healthLoss = healthLoss-1
@@ -239,20 +243,24 @@ React.useEffect(() => {
 
     console.log("Health Loss: " + healthLoss)
 
-    const userDocRef = doc(usersCollection, '8yciXAQXy9GTxmuclEX6');
-    const habitsRef = collection(userDocRef, 'habits');
     
-    // const docRef = doc(userDocRef, noteId)
-    // const docSnapshot = await getDoc(docRef);
-    const userSnapshot = await getDoc(userDocRef);
-    
-    const currentData = userSnapshot.data();
-    const userCurrentData = userSnapshot.data();
     const newHealth = currentData.stats.current_health +healthLoss
     console.log("New Health: " + newHealth)
-    await updateDoc(userDocRef, {
-      'stats.current_health':newHealth
-    });
+    if(currentData.health_subtracted <yesterday){
+
+      console.log("Updating health")
+      await updateDoc(userDocRef, {
+        'stats.current_health':newHealth,
+      });
+
+      await updateDoc(userDocRef, {
+        health_subtracted:today,
+      });
+      
+
+
+    }
+    
     
 
 
