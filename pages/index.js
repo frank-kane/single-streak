@@ -412,7 +412,6 @@ export default function Home() {
           userInfo={userInfo}
         />
 
-        <img src='female-character-idle.gif'/>
 
 
 
