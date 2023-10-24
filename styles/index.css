@@ -12,15 +12,17 @@ display:flex;
 }
 
 .all-items {
- justify-content:flex-start;
-border:3px solid black;
-border:3px solid black;
-align-content:stretch;
-align-items:stretch;
-flex-direction:row;
-width:fit-content;
-flex-wrap:wrap;
-display:flex; 
+  justify-content:flex-start;
+  border:3px solid black;
+  align-content:stretch;
+  align-items:stretch;
+  flex-direction:row;
+  overflow-y:scroll;
+  width:fit-content;
+  max-height:200px;
+  max-width:470px;
+  flex-wrap:wrap;
+  display:flex;
 }
 
 .all-my-anime {
@@ -187,6 +189,10 @@ width:fit-content;
  border:1px dotted black;
 width:fit-content; 
 }
+.item {
+  border:1px dotted black;
+ width:fit-content; 
+ }
 
 .new-habit-modal{
     /* position: fixed; */

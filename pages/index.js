@@ -74,7 +74,28 @@ export default function Home() {
 
 
 
+  React.useEffect(() => {
+    async function giveHealthPotion() {
+      
 
+
+      // Define a probability value (e.g., 0.2 for a 20% chance)
+      const probability = 0.2;
+    
+      // Generate a random number between 0 and 1
+      const random = Math.random();
+      console.log(random)
+    
+      // Check if the random number is less than or equal to the probability
+      if (random <= probability) {
+        const newItem = {name: 'Small Health Potion', heal: 3 };
+        await addDoc(itemsRef, newItem);
+        alert("Received a small health potion!");
+      }
+    }
+    // Call the function to give a health potion when the component mounts
+    giveHealthPotion();
+  }, []);
 
   React.useEffect(() => {
     const unsubscribe = onSnapshot(myAnimeRef, function (snapshot) {
@@ -131,8 +152,8 @@ export default function Home() {
 
       setHabits(updatedHabits);
       // alert(habits.length)
-      if(habits.length > 0) {
-      subtractHealth();
+      if (habits.length > 0) {
+        subtractHealth();
       }
     });
 
@@ -193,7 +214,7 @@ export default function Home() {
   }, []);
 
 
-  
+
   async function subtractHealth() {
     // if(habits.length > 0) {
     // alert(habits.length)
@@ -205,10 +226,10 @@ export default function Home() {
     const userSnapshot = await getDoc(userDocRef);
     const currentData = userSnapshot.data();
 
-    
-    
+
+
     // alert(JSON.stringify(habits))
-    
+
 
 
 
@@ -242,10 +263,10 @@ export default function Home() {
       await updateDoc(userDocRef, {
         health_subtracted: today,
       });
-    // }
-  };
-}
-  
+      // }
+    };
+  }
+
 
 
   async function createNewHabit() {
@@ -386,11 +407,11 @@ export default function Home() {
       <NavBar />
 
       <div className='upper-tab'>
-      <UserInfo
-        stats={stats}
-        userInfo = {userInfo}
-      />
-        
+        <UserInfo
+          stats={stats}
+          userInfo={userInfo}
+        />
+
 
 
 
@@ -419,7 +440,7 @@ export default function Home() {
             ? <MyAnime
               myAnimeTitles={myAnimeTitles}
               deleteAnime={deleteAnime}
-            />: <h1 className='anime-container'>Hello</h1>
+            /> : <h1 className='anime-container'>Hello</h1>
         }
 
         <h1 onClick={() => handleContentChange(-1)}>Right</h1>
@@ -433,11 +454,11 @@ export default function Home() {
           items={items}
         />
 
-        <SiteAnime
-        animeData = {animeData}
-        addAnime = {addAnime}
+        {/* <SiteAnime
+          animeData={animeData}
+          addAnime={addAnime}
 
-        />
+        /> */}
       </div>
 
     </div>

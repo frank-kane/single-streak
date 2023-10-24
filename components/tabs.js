@@ -45,21 +45,20 @@ export default function MyTabs(props){
         </TabPanel>
 
         <TabPanel>
+        <div className='all-items'>
           {props.items.length > 0 ? props.items.map((item) => (
-            <div className='item-container' key={item.id}>
-              <div>
+              <div className='item' key={item.id}>
                 <div>
                   <img className='item' src={`${item.name}.png`} />
                 </div>
                 <div key={item.id}>
                   {item.name}
                 </div>
-                <div>Heal:
-                  {item.heal}
+                <div>Heal: {item.heal}
                 </div>
               </div>
-            </div>
           )) : <h1>No Items</h1>}
+          </div>
         </TabPanel>
       </Tabs>
 
