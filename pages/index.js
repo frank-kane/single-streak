@@ -1,34 +1,21 @@
-'use client';
-import React, {useState} from 'react';
-import { useEffect } from 'react'
-import {  getAuth,signInWithEmailAndPassword,setPersistence,browserSessionPersistence, browserLocalPersistence,createUserWithEmailAndPassword,onAuthStateChanged  } from 'firebase/auth';
-import { auth } from '../components/firebase-config';
-import { NavLink, Router, useNavigate } from 'react-router-dom'
-import Link from 'next/link'
-import firebase from 'firebase/app';
+'use client';;
+import React, { useState } from 'react';
 import 'firebase/auth';
-import { useRouter } from 'next/router';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-// import NavBar from "../components/navbar"
-import {db} from '../components/firebase-config'
-import { Timestamp, doc, getDoc, getDocs,updateDoc, collection,query,where,addDoc,deleteDoc } from "firebase/firestore";
-import { arrayUnion, arrayRemove  } from "firebase/firestore";
-// import UserContent from "../components/user-content"
-// import MyTabs from "../components/tabs"
-// import Habits from "../components/habits"
+import { db } from '../components/firebase-config'
+import { doc, getDoc, updateDoc, collection, addDoc, deleteDoc } from "firebase/firestore";
 import { onSnapshot } from "firebase/firestore";
-import axios from 'axios';
-import cheerio from 'cheerio';
-import AnimeList from './anime-list.json'; // Adjust the path to match your file structure
-import AnimeList2 from './anime-list'
-import animeData from './anime-list.json';
+import animeData from '@/components/anime-list.json';
 import NavBar from '@/components/navbar';
-import ProgressBar from 'react-bootstrap/ProgressBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import MyTabs from '@/components/tabs';
+import Stats from '@/components/stats';
+import Habits from '@/components/habits';
+import MyAnime from '@/components/my-anime';
+import SiteAnime from '@/components/site-anime';
+import UserInfo from '@/components/user-info';
 
-
-export default function Home(){
+export default function Home() {
   const [content, setContent] = useState(0);
   const [myAnimeTitles, setMyAnimeTitles] = useState([]);
   const [userInfo, setUserInfo] = useState({});
@@ -54,26 +41,26 @@ export default function Home(){
   twoDaysAgo.setDate(today.getDate() - 2);
 
 
-  
-const handleContentChange = function(num){
-  if(content == 0 && num ==-1){
-    setContent(3)
 
-  }else if(content == 3 && num ==1){
-    setContent(0)
+  const handleContentChange = function (num) {
+    if (content == 0 && num == -1) {
+      setContent(2)
 
-  }else{
-    setContent(content+num)
+    } else if (content == 2 && num == 1) {
+      setContent(0)
+
+    } else {
+      setContent(content + num)
+
+    }
 
   }
-  
-}
 
-function openOrCloseModal () {
+  function openOrCloseModal() {
     console.log("openOrCloseModal function called");
-    console.log("Modal: "+isModalOpen);
+    console.log("Modal: " + isModalOpen);
     setIsModalOpen(!isModalOpen);
-    console.log("New Modal: "+isModalOpen);
+    console.log("New Modal: " + isModalOpen);
   };
 
   //this is actually cooler than it looks because it changes the value based on the key which is dynamic
@@ -85,18 +72,18 @@ function openOrCloseModal () {
     });
   };
 
-  
-  
 
- 
+
+
+
   React.useEffect(() => {
-    const unsubscribe = onSnapshot(myAnimeRef, function(snapshot) {
-        // Sync up our local notes array with the snapshot data
-        const animeArr = snapshot.docs.map(doc => ({
-            ...doc.data(),
-            id: doc.id
-        }))
-        setMyAnimeTitles(animeArr)
+    const unsubscribe = onSnapshot(myAnimeRef, function (snapshot) {
+      // Sync up our local notes array with the snapshot data
+      const animeArr = snapshot.docs.map(doc => ({
+        ...doc.data(),
+        id: doc.id
+      }))
+      setMyAnimeTitles(animeArr)
     })
     return unsubscribe
   }, []);
@@ -111,19 +98,19 @@ function openOrCloseModal () {
         ...doc.data(),
         id: doc.id,
       }));
-      
+
       const today = new Date(); // Current date
       const yesterday = new Date(today);
       yesterday.setDate(today.getDate() - 1);
       yesterday.setHours(0, 0, 0, 0);
-  
+
       // Iterate through habits and check if the habit should be reset
       const updatedHabits = habitsArr.map((habit) => {
         // Check if the habit was missed on the previous day (yesterday)
         const lastCompletedDate = habit.last_completed.toDate();
         lastCompletedDate.setHours(0, 0, 0, 0);
         console.log(lastCompletedDate)
-  
+
         if (lastCompletedDate < yesterday) {
           // If it was completed and missed yesterday, reset the streak
           return {
@@ -132,92 +119,84 @@ function openOrCloseModal () {
             streak: 0,
           };
         }
-        
+
         return habit; // No changes required
       });
-  
+
       // Update habits in the database
       updatedHabits.forEach(async (updatedHabit) => {
         const habitDocRef = doc(habitsRef, updatedHabit.id);
         await updateDoc(habitDocRef, updatedHabit);
       });
-  
+
       setHabits(updatedHabits);
+      // alert(habits.length)
+      if(habits.length > 0) {
       subtractHealth();
+      }
     });
-  
+
     return unsubscribe;
-}, []);
-
-
-
-
-
-React.useEffect(() => {
-  const unsubscribe = onSnapshot(weaponsRef, function(snapshot) {
-      // Sync up our local notes array with the snapshot data
-      const weaponsArr = snapshot.docs.map(doc => ({
-          ...doc.data(),
-          id: doc.id
-      }))
-      setWeapons(weaponsArr)
-  })
-  return unsubscribe
-}, []);
-
-React.useEffect(() => {
-  const unsubscribe = onSnapshot(itemsRef, function(snapshot) {
-      // Sync up our local notes array with the snapshot data
-      const itemsArr = snapshot.docs.map(doc => ({
-          ...doc.data(),
-          id: doc.id
-      }))
-      setItems(itemsArr)
-  })
-  return unsubscribe
-}, []);
-
-
-
-// React.useEffect(() => {
-//   const unsubscribe = onSnapshot(animeCollection, function(snapshot) {
-//       // Sync up our local notes array with the snapshot data
-//       const animeArr = snapshot.docs.map(doc => ({
-//           ...doc.data(),
-//           id: doc.id
-//       }))
-//       setSiteAnime(animeArr)
-//   })
-//   return unsubscribe
-// }, []);
-
-React.useEffect(() => {
-  const unsubscribe = onSnapshot(userDocRef, (docSnapshot) => {
-    if (docSnapshot.exists()) {
-      const userData = docSnapshot.data();
-      // Assuming you have a 'stats' field in your user document
-      const userStats = userData.stats;
-      setUserInfo({
-        username: userData.username,
-        money: userData.money
-      })
-      setStats(userStats);
-      console.log(stats)
-    }
-  });
-
-  // Fetch habits data using a similar onSnapshot block as you did for habits
-
-  return () => {
-    // Unsubscribe from both snapshots when the component unmounts
-    unsubscribe();
-    // Unsubscribe from the habits snapshot as well (you can include your existing habits-related code here)
-    };
   }, []);
 
 
 
+
+
+  React.useEffect(() => {
+    const unsubscribe = onSnapshot(weaponsRef, function (snapshot) {
+      // Sync up our local notes array with the snapshot data
+      const weaponsArr = snapshot.docs.map(doc => ({
+        ...doc.data(),
+        id: doc.id
+      }))
+      setWeapons(weaponsArr)
+    })
+    return unsubscribe
+  }, []);
+
+  React.useEffect(() => {
+    const unsubscribe = onSnapshot(itemsRef, function (snapshot) {
+      // Sync up our local notes array with the snapshot data
+      const itemsArr = snapshot.docs.map(doc => ({
+        ...doc.data(),
+        id: doc.id
+      }))
+      setItems(itemsArr)
+    })
+    return unsubscribe
+  }, []);
+
+
+  React.useEffect(() => {
+    const unsubscribe = onSnapshot(userDocRef, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const userData = docSnapshot.data();
+        // Assuming you have a 'stats' field in your user document
+        const userStats = userData.stats;
+        setUserInfo({
+          username: userData.username,
+          money: userData.money
+        })
+        setStats(userStats);
+        console.log(stats)
+      }
+    });
+
+    // Fetch habits data using a similar onSnapshot block as you did for habits
+
+    return () => {
+      // Unsubscribe from both snapshots when the component unmounts
+      unsubscribe();
+      // Unsubscribe from the habits snapshot as well (you can include your existing habits-related code here)
+    };
+  }, []);
+
+
+  
   async function subtractHealth() {
+    // if(habits.length > 0) {
+    // alert(habits.length)
     const today = new Date(); // Current date
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
@@ -225,372 +204,246 @@ React.useEffect(() => {
     const userDocRef = doc(usersCollection, '8yciXAQXy9GTxmuclEX6');
     const userSnapshot = await getDoc(userDocRef);
     const currentData = userSnapshot.data();
-  
-        
-        
+
+    
+    
+    // alert(JSON.stringify(habits))
+    
+
+
+
 
     var healthLoss = 0;
     habits.forEach((habit) => {
       const lastCompletedDate = habit.last_completed.toDate();
       lastCompletedDate.setHours(0, 0, 0, 0);
-        // console.log(lastCompletedDate)
-      if(lastCompletedDate<yesterday){
-        
-        healthLoss = healthLoss-1
+      // console.log(lastCompletedDate)
+      if (lastCompletedDate <= yesterday) {
+
+        healthLoss = healthLoss - 1
         console.log("Health Loss: " + healthLoss)
       }
     });
 
     console.log("Health Loss: " + healthLoss)
 
-    
-    const newHealth = currentData.stats.current_health +healthLoss
+
+    const newHealth = currentData.stats.current_health + healthLoss
     console.log("New Health: " + newHealth)
-    if(currentData.health_subtracted <yesterday){
+    if (currentData.health_subtracted.toDate() <= yesterday) {
+      alert(`Yesterday: ${yesterday}\n${currentData.health_subtracted.toDate()}
+      \nSubtracted: ${healthLoss}. New Health: ${newHealth}`)
 
       console.log("Updating health")
       await updateDoc(userDocRef, {
-        'stats.current_health':newHealth,
+        'stats.current_health': newHealth,
       });
 
       await updateDoc(userDocRef, {
-        health_subtracted:today,
+        health_subtracted: today,
       });
-      
-
-
-    }
-    
-    
-
-
-
+    // }
   };
-
-    // Fetch habits data using a similar onSnapshot block as you did for habits
-
-   
-
-
-
-
-async function createNewHabit() {
-
-  const newHabit = { ...newHabitData, is_completed: false, last_completed: new Date(), streak: 0 };
-  await addDoc(habitsRef, newHabit);
-
-  // Close the modal
-  openOrCloseModal();
- 
 }
+  
 
-async function deleteHabit(noteId) {
-  const habitsRef = collection(userDocRef, 'habits');
-  const docRef = doc(habitsRef, noteId)
-  await deleteDoc(docRef)
-}
 
-async function addAnime(animeIndex) {
-  const animeToAdd = animeData.titles[animeIndex]; // Get the anime object from animeData
+  async function createNewHabit() {
 
-  try {
-    // Add the anime object to your myAnimeRef collection in Firebase
-    await addDoc(myAnimeRef, animeToAdd);
-    // You may want to show a success message or update your local state here.
-  } catch (error) {
-    console.error("Error adding anime:", error);
-    // Handle the error (e.g., show an error message).
+    const newHabit = { ...newHabitData, is_completed: false, last_completed: new Date(), streak: 0 };
+    await addDoc(habitsRef, newHabit);
+    alert('Created New Habit');
+
+    // Close the modal
+    openOrCloseModal();
+
   }
-}
 
-async function deleteAnime(animeId) {
-  
-  const docRef = doc(myAnimeRef, animeId)
-  await deleteDoc(docRef)
-}
+  async function deleteHabit(noteId) {
+    const habitsRef = collection(userDocRef, 'habits');
+    const docRef = doc(habitsRef, noteId)
+    await deleteDoc(docRef)
+  }
 
-async function completeHabit(noteId) {
-  const userDocRef = doc(usersCollection, '8yciXAQXy9GTxmuclEX6');
-  const habitsRef = collection(userDocRef, 'habits');
-  
-  const docRef = doc(habitsRef, noteId)
-  const docSnapshot = await getDoc(docRef);
-  const userSnapshot = await getDoc(userDocRef);
-  
-  const currentData = docSnapshot.data();
-  const userCurrentData = userSnapshot.data();
-  const updatedIsCompleted = !currentData.is_completed; // Toggle the value
-  const streak = currentData.is_completed ? -1 : 1;
-  const level = currentData.is_completed ? -1 : 1;
-  const new_next_exp = currentData.is_completed ? -1 : 1;
-  const statIncrease = currentData.is_completed ? -3 : 3;
-  const expIncrease = currentData.is_completed ? -10 : 10;
-  const dateChange = currentData.is_completed ?yesterday : today;
+  async function addAnime(animeIndex) {
+    const animeToAdd = animeData.titles[animeIndex]; // Get the anime object from animeData
+
+    try {
+      // Add the anime object to your myAnimeRef collection in Firebase
+      await addDoc(myAnimeRef, animeToAdd);
+      // You may want to show a success message or update your local state here.
+    } catch (error) {
+      console.error("Error adding anime:", error);
+      // Handle the error (e.g., show an error message).
+    }
+  }
+
+  async function deleteAnime(animeId) {
+
+    const docRef = doc(myAnimeRef, animeId)
+    await deleteDoc(docRef)
+  }
+
+  async function completeHabit(noteId) {
+    const userDocRef = doc(usersCollection, '8yciXAQXy9GTxmuclEX6');
+    const habitsRef = collection(userDocRef, 'habits');
+
+    const docRef = doc(habitsRef, noteId)
+    const docSnapshot = await getDoc(docRef);
+    const userSnapshot = await getDoc(userDocRef);
+
+    const currentData = docSnapshot.data();
+    const userCurrentData = userSnapshot.data();
+    const updatedIsCompleted = !currentData.is_completed; // Toggle the value
+    const streak = currentData.is_completed ? -1 : 1;
+    const level = currentData.is_completed ? -1 : 1;
+    const new_next_exp = currentData.is_completed ? -1 : 1;
+    const statIncrease = currentData.is_completed ? -3 : 3;
+    const expIncrease = currentData.is_completed ? -10 : 10;
+    const dateChange = currentData.is_completed ? yesterday : today;
 
     // Update the is_completed field with the new value
     await updateDoc(docRef, {
       is_completed: updatedIsCompleted,
-      streak: currentData.streak+streak,
+      streak: currentData.streak + streak,
       last_completed: dateChange,
     });
 
-    if(userCurrentData.stats.current_health < userCurrentData.stats.total_health){
+    if (userCurrentData.stats.current_health < userCurrentData.stats.total_health) {
       await updateDoc(userDocRef, {
-        'stats.current_health':userCurrentData.stats.current_health+level
+        'stats.current_health': userCurrentData.stats.current_health + level
       });
 
     }
 
-    if(userCurrentData.stats.current_exp+expIncrease>=userCurrentData.stats.next_exp){
+    if (userCurrentData.stats.current_exp + expIncrease >= userCurrentData.stats.next_exp) {
       await updateDoc(userDocRef, {
-        'stats.level': userCurrentData.stats.level+level,
+        'stats.level': userCurrentData.stats.level + level,
         'stats.current_exp': 0,
-        'stats.prev_current_exp':userCurrentData.stats.current_exp,
-        'stats.prev_next_exp':userCurrentData.stats.next_exp,
-        'stats.next_exp': Math.floor(userCurrentData.stats.next_exp*(1.15))
+        'stats.prev_current_exp': userCurrentData.stats.current_exp,
+        'stats.prev_next_exp': userCurrentData.stats.next_exp,
+        'stats.next_exp': Math.floor(userCurrentData.stats.next_exp * (1.15))
 
       });
-      
-  }
-    else if(currentData.is_completed == true && userCurrentData.stats.current_exp+expIncrease<0){
+
+    }
+    else if (currentData.is_completed == true && userCurrentData.stats.current_exp + expIncrease < 0) {
       await updateDoc(userDocRef, {
-        'stats.level': userCurrentData.stats.level+level,
-        'stats.current_exp': userCurrentData.stats.prev_next_exp+expIncrease,
-        'stats.prev_current_exp':userCurrentData.stats.current_exp,
+        'stats.level': userCurrentData.stats.level + level,
+        'stats.current_exp': userCurrentData.stats.prev_next_exp + expIncrease,
+        'stats.prev_current_exp': userCurrentData.stats.current_exp,
         'stats.next_exp': userCurrentData.stats.prev_next_exp,
 
       });
-    
-    }else{
+
+    } else {
       await updateDoc(userDocRef, {
-        'stats.current_exp': userCurrentData.stats.current_exp+expIncrease,
-        'stats.prev_current_exp':userCurrentData.stats.current_exp
+        'stats.current_exp': userCurrentData.stats.current_exp + expIncrease,
+        'stats.prev_current_exp': userCurrentData.stats.current_exp
       });
 
     }
+    if (currentData.type == "strength") {
+      await updateDoc(userDocRef, {
+        'stats.strength': userCurrentData.stats.strength + statIncrease
+      });
+    } else if (currentData.type == "intellect") {
+      await updateDoc(userDocRef, {
+        'stats.intellect': userCurrentData.stats.intellect + statIncrease
+      });
 
-    if(currentData.type == "physical"){
+    } else if (currentData.type == "dexerity") {
       await updateDoc(userDocRef, {
-        'stats.strength':userCurrentData.stats.strength+statIncrease
-      });
-    }else if(currentData.type == "intellect"){
-      await updateDoc(userDocRef, {
-        'stats.intellect':userCurrentData.stats.intellect+statIncrease
+        'stats.intellect': userCurrentData.stats.dexerity + statIncrease
       });
 
-    }else if(currentData.type == "dexerity"){
+    }
+    else if (currentData.type == "wisdom") {
       await updateDoc(userDocRef, {
-        'stats.intellect':userCurrentData.stats.dexerity+statIncrease
+        'stats.intellect': userCurrentData.stats.wisdom + statIncrease
       });
-    
+
+    }
+    else if (currentData.type == "constitute") {
+      await updateDoc(userDocRef, {
+        'stats.intellect': userCurrentData.stats.constitute + statIncrease
+      });
+
+    }
+    else if (currentData.type == "charisma") {
+      await updateDoc(userDocRef, {
+        'stats.intellect': userCurrentData.stats.charisma + statIncrease
+      });
+
+    }
   }
-}
 
 
- 
 
-return (
-  <div className='index-container'>
-    <NavBar/>
 
-    <div className='upper-tab'>
-      <div className='user-info'>
-        <h1>User</h1>
-        <h4>{userInfo.username||""}</h4>
-        <h4>${userInfo.money||0}</h4>
-        <h4>Lvl: {stats.level||0}</h4>
-        <h4>exp: {stats.current_exp||0}/{stats.next_exp}</h4>
-        <h4>health: {stats.current_health||0}/{stats.total_health}</h4>
-        <ProgressBar now={(stats.current_health/stats.total_health)/0.01}/>
+  return (
+    <div className='index-container'>
+      <NavBar />
+
+      <div className='upper-tab'>
+      <UserInfo
+        stats={stats}
+        userInfo = {userInfo}
+      />
         
-      </div>
-      
-      
-
-      {stats && (
-          <div className='main-stats'>
-            <h1>Stats</h1>
-            <div className='stats-grid'>
-                <div><h2>str: {stats.strength||0}</h2></div>
-                <div><h2>dex: {stats.dexerity||0}</h2></div>
-                <div><h2>int: {stats.intellect||0}</h2></div>
-                <div><h2>chr: {stats.charisma||0}</h2></div>
-                <div><h2>con: {stats.constitution||0}</h2></div>
-                <div><h2>wis: {stats.wisdom||0}</h2></div>
-            </div>
-          </div>
-      )}
-
-      <h1 onClick={()=>handleContentChange(1)}>Left</h1>
 
 
-{content == 0
-          ? <div className='habits-container'>
-          <h1>Habits</h1>
-              <div className='all-habits'>
-              {habits.length > 0 ? habits.map((habit) => (
-                
-                <div key={habit.id} className='habit'>
-                  <div >
-                    <div>{habit.name}</div>
-                    <div><img src="fastforward.png" alt="" className='fficon'/></div>
-                    <div>{habit.streak}</div>
-                    <div>{habit.is_completed == false && habit.last_completed <= yesterday?<img onClick={() => completeHabit(habit.id)} className='icon' src="frozen-flame.png" alt="" />:<img onClick={() => completeHabit(habit.id)} className='icon' src="fire.gif" alt="" />}</div>
-                    <div><button onClick={() => deleteHabit(habit.id)}>Delete</button></div>
-                  </div>
-                </div>
-                )) : <div>
-                <h1>No Habits</h1>
-    
-              </div> 
-              }
-              {habits.length <7 &&<button className='add-habit' onClick={()=>openOrCloseModal()}>Add Habit</button>}
-            </div>
-    
 
-              {isModalOpen && (
-                <div>
-                  <h2>Add a New Habit</h2>
-                  <form>
-                    <input
-                      type="text"
-                      name="name"
-                      placeholder="Habit name"
-                      value={newHabitData.name}
-                      onChange={handleInputChange}
-                    />
-                    <input
-                      type="text"
-                      name="type"
-                      placeholder="Habit type"
-                      value={newHabitData.type}
-                      onChange={handleInputChange}
-                    />
-                  </form>
-                  <button onClick={createNewHabit}>Create Habit</button>
-                  <button onClick={openOrCloseModal}>Cancel</button>
-                </div>
-            )}
-            
-          
-          
-            
-    
-              
-          </div>
+        {stats && (
+          <Stats
+            stats={stats}
+          />
+        )}
+
+        <h1 onClick={() => handleContentChange(1)}>Left</h1>
+
+
+        {content == 0
+          ? <Habits
+            habits={habits}
+            openOrCloseModal={openOrCloseModal}
+            createNewHabit={createNewHabit}
+            deleteHabit={deleteHabit}
+            isModalOpen={isModalOpen}
+            newHabitData={newHabitData}
+            handleInputChange={handleInputChange}
+            completeHabit={completeHabit}
+
+          />
           : content == 1
-          ? <div className='anime-container'>
-          <h1>My Anime</h1>
-          <div className='all-my-anime'>
-              {myAnimeTitles.length > 0 ? myAnimeTitles.map((anime) => (
-                
-                
-                  <div key={anime.id} className='anime'>
-                      <div key={anime.id}>{anime.name}</div>
-                      <img src={anime.img} key={anime.id} className='anime-icon' />
-                      <button onClick={()=>deleteAnime(anime.id)}>-</button>
-                  
-                  </div>
-                )) : <div>
-                <h1>No Habits</h1>
-      
-              </div> 
-              }
-            </div>
-      
-          </div>
-          : content == 2 ?<p className='anime-container'>The number is not greater than 0.</p>
-          : <p className='anime-container'>The number is not greater than 0.</p>
+            ? <MyAnime
+              myAnimeTitles={myAnimeTitles}
+              deleteAnime={deleteAnime}
+            />: <h1 className='anime-container'>Hello</h1>
         }
 
-<h1 onClick={()=>handleContentChange(-1)}>Right</h1>
-      
-  </div>
+        <h1 onClick={() => handleContentChange(-1)}>Right</h1>
 
-
-    <div className='lower-tab'>
-    <div className='items-container'> 
-    <h1>Items</h1>
-    <Tabs>
-    <TabList>
-      <Tab>Weapons</Tab>
-      <Tab>Healing Items</Tab>
-    </TabList>
-
-    <TabPanel>
-    <div className='all-weapons'>
-        {weapons.length > 0 ? weapons.map((weapon) => (
-          <div className='weapon' key={weapon.id}>
-            <div>
-              <img className='item' src={`${weapon.name}.png`}/>
-            </div>
-          <div key={weapon.id}>
-            {weapon.name}
-          </div>
-          <div>Dmg:
-            {weapon.damage}
-          </div>
       </div>
-        )) : <h1>No Weapons</h1>}
-    </div>
-    </TabPanel>
 
-    <TabPanel>
-    {items.length > 0 ? items.map((item) => (
-          <div className='item-container' key={item.id}>
-          <div>
-            <div>
-              <img className='item' src={`${item.name}.png`}/>
-            </div>
-          <div key={item.id}>
-            {item.name}
-          </div>
-          <div>Heal:
-            {item.heal}
-          </div>
+
+      <div className='lower-tab'>
+        <MyTabs
+          weapons={weapons}
+          items={items}
+        />
+
+        <SiteAnime
+        animeData = {animeData}
+        addAnime = {addAnime}
+
+        />
       </div>
-      </div>
-        )) : <h1>No Items</h1>}
-    </TabPanel>
-  </Tabs>
-    
 
     </div>
-
-    
-
-      {/* <div className='anime-site-container'>
-        <h1>Site Anime</h1>
-        <div className='anime-list'>
-      <div>
-        {animeData.titles.map((anime, index) => (
-            <div>
-                <div key={index}>{anime.name}</div>
-                <img src={anime.img} key={index} />
-                <button onClick={()=>addAnime(index)}>+</button>
-
-            </div>
-          
-
-        ))}
-      </div>
-
-      
-    </div>
-        
-      </div> */}
-
-    
-      </div>
-    
-
-    
-
-   
-  </div>
-);
+  );
 
 
 
-        
+
 }

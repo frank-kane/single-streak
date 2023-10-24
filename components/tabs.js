@@ -1,0 +1,70 @@
+// import Image from 'next/image'
+import {db} from './firebase-config'
+import { useEffect, useState } from 'react'
+import { Timestamp, doc, getDoc, updateDoc  } from "firebase/firestore";
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import useSound from 'use-sound';
+//import boopSfx from "../public/completed.wav";
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+import { useRouter } from 'next/router';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
+import { getAuth, signOut } from "firebase/auth";
+
+
+
+export default function MyTabs(props){
+
+    return(
+      <div className='items-container'>
+      <h1>Items</h1>
+      <Tabs>
+        <TabList>
+          <Tab>Weapons</Tab>
+          <Tab>Healing Items</Tab>
+        </TabList>
+
+        <TabPanel>
+          <div className='all-weapons'>
+            {props.weapons.length > 0 ? props.weapons.map((weapon) => (
+              <div className='weapon' key={weapon.id}>
+                <div>
+                  <img className='item' src={`${weapon.name}.png`} />
+                </div>
+                <div key={weapon.id}>
+                  {weapon.name}
+                </div>
+                <div>Dmg:
+                  {weapon.damage}
+                </div>
+              </div>
+            )) : <h1>No Weapons</h1>}
+          </div>
+        </TabPanel>
+
+        <TabPanel>
+          {props.items.length > 0 ? props.items.map((item) => (
+            <div className='item-container' key={item.id}>
+              <div>
+                <div>
+                  <img className='item' src={`${item.name}.png`} />
+                </div>
+                <div key={item.id}>
+                  {item.name}
+                </div>
+                <div>Heal:
+                  {item.heal}
+                </div>
+              </div>
+            </div>
+          )) : <h1>No Items</h1>}
+        </TabPanel>
+      </Tabs>
+
+
+    </div>
+        
+    )
+}
