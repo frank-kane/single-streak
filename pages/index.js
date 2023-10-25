@@ -27,7 +27,7 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newHabitData, setNewHabitData] = useState({
     name: '',
-    type: '',
+    type: 'strength',
   });
   const usersCollection = collection(db, 'users'); // Reference to the "users" collection
   const userDocRef = doc(usersCollection, '8yciXAQXy9GTxmuclEX6'); // Reference to the specific user document
@@ -168,7 +168,7 @@ export default function Home() {
       });
 
       setHabits(updatedHabits);
-      alert(updatedHabits.length)
+      console.log(updatedHabits.length)
       if (updatedHabits.length > 0) {
         subtractHealth(updatedHabits);
       }
@@ -247,14 +247,15 @@ export default function Home() {
     today.setHours(0, 0, 0, 0);
     yesterday.setHours(0, 0, 0, 0);
     dateSubtracted.setHours(0, 0, 0, 0);
+    const dateSubtractedFormated = dateSubtracted.toLocaleDateString('en-US')
+    const todayFormated = today.toLocaleDateString('en-US')
+    const yesterdayFormated = yesterday.toLocaleDateString('en-US');
+    console.log(`Today: ${todayFormated}\nYesterday: ${yesterdayFormated}\nDate Subtracted: ${dateSubtractedFormated}`)
 
 
-    alert(`Today: ${today}\nYesterday: ${yesterday}\nDate Subtracted: ${dateSubtracted}`)
 
-
-
-    alert('Do the dates match: '+(dateSubtracted == today))
-    if (dateSubtracted != today) {
+    // alert('Do the dates match: '+(dateSubtractedFormated == todayFormated))
+    if (dateSubtractedFormated != todayFormated) {
       console.log("Health Has Not Been Subtracted")
       if(habits.length > 0){
         habits.forEach((habit) => {
@@ -277,17 +278,20 @@ export default function Home() {
           'stats.current_health': newHealth,
         });
   
-        // await updateDoc(userDocRef, {
-        //   health_subtracted: today,
-        // });
-        // }
+        await updateDoc(userDocRef, {
+          health_subtracted: today,
+        });
+
+        alert(`You lost ${healthLoss} health!`)
+
+        
 
       }else{
         console.log('No Habits to update')
       }
       
     }else{
-      alert('Health has been')
+      console.log('Health has Already been Subtracted')
     }
   }
 
@@ -399,25 +403,25 @@ export default function Home() {
 
     } else if (currentData.type == "dexerity") {
       await updateDoc(userDocRef, {
-        'stats.intellect': userCurrentData.stats.dexerity + statIncrease
+        'stats.dexerity': userCurrentData.stats.dexerity + statIncrease
       });
 
     }
     else if (currentData.type == "wisdom") {
       await updateDoc(userDocRef, {
-        'stats.intellect': userCurrentData.stats.wisdom + statIncrease
+        'stats.wisdom': userCurrentData.stats.wisdom + statIncrease
       });
 
     }
     else if (currentData.type == "constitute") {
       await updateDoc(userDocRef, {
-        'stats.intellect': userCurrentData.stats.constitute + statIncrease
+        'stats.constitute': userCurrentData.stats.constitute + statIncrease
       });
 
     }
     else if (currentData.type == "charisma") {
       await updateDoc(userDocRef, {
-        'stats.intellect': userCurrentData.stats.charisma + statIncrease
+        'stats.charisma': userCurrentData.stats.charisma + statIncrease
       });
 
     }
