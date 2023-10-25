@@ -1,19 +1,41 @@
 .add-habit {
   opacity: 0.5;
+  background-color: bisque;
+  /* border: 2px solid blue; */
+  /* text-align: center; */
+  width: fit-content;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 3px;
+}
+
+.user-info {
+  background-color: #fff;
+  /* padding: 20px; */
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  display: flex
 }
 
 .all-habits {
-  border: 3px solid black;
+  margin: auto;
+  /* border: 3px solid black; */
   flex-direction: row;
   text-align: center;
   width: fit-content;
   flex-wrap: nowrap;
   display: flex;
+
+  /* opacity: 0;
+  transition: opacity 0.5s ease-in-out;  */
 }
 
 .all-items {
   justify-content: flex-start;
-  border: 3px solid black;
+  /* border: 3px solid black; */
   align-content: stretch;
   align-items: stretch;
   flex-direction: row;
@@ -27,7 +49,7 @@
 
 .all-weapons {
   justify-content: flex-start;
-  border: 3px solid black;
+  /* border: 3px solid black; */
   align-content: stretch;
   align-items: stretch;
   flex-direction: row;
@@ -42,7 +64,7 @@
 .all-my-anime {
   align-content: space-between;
   justify-content: flex-start;
-  border: 3px solid black;
+  /* border: 3px solid black; */
   align-items: center;
   flex-direction: row;
   width: fit-content;
@@ -57,19 +79,39 @@
 
 .anime {
   background-color: bisque;
-  border: 2px solid blue;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  /* border: 2px solid blue; */
   border-radius: 5px;
   text-align: center;
-  height: 200px;
+  height: fit-content;
   margin: 10px;
-  width: 200px;
+  min-width: 150px;
+  /* min-height: 200px; */
+  width: fit-content;
+  max-width: max-content;
+
+  /* align-items: center; */
+}
+
+.anime-name {
+  font-size: smaller;
+  /* border: 2px solid blue; */
+  min-height: 2.8em;
+  /* Adjust this value as needed to fit two lines of text */
+  overflow: hidden;
+  word-break: break-word;
+  /* Wrap long words */
+
+  /* justify-content: center; */
+
 }
 
 .anime-container {
-  border: 2px solid red;
+  /* border: 2px solid red; */
   overflow-x: scroll;
-  height: 300px;
+  height: fit-content;
   width: 800px;
+  text-align: center;
 }
 
 .anime-container::-webkit-scrollbar {
@@ -77,8 +119,8 @@
 }
 
 .anime-icon {
-  height: 100px;
-  width: 100px;
+  height: 50px;
+  width: 50px;
 }
 
 .anime-list {
@@ -87,12 +129,12 @@
 }
 
 .anime-site-container {
-  border: 2px solid red;
+  /* border: 2px solid red; */
   width: fit-content;
 }
 
 .animeScroller {
-  border: 5px solid black;
+  /* border: 5px solid black; */
   width: fit-content;
   overflow: scroll;
   height: 100px;
@@ -105,19 +147,31 @@
 
 .habit {
   background-color: bisque;
-  border: 2px solid blue;
-  text-align: center;
+  /* border: 2px solid blue; */
+  /* text-align: center; */
   width: fit-content;
   margin: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 3px;
+}
+
+.habit-info {
+  display: flex; /* Make habit.streak and the img side by side */
+  align-items: center;
 }
 
 .habits-container {
-  border: 2px solid red;
+  /* border: 2px solid red; */
   text-align: center;
-  height: 300px;
+  height: fit-content;
   width: 800px;
 
 }
+
+
 
 .health-progress {
   height: 50px;
@@ -131,39 +185,41 @@
 
 .index-container {
   justify-content: flex-start;
-  border: 3px solid black;
-  align-content: stretch;
-  align-items: stretch;
+  /* border: 3px solid black; */
+  /* align-content: stretch; */
+  /* align-items: stretch; */
   flex-direction: row;
-  width: fit-content;
+  width: 100%;
   flex-wrap: wrap;
   display: flex;
 }
 
 .index-container * {
-  margin: 5px;
+  /* margin: 1px; */
 }
 
 .item {
-  border:1px dotted black;
+  /* border:1px dotted black; */
   width: fit-content;
 }
 
 
 .items-container {
-  border: 2px solid red;
+  /* border: 2px solid red; */
   width: fit-content;
 }
 
 .lower-tab {
-  background-color: antiquewhite;
-  border: 1px dotted blue;
+  /* background-color: antiquewhite; */
+  /* border: 1px dotted blue; */
   display: flex;
+  margin-top: 100px;
 }
 
 .main-stats {
   border: 3px solid black;
-  width: max-content;
+  width: min-content;
+  text-align: center;
 }
 
 .stats-grid {
@@ -176,28 +232,33 @@
 
 .upper-tab {
   background-color: aquamarine;
-  border: 1px dotted red;
+  /* border: 1px dotted red; */
   display: flex;
   width: 100%;
+  min-height: 205px;
+  /* height: fit-content; */
+  max-height: fit-content;
+  justify-content: space-evenly;
 }
 
 .user-info {
-  border: 3px solid black;
+  /* border: 3px solid black; */
   width: fit-content;
+  padding-right: 5px;
 }
 
 .weapon {
-  border: 1px dotted black;
+  /* border: 1px dotted black; */
   width: fit-content;
 }
 
-.weapon-image{
+.weapon-image {
   height: 80px;
   width: 80px;
 
 }
 
-.item-image{
+.item-image {
   height: 80px;
   width: 80px;
 
@@ -215,3 +276,45 @@
   width: 200px;
   height: 300px;
 }
+
+.content {
+  display: flex;
+  /* border: 3px solid black; */
+  /* background-color: blueviolet; */
+  text-align: center;
+  vertical-align: middle;
+}
+
+.left {
+  margin: auto;
+  height: 50px;
+  width: 50px;
+  transform: scaleX(-1);
+}
+
+.right {
+  margin: auto;
+  height: 50px;
+  width: 50px;
+}
+
+.right:hover{
+  cursor: pointer;
+}
+
+.left:hover{
+  cursor: pointer;
+}
+
+.inner-content {
+  background-color:aqua;
+  /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);; */
+  /* min-height: 255px; */
+  border-radius: 15px;
+}
+
+
+/* *{
+  border: 1px solid black;
+
+} */

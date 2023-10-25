@@ -1,29 +1,36 @@
 import 'firebase/firestore';
 import 'reactjs-popup/dist/index.css';
 import 'react-tabs/style/react-tabs.css';
+import { useState } from 'react';
 
 export default function Habits(props) {
-
+    const [isHovering, setIsHovering] = useState(false)
     const today = new Date(); // Current date and time
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
     const twoDaysAgo = new Date(today);
     twoDaysAgo.setDate(today.getDate() - 2);
 
+    function handleHover(){
+        setIsHovering(!isHovering)
+    }
+
     return (
         <div className='habits-container'>
-            <h1>Habits</h1>
+            <h6>Habits</h6>
             <div className='all-habits'>
                 {props.habits.length > 0 ? props.habits.map((habit) => (
-
-                    <div key={habit.id} className='habit'>
-                        <div >
-                            <div>{habit.name}</div>
-                            <div><img src="fastforward.png" alt="" className='fficon' /></div>
-                            <div>{habit.streak}</div>
+                    <div key={habit.id} className='habit' onMouseEnter={handleHover} onMouseLeave={handleHover}>
+                       
+                            <div className='habit-name'>{habit.name}</div>
+                            
+                            <div className='habit-info'>
+                                <img src="fastforward.png" alt="" className='fficon' />
+                                <div className='habit-streak'>{habit.streak}</div>
+                            </div>
                             <div>{habit.is_completed == false && habit.last_completed <= yesterday ? <img onClick={() => props.completeHabit(habit.id)} className='icon' src="frozen-flame.png" alt="" /> : <img onClick={() => props.completeHabit(habit.id)} className='icon' src="fire.gif" alt="" />}</div>
                             <div><button onClick={() => props.deleteHabit(habit.id)}>Delete</button></div>
-                        </div>
+                        
                     </div>
                 )) : <div>
                     <h1>No Habits</h1>

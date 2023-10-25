@@ -6,14 +6,14 @@ export default function Stats(props) {
 
     return (
         <div className='main-stats'>
-            <h1>Stats</h1>
+            <h3>Stats</h3>
             <div className='stats-grid'>
-                <div><h2>str: {props.stats.strength || 0}</h2></div>
-                <div><h2>dex: {props.stats.dexerity || 0}</h2></div>
-                <div><h2>int: {props.stats.intellect || 0}</h2></div>
-                <div><h2>chr: {props.stats.charisma || 0}</h2></div>
-                <div><h2>con: {props.stats.constitution || 0}</h2></div>
-                <div><h2>wis: {props.stats.wisdom || 0}</h2></div>
+                <div><h6>str: {props.stats.strength || 0}</h6></div>
+                <div><h6>dex: {props.stats.dexerity || 0}</h6></div>
+                <div><h6>int: {props.stats.intellect || 0}</h6></div>
+                <div><h6>chr: {props.stats.charisma || 0}</h6></div>
+                <div><h6>con: {props.stats.constitution || 0}</h6></div>
+                <div><h6>wis: {props.stats.wisdom || 0}</h6></div>
             </div>
         </div>
 

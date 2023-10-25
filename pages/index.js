@@ -14,6 +14,7 @@ import Habits from '@/components/habits';
 import MyAnime from '@/components/my-anime';
 import SiteAnime from '@/components/site-anime';
 import UserInfo from '@/components/user-info';
+import { Elsie_Swash_Caps } from 'next/font/google';
 
 export default function Home() {
   const [content, setContent] = useState(0);
@@ -167,9 +168,9 @@ export default function Home() {
       });
 
       setHabits(updatedHabits);
-      // alert(habits.length)
-      if (habits.length > 0) {
-        subtractHealth();
+      alert(updatedHabits.length)
+      if (updatedHabits.length > 0) {
+        subtractHealth(updatedHabits);
       }
     });
 
@@ -232,52 +233,62 @@ export default function Home() {
 
 
 
-  async function subtractHealth() {
-    // if(habits.length > 0) {
-    // alert(habits.length)
-    const today = new Date(); // Current date
-    today.setHours(0, 0, 0, 0);
-    const yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
-    yesterday.setHours(0, 0, 0, 0);
-    // yesterday.setHours(0, 0, 0, 0);
+  async function subtractHealth(habits) {
+    var healthLoss = 0;
+    //=======================Get Collection======================//
     const userDocRef = doc(usersCollection, '8yciXAQXy9GTxmuclEX6');
     const userSnapshot = await getDoc(userDocRef);
     const currentData = userSnapshot.data();
-
-    var healthLoss = 0;
-    habits.forEach((habit) => {
-      const lastCompletedDate = habit.last_completed.toDate();
-      lastCompletedDate.setHours(0, 0, 0, 0);
-      // console.log(lastCompletedDate)
-      if (lastCompletedDate < yesterday) {
-
-        healthLoss = healthLoss - 1
-        console.log("Health Loss: " + healthLoss)
-      }
-    });
-
-    console.log("Health Loss: " + healthLoss)
-
-
-    const newHealth = currentData.stats.current_health + healthLoss
-    console.log("New Health: " + newHealth)
+    //=======================Get Dates======================//
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
     const dateSubtracted = currentData.health_subtracted.toDate();
+    today.setHours(0, 0, 0, 0);
+    yesterday.setHours(0, 0, 0, 0);
     dateSubtracted.setHours(0, 0, 0, 0);
-    if (currentData.health_subtracted.toDate() != today) {
-      alert(`Yesterday: ${yesterday}\n${currentData.health_subtracted.toDate()}
-      \nSubtracted: ${healthLoss}. New Health: ${newHealth}`)
 
-      console.log("Updating health")
-      await updateDoc(userDocRef, {
-        'stats.current_health': newHealth,
-      });
 
-      await updateDoc(userDocRef, {
-        health_subtracted: today,
-      });
-      // }
-    };
+    alert(`Today: ${today}\nYesterday: ${yesterday}\nDate Subtracted: ${dateSubtracted}`)
+
+
+
+    alert('Do the dates match: '+(dateSubtracted == today))
+    if (dateSubtracted != today) {
+      console.log("Health Has Not Been Subtracted")
+      if(habits.length > 0){
+        habits.forEach((habit) => {
+          console.log("Habit: "+habit.name)
+          const lastCompletedDate = habit.last_completed.toDate();
+          lastCompletedDate.setHours(0, 0, 0, 0);
+          console.log("Last Completed Date: "+lastCompletedDate)
+          if (lastCompletedDate < yesterday) {
+  
+            healthLoss = healthLoss - 1
+            console.log("Health Loss: " + healthLoss)
+          }
+        });
+        const newHealth = currentData.stats.current_health + healthLoss
+        console.log("Health Loss: " + healthLoss)
+        console.log("New Health: " + newHealth)
+  
+        console.log("Updating health")
+        await updateDoc(userDocRef, {
+          'stats.current_health': newHealth,
+        });
+  
+        // await updateDoc(userDocRef, {
+        //   health_subtracted: today,
+        // });
+        // }
+
+      }else{
+        console.log('No Habits to update')
+      }
+      
+    }else{
+      alert('Health has been')
+    }
   }
 
 
@@ -424,40 +435,46 @@ export default function Home() {
           stats={stats}
           userInfo={userInfo}
         />
+        <div>
+          {stats && (
+            <Stats
+              stats={stats}
+            />
+          )}
+
+
+        </div>
+
+        <div className='content'>
+          <img src='right arrow.png' className='left' onClick={() => handleContentChange(1)}></img>
+
+          <div className='inner-content'>
+            {content == 0
+              ? <Habits
+                habits={habits}
+                openOrCloseModal={openOrCloseModal}
+                createNewHabit={createNewHabit}
+                deleteHabit={deleteHabit}
+                isModalOpen={isModalOpen}
+                newHabitData={newHabitData}
+                handleInputChange={handleInputChange}
+                completeHabit={completeHabit}
+
+              />
+              : content == 1
+                ? <MyAnime
+                  myAnimeTitles={myAnimeTitles}
+                  deleteAnime={deleteAnime}
+                /> : <h1 className='anime-container'>Hello</h1>
+            }
+          </div>
+
+          <img src='right arrow.png' className='right' onClick={() => handleContentChange(-1)}></img>
 
 
 
 
-
-        {stats && (
-          <Stats
-            stats={stats}
-          />
-        )}
-
-        <h1 onClick={() => handleContentChange(1)}>Left</h1>
-
-
-        {content == 0
-          ? <Habits
-            habits={habits}
-            openOrCloseModal={openOrCloseModal}
-            createNewHabit={createNewHabit}
-            deleteHabit={deleteHabit}
-            isModalOpen={isModalOpen}
-            newHabitData={newHabitData}
-            handleInputChange={handleInputChange}
-            completeHabit={completeHabit}
-
-          />
-          : content == 1
-            ? <MyAnime
-              myAnimeTitles={myAnimeTitles}
-              deleteAnime={deleteAnime}
-            /> : <h1 className='anime-container'>Hello</h1>
-        }
-
-        <h1 onClick={() => handleContentChange(-1)}>Right</h1>
+        </div>
 
       </div>
 
@@ -467,6 +484,10 @@ export default function Home() {
           weapons={weapons}
           items={items}
         />
+
+        <div>
+          <img className='character-image' src='male-character-idle.gif' />
+        </div>
 
         {/* <SiteAnime
           animeData={animeData}
