@@ -19,7 +19,7 @@ export default function UserInfo(props) {
           <ProgressBar now={(props.stats.current_health / props.stats.total_health) / 0.01} />
           </div>
         <div>
-          <img src = 'female-character-idle.gif'/>
+          <img className='character-image' src = 'female-character-idle.gif'/>
         </div>
 
         </div>

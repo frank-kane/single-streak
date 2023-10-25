@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import 'firebase/auth';
 import 'react-tabs/style/react-tabs.css';
 import { db } from '../components/firebase-config'
-import { doc, getDoc, updateDoc, collection, addDoc, deleteDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, collection, addDoc, deleteDoc, getDocs, query, where } from "firebase/firestore";
 import { onSnapshot } from "firebase/firestore";
 import animeData from '@/components/anime-list.json';
 import NavBar from '@/components/navbar';
@@ -76,20 +76,34 @@ export default function Home() {
 
   React.useEffect(() => {
     async function giveHealthPotion() {
-      
+
+      const newItem = { name: 'small health potion', heal: 3 };
+
 
 
       // Define a probability value (e.g., 0.2 for a 20% chance)
-      const probability = 0.2;
-    
+      const probability = 0.1;
+
       // Generate a random number between 0 and 1
       const random = Math.random();
       console.log(random)
-    
+
       // Check if the random number is less than or equal to the probability
       if (random <= probability) {
-        const newItem = {name: 'Small Health Potion', heal: 3 };
-        await addDoc(itemsRef, newItem);
+        const querySnapshot = await getDocs(query(itemsRef, where('name', '==', newItem.name)));
+
+        if (querySnapshot.size > 0) {
+          // If a document with the same name exists, update its quantity
+          querySnapshot.forEach((item) => {
+            const docRef = doc(itemsRef, item.id);
+            updateDoc(docRef, {
+              quantity: item.data().quantity + 1,
+            });
+          });
+        } else {
+          // If no matching document is found, add a new document
+          await addDoc(itemsRef, { ...newItem, quantity: 1 });
+        }
         alert("Received a small health potion!");
       }
     }
@@ -97,6 +111,8 @@ export default function Home() {
     giveHealthPotion();
   }, []);
 
+
+  //===============================ANIME=========================//
   React.useEffect(() => {
     const unsubscribe = onSnapshot(myAnimeRef, function (snapshot) {
       // Sync up our local notes array with the snapshot data
@@ -163,7 +179,7 @@ export default function Home() {
 
 
 
-
+  //============================WEAPONS=============================//
   React.useEffect(() => {
     const unsubscribe = onSnapshot(weaponsRef, function (snapshot) {
       // Sync up our local notes array with the snapshot data
@@ -176,6 +192,7 @@ export default function Home() {
     return unsubscribe
   }, []);
 
+  //============================ITEMS=============================//
   React.useEffect(() => {
     const unsubscribe = onSnapshot(itemsRef, function (snapshot) {
       // Sync up our local notes array with the snapshot data
@@ -219,27 +236,21 @@ export default function Home() {
     // if(habits.length > 0) {
     // alert(habits.length)
     const today = new Date(); // Current date
+    today.setHours(0, 0, 0, 0);
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
+    yesterday.setHours(0, 0, 0, 0);
     // yesterday.setHours(0, 0, 0, 0);
     const userDocRef = doc(usersCollection, '8yciXAQXy9GTxmuclEX6');
     const userSnapshot = await getDoc(userDocRef);
     const currentData = userSnapshot.data();
-
-
-
-    // alert(JSON.stringify(habits))
-
-
-
-
 
     var healthLoss = 0;
     habits.forEach((habit) => {
       const lastCompletedDate = habit.last_completed.toDate();
       lastCompletedDate.setHours(0, 0, 0, 0);
       // console.log(lastCompletedDate)
-      if (lastCompletedDate <= yesterday) {
+      if (lastCompletedDate < yesterday) {
 
         healthLoss = healthLoss - 1
         console.log("Health Loss: " + healthLoss)
@@ -251,7 +262,9 @@ export default function Home() {
 
     const newHealth = currentData.stats.current_health + healthLoss
     console.log("New Health: " + newHealth)
-    if (currentData.health_subtracted.toDate() <= yesterday) {
+    const dateSubtracted = currentData.health_subtracted.toDate();
+    dateSubtracted.setHours(0, 0, 0, 0);
+    if (currentData.health_subtracted.toDate() != today) {
       alert(`Yesterday: ${yesterday}\n${currentData.health_subtracted.toDate()}
       \nSubtracted: ${healthLoss}. New Health: ${newHealth}`)
 
