@@ -141,15 +141,23 @@ export default function Home() {
       const yesterday = new Date(today);
       yesterday.setDate(today.getDate() - 1);
       yesterday.setHours(0, 0, 0, 0);
+      today.setHours(0,0,0,0)
 
       // Iterate through habits and check if the habit should be reset
       const updatedHabits = habitsArr.map((habit) => {
         // Check if the habit was missed on the previous day (yesterday)
         const lastCompletedDate = habit.last_completed.toDate();
+        const isCompleted = habit.is_completed;
         lastCompletedDate.setHours(0, 0, 0, 0);
         console.log(lastCompletedDate)
+        if(String(lastCompletedDate) == String(yesterday) && isCompleted == true){
+          return {
+            ...habit,
+            is_completed: false,
+          };
 
-        if (lastCompletedDate < yesterday) {
+        }
+        else if (lastCompletedDate < yesterday) {
           // If it was completed and missed yesterday, reset the streak
           return {
             ...habit,
