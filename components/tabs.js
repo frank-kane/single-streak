@@ -19,7 +19,7 @@ export default function MyTabs(props) {
 
   return (
     <div className='items-container'>
-      <h1>Items</h1>
+      <h3>Inventory</h3>
       <Tabs>
         <TabList>
           <Tab>Weapons</Tab>
@@ -55,7 +55,7 @@ export default function MyTabs(props) {
                 <div key={item.id}>
                   {item.name}
                 </div>
-                <div>Heal: {item.damage}
+                <div>Heal: {item.heal}
                 </div>
                 <div>{item.quantity}
                 </div>

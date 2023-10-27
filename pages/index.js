@@ -16,6 +16,10 @@ import SiteAnime from '@/components/site-anime';
 import UserInfo from '@/components/user-info';
 import { Elsie_Swash_Caps } from 'next/font/google';
 
+import FitnessInfo from '@/components/fitness-info';
+
+import Footer from '@/components/footer';
+
 export default function Home() {
   const [content, setContent] = useState(0);
   const [myAnimeTitles, setMyAnimeTitles] = useState([]);
@@ -40,22 +44,49 @@ export default function Home() {
   yesterday.setDate(today.getDate() - 1);
   const twoDaysAgo = new Date(today);
   twoDaysAgo.setDate(today.getDate() - 2);
+  const [show, setShow] = useState(true);
+  const handleToggle = () => {
+    setShow(!show);
+  };
+
+  const duration = 300; // Animation duration in milliseconds
+  // Custom styles for the enter animation
+  const transitionStylesEnter = {
+    entering: { opacity: 0 },
+    entered: { opacity: 1 },
+  };
+  // Custom styles for the exit animation
+  const transitionStylesExit = {
+    exiting: { opacity: 1 },
+    exited: { opacity: 0 },
+  };
 
 
 
-  const handleContentChange = function (num) {
-    if (content == 0 && num == -1) {
-      setContent(2)
 
-    } else if (content == 2 && num == 1) {
-      setContent(0)
+  const handleContentChange = function (num,side) {
+    const innerContent = document.querySelector('.inner-content');
 
-    } else {
-      setContent(content + num)
+    // Add the fade-out class to the inner content to trigger the fade-out and move animation
+    innerContent.classList.add('fade-out-'+side);
 
-    }
+    setTimeout(() => {
+      if (content === 0 && num === -1) {
+        setContent(2);
+      } else if (content === 2 && num === 1) {
+        setContent(0);
+      } else {
+        setContent(content + num);
+      }
 
-  }
+      // After a brief delay, remove the fade-out class and add the transition-content class
+      setTimeout(() => {
+        innerContent.classList.remove('fade-out-'+side);
+        innerContent.classList.add('transition-content');
+      }, 100); // Adjust the delay duration as needed
+    }, 500); // Adjust the duration to match the transition duration
+  };
+
 
   function openOrCloseModal() {
     console.log("openOrCloseModal function called");
@@ -141,7 +172,7 @@ export default function Home() {
       const yesterday = new Date(today);
       yesterday.setDate(today.getDate() - 1);
       yesterday.setHours(0, 0, 0, 0);
-      today.setHours(0,0,0,0)
+      today.setHours(0, 0, 0, 0)
 
       // Iterate through habits and check if the habit should be reset
       const updatedHabits = habitsArr.map((habit) => {
@@ -150,7 +181,7 @@ export default function Home() {
         const isCompleted = habit.is_completed;
         lastCompletedDate.setHours(0, 0, 0, 0);
         console.log(lastCompletedDate)
-        if(String(lastCompletedDate) == String(yesterday) && isCompleted == true){
+        if (String(lastCompletedDate) == String(yesterday) && isCompleted == true) {
           return {
             ...habit,
             is_completed: false,
@@ -223,7 +254,10 @@ export default function Home() {
         const userStats = userData.stats;
         setUserInfo({
           username: userData.username,
-          money: userData.money
+          money: userData.money,
+          height: userData.height,
+          weight: userData.weight,
+          bfp: userData.bfp
         })
         setStats(userStats);
         console.log(stats)
@@ -265,14 +299,14 @@ export default function Home() {
     // alert('Do the dates match: '+(dateSubtractedFormated == todayFormated))
     if (dateSubtractedFormated != todayFormated) {
       console.log("Health Has Not Been Subtracted")
-      if(habits.length > 0){
+      if (habits.length > 0) {
         habits.forEach((habit) => {
-          console.log("Habit: "+habit.name)
+          console.log("Habit: " + habit.name)
           const lastCompletedDate = habit.last_completed.toDate();
           lastCompletedDate.setHours(0, 0, 0, 0);
-          console.log("Last Completed Date: "+lastCompletedDate)
+          console.log("Last Completed Date: " + lastCompletedDate)
           if (lastCompletedDate < yesterday) {
-  
+
             healthLoss = healthLoss - 1
             console.log("Health Loss: " + healthLoss)
           }
@@ -280,25 +314,25 @@ export default function Home() {
         const newHealth = currentData.stats.current_health + healthLoss
         console.log("Health Loss: " + healthLoss)
         console.log("New Health: " + newHealth)
-  
+
         console.log("Updating health")
         await updateDoc(userDocRef, {
           'stats.current_health': newHealth,
         });
-  
+
         await updateDoc(userDocRef, {
           health_subtracted: today,
         });
 
         alert(`You lost ${healthLoss} health!`)
 
-        
 
-      }else{
+
+      } else {
         console.log('No Habits to update')
       }
-      
-    }else{
+
+    } else {
       console.log('Health has Already been Subtracted')
     }
   }
@@ -458,9 +492,9 @@ export default function Home() {
         </div>
 
         <div className='content'>
-          <img src='right arrow.png' className='left' onClick={() => handleContentChange(1)}></img>
+          <img src='right arrow.png' className='left' onClick={() => handleContentChange(1,'right')}></img>
 
-          <div className='inner-content'>
+          <div className={`inner-content ${content === 0 || content === 2 ? 'transition-content' : 'fade-out'}`}>
             {content == 0
               ? <Habits
                 habits={habits}
@@ -477,11 +511,13 @@ export default function Home() {
                 ? <MyAnime
                   myAnimeTitles={myAnimeTitles}
                   deleteAnime={deleteAnime}
-                /> : <h1 className='anime-container'>Hello</h1>
+                /> : <FitnessInfo
+                  userInfo={userInfo}
+                />
             }
           </div>
 
-          <img src='right arrow.png' className='right' onClick={() => handleContentChange(-1)}></img>
+          <img src='right arrow.png' className='right' onClick={() => handleContentChange(-1,'left')}></img>
 
 
 
@@ -492,20 +528,28 @@ export default function Home() {
 
 
       <div className='lower-tab'>
+
+        <div>
+          <img className='character-image' src='male-character-idle.gif' />
+        </div>
         <MyTabs
           weapons={weapons}
           items={items}
         />
 
-        <div>
-          <img className='character-image' src='male-character-idle.gif' />
-        </div>
+
 
         {/* <SiteAnime
           animeData={animeData}
           addAnime={addAnime}
 
         /> */}
+      </div>
+
+      <div className='footer'>
+      <Footer/>
+
+
       </div>
 
     </div>
