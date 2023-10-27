@@ -379,7 +379,7 @@
   transition: opacity 0.2s ease-out, transform 0.2s ease-out;
 }
 
-@keyframes fade-in {
+/* @keyframes fade-in {
   from {
     opacity: 0;
   }
@@ -395,7 +395,7 @@
   to {
     opacity: 0;
   }
-}
+} */
 
 .footer{
   width: 100%;
@@ -418,6 +418,13 @@
 }
 
 .remove-button:hover {
- 
+  /* border: 1px solid black; */
+ position: absolute;
+ top: 0px; /* Adjust the vertical position as needed */
+ right: 0px; /* Adjust the horizontal position as needed */
+ width: 20px;
+ height: 20px;
+ cursor: pointer;
  opacity: 100%;
+
 }
