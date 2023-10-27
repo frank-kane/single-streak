@@ -546,11 +546,11 @@ export default function Home() {
         /> */}
       </div>
 
-      <div className='footer'>
-      <Footer/>
+     
+      <Footer className='footer'/>
 
 
-      </div>
+      
 
     </div>
   );

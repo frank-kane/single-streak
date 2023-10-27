@@ -15,9 +15,12 @@ export default function UserInfo(props) {
           <h6>{props.userInfo.username || ""}</h6>
           <h5>${props.userInfo.money || 0}</h5>
           <h5>Lvl: {props.stats.level || 0}</h5>
-          <h5>exp: {props.stats.current_exp || 0}/{props.stats.next_exp}</h5>
-          <h5>health: {props.stats.current_health || 0}/{props.stats.total_health}</h5>
-          <ProgressBar now={(props.stats.current_health / props.stats.total_health) / 0.01} />
+          {/* <h5>exp: {props.stats.current_exp || 0}/{props.stats.next_exp}</h5> */}
+          <div className='exp-bar'>
+          <ProgressBar variant="warning" now={(props.stats.current_exp / props.stats.next_exp) / 0.01} label={`${props.stats.current_exp}/${props.stats.next_exp}`} />
+          </div>
+          {/* <h5>health: {props.stats.current_health || 0}/{props.stats.total_health}</h5> */}
+          <ProgressBar now={(props.stats.current_health / props.stats.total_health) / 0.01} label={`${props.stats.current_health}/${props.stats.total_health}`} />
           </div>
         
 

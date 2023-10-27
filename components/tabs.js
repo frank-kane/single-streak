@@ -16,12 +16,21 @@ import { getAuth, signOut } from "firebase/auth";
 
 
 export default function MyTabs(props) {
+  const [selectedItemDescription, setSelectedItemDescription] = useState('');
+
+  // Function to update the item description when an item is clicked
+  const handleItemClick = (description) => {
+    setSelectedItemDescription(description);
+  };
+
 
   return (
-    <div className='items-container'>
+    <div className='inventory-container'>
+    
       <h3>Inventory</h3>
-      <Tabs>
-        <TabList>
+      <div className='items-container'>
+      <Tabs className={'tabs'}>
+        <TabList >
           <Tab>Weapons</Tab>
           <Tab>Healing Items</Tab>
         </TabList>
@@ -29,7 +38,7 @@ export default function MyTabs(props) {
         <TabPanel>
           <div className='all-weapons'>
             {props.weapons.length > 0 ? props.weapons.map((weapon) => (
-              <div className='weapon' key={weapon.id}>
+              <div className='weapon' key={weapon.id} onClick={() => handleItemClick(weapon.description)}>
                 <div>
                   <img className='weapon-image' src={`${weapon.name}.png`} />
                 </div>
@@ -48,7 +57,7 @@ export default function MyTabs(props) {
         <TabPanel>
         <div className='all-items'>
             {props.items.length > 0 ? props.items.map((item) => (
-              <div className='item' key={item.id}>
+              <div className='item' key={item.id} onClick={() => handleItemClick(item.description)}>
                 <div>
                   <img className='item-image' src={`${item.name}.png`} />
                 </div>
@@ -65,7 +74,13 @@ export default function MyTabs(props) {
         </TabPanel>
       </Tabs>
 
+      <div className="item-description-holder">
+      <h1>Item Description</h1>
+        <p className="item-description">{selectedItemDescription}</p>
+      </div>
 
+
+    </div>
     </div>
 
   )

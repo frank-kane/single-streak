@@ -17,7 +17,8 @@
   /* padding: 20px; */
   border-radius: 5px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-  display: flex
+  display: flex;
+  height: fit-content;
 }
 
 .all-habits {
@@ -35,16 +36,20 @@
 
 .all-items {
   justify-content: flex-start;
-  /* border: 3px solid black; */
   align-content: stretch;
   align-items: stretch;
   flex-direction: row;
   overflow-y: scroll;
-  /* width: fit-content; */
   max-height: 200px;
   /* max-width: 470px; */
   flex-wrap: wrap;
   display: flex;
+  width: 400px;
+
+  & > .item { /* Apply styles to individual items */
+    flex: 0 0 calc(33.33% - 8px); /* 3 items per row, considering margin */
+    margin: 4px;
+  }
 }
 
 .all-items::-webkit-scrollbar {
@@ -56,16 +61,20 @@
 
 .all-weapons {
   justify-content: flex-start;
-  /* border: 3px solid black; */
   align-content: stretch;
   align-items: stretch;
   flex-direction: row;
   overflow-y: scroll;
-  /* width: fit-content; */
   max-height: 200px;
   /* max-width: 470px; */
   flex-wrap: wrap;
   display: flex;
+  width: 400px;
+
+  & > .weapon { /* Apply styles to individual items */
+    flex: 0 0 calc(33.33% - 8px); /* 3 items per row, considering margin */
+    margin: 4px;
+  }
 }
 
 .all-my-anime {
@@ -157,13 +166,14 @@
   background-color: bisque;
   /* border: 2px solid blue; */
   /* text-align: center; */
-  width: fit-content;
+  width: 80px;
   margin: 10px;
   display: flex;
   align-items: center;
   flex-direction: column;
   padding: 10px;
   border-radius: 3px;
+  flex-wrap: wrap;
 }
 
 .habit-info {
@@ -194,14 +204,17 @@
 
 
 .index-container {
-  justify-content: flex-start;
-  /* border: 3px solid black; */
-  /* align-content: stretch; */
-  /* align-items: stretch; */
-  flex-direction: row;
-  width: 100%;
-  flex-wrap: wrap;
   display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the content horizontally */
+  max-width: 1250px;
+  margin: 0 auto; /* Center the container horizontally on the page */
+}
+
+@media (min-width: 1251px) {
+  .index-container {
+    justify-content: center; /* Center the content horizontally */
+  }
 }
 
 .index-container * {
@@ -209,20 +222,50 @@
 }
 
 .item {
-  /* border:1px dotted black; */
+  /* ... other styles ... */
   width: fit-content;
   margin: 4px;
+  /* overflow: hidden;  */
 }
 
 
 .items-container {
+  display: flex;
+  flex-direction: row;
+  border: 2px solid red;
+}
+
+.tabs{
+  border: 2px solid blue;
+  width: 500px;
+
+}
+
+.item-description {
+  white-space: break-word; /* Allow text to wrap within the container */
+  /* overflow: hidden; */
+}
+
+.item-description-holder {
+  width: 500px;
+  border: 2px solid purple;
+  /* overflow: auto; */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+
+.inventory-container{
   border: 2px solid black;
-  margin-top: 150px;
-  min-width: 500px;
-  width: fit-content;
+  /* margin-top: 150px; */
+  /* min-width: 500px; */
+  width: 800px;
   background-color:#fff;
-  height: fit-content;
+  height: 500px;
   border-radius: 5px;
+  text-align: center;
+  
 }
 
 .lower-tab {
@@ -233,7 +276,7 @@
   background-image: url("../public/anime-background.jpg");
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: 50% 150%;
+  /* background-position: 50% 150%; */
   width: 100%;
   height:530px;
   justify-content: space-around;
@@ -241,6 +284,7 @@
 
 .main-stats {
   border: 3px solid black;
+  min-width: 200px;
   width: min-content;
   text-align: center;
 }
@@ -258,7 +302,7 @@
   /* border: 1px dotted red; */
   display: flex;
   width: 100%;
-  min-height: 205px;
+  min-height: 180px;
   /* height: fit-content; */
   max-height: fit-content;
   justify-content: space-evenly;
@@ -268,12 +312,20 @@
   /* border: 3px solid black; */
   width: fit-content;
   padding-right: 5px;
+  min-width: 100px;
 }
 
+.exp-bar{
+  min-width: 100px;
+}
+
+
+
 .weapon {
-  /* border: 1px dotted black; */
+  /* ... other styles ... */
   width: fit-content;
   margin: 4px;
+  /* overflow: hidden; */
 }
 
 .weapon-image {
@@ -285,6 +337,7 @@
 .item-image {
   height: 80px;
   width: 80px;
+  
 
 }
 
@@ -317,6 +370,7 @@
   height: 50px;
   width: 50px;
   transform: scaleX(-1);
+  z-index: 1000;
   /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);; */
 }
 
@@ -324,6 +378,7 @@
   margin: auto;
   height: 50px;
   width: 50px;
+  z-index: 1000;
 }
 
 .right:hover{
@@ -397,13 +452,11 @@
   }
 } */
 
-.footer{
+.footer {
   width: 100%;
   height: 50px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
   background-color: aquamarine;
+  /* Remove "position: absolute;" and "bottom: 0;" to keep it within the container */
 }
 
 .remove-button {
@@ -428,3 +481,13 @@
  opacity: 100%;
 
 }
+
+/* .str-icon{
+  width: 40px;
+  height: 40px;;
+}
+
+.str-holder{
+  display: flex;
+  flex-direction: row;
+} */
