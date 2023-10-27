@@ -276,7 +276,7 @@
   background-image: url("../public/anime-background.jpg");
   background-size: cover;
   background-repeat: no-repeat;
-  /* background-position: 50% 150%; */
+  background-position: 50% 100%;
   width: 100%;
   height:530px;
   justify-content: space-around;
