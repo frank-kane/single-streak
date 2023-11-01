@@ -14,30 +14,41 @@ import 'react-tabs/style/react-tabs.css';
 import { getAuth, signOut } from "firebase/auth";
 
 
-
 export default function SiteAnime(props) {
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filteredAnimeData, setFilteredAnimeData] = useState(props.animeData.titles);
+
+    // Function to update the search query and filter the animeData
+    const handleSearch = (query) => {
+        const filteredData = props.animeData.titles.filter((anime) =>
+            anime.name.toLowerCase().includes(query.toLowerCase())
+        );
+        setFilteredAnimeData(filteredData);
+        setSearchQuery(query);
+    };
 
     return (
         <div className='anime-site-container'>
             <h1>Site Anime</h1>
+            <div className='search-bar'>
+                <input
+                    type="text"
+                    placeholder="Search by Anime Name"
+                    value={searchQuery}
+                    onChange={(e) => handleSearch(e.target.value)}
+                />
+            </div>
             <div className='anime-list'>
                 <div>
-                    {props.animeData.titles.map((anime, index) => (
-                        <div>
-                            <div key={index}>{anime.name}</div>
+                    {filteredAnimeData.map((anime, index) => (
+                        <div key={index}>
+                            <div>{anime.name}</div>
                             <img src={anime.img} key={index} />
                             <button onClick={() => props.addAnime(index)}>+</button>
-
                         </div>
-
-
                     ))}
                 </div>
-
-
             </div>
-
         </div>
-
-    )
+    );
 }
