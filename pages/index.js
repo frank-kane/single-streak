@@ -87,6 +87,38 @@ export default function Home() {
     }, 500); // Adjust the duration to match the transition duration
   };
 
+  const handleAnimeDayChange = async (e, animeId) => {
+      // Handle changes from the select dropdown
+  if (e.target.name === "type") {
+    const { value } = e.target;
+
+    // Update the day of the week in Firestore
+    const animeDocRef = doc(myAnimeRef, animeId);
+    await updateDoc(animeDocRef, {
+      week_day_air: value,
+    });
+
+    // Now update your local state or trigger a re-render as needed.
+  }
+
+  // Handle changes from the active season button
+  else if (e.target.name === "active-season-button") {
+    // alert('Changing Anime Active Season')
+    const activeSeason = e.target.classList.contains("active-season-button-true");
+    // alert(activeSeason)
+
+    // Update the active season status in Firestore
+    const animeDocRef = doc(myAnimeRef, animeId);
+    await updateDoc(animeDocRef, {
+      active_season: !activeSeason,
+    });
+
+    // Now update your local state or trigger a re-render as needed.
+  }
+  
+    // Now update your local state or trigger a re-render as needed.
+  };
+
 
   function openOrCloseModal() {
     console.log("openOrCloseModal function called");
@@ -511,6 +543,7 @@ export default function Home() {
                 ? <MyAnime
                   myAnimeTitles={myAnimeTitles}
                   deleteAnime={deleteAnime}
+                  handleAnimeDayChange={handleAnimeDayChange}
                 /> : <FitnessInfo
                   userInfo={userInfo}
                 />

@@ -3,7 +3,7 @@
   background-color: bisque;
   /* border: 2px solid blue; */
   /* text-align: center; */
-  width: fit-content;
+  width: 80px;
   margin: 10px;
   display: flex;
   align-items: center;
@@ -40,7 +40,7 @@
   align-items: stretch;
   flex-direction: row;
   overflow-y: scroll;
-  max-height: 200px;
+  /* max-height: 200px; */
   /* max-width: 470px; */
   flex-wrap: wrap;
   display: flex;
@@ -65,7 +65,7 @@
   align-items: stretch;
   flex-direction: row;
   overflow-y: scroll;
-  max-height: 200px;
+  /* max-height: 200px; */
   /* max-width: 470px; */
   flex-wrap: wrap;
   display: flex;
@@ -233,11 +233,13 @@
   display: flex;
   flex-direction: row;
   border: 2px solid red;
+  height: 425px;
 }
 
 .tabs{
   border: 2px solid blue;
   width: 500px;
+  height: 425px;
 
 }
 
@@ -491,3 +493,68 @@
   display: flex;
   flex-direction: row;
 } */
+
+.active-season-button{
+  width: 40px;
+  height: 40px;
+  /* border-radius:100px ; */
+}
+
+.active-season-button-true{
+  width: 40px;
+  height: 40px;
+  background-color: azure;
+  border-radius: 100%;
+  cursor: pointer; 
+  animation: glowing 5s infinite;
+  margin-left: 5px;
+  margin-right: 5px;
+  
+  /* border-radius:100% ; */
+}
+@keyframes glowing {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 255, 0, 0.7); /* Start with a yellow glow */
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 255, 0, 0.7); /* Intensify the glow at 50% of the animation */
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 255, 0, 0.7); /* Return to the original glow */
+  }
+}
+
+.active-season-button-false{
+  width: 40px;
+  height: 40px;
+  border-radius:100px ;
+  cursor: pointer; 
+  
+}
+
+.anime-lower-content{
+  border: 1px solid black;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+}
+
+select {
+  -webkit-appearance: none; /* Remove arrow in Safari and older versions of Chrome */
+  -moz-appearance: none; /* Remove arrow in Firefox */
+  appearance: none; /* Remove arrow in newer versions of Chrome */
+  background-image: none; /* Remove the default dropdown arrow icon */
+  background-color: transparent; /* Set the background color to transparent so it blends with the page background */
+  padding-right: 0; /* Optionally, adjust the padding to ensure the text doesn't overlap the hidden arrow */
+}
+
+/* Style the dropdown to make it visually clear it's a dropdown */
+select {
+  border: 1px solid #ccc; /* Add a border for visual separation */
+  padding: 5px; /* Add some padding for better aesthetics */
+  border-radius: 4px; /* Round the corners to make it look like a button */
+}
+
+
+
+/* Define the keyframes for the glowing effect */

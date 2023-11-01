@@ -4,47 +4,45 @@ import 'react-tabs/style/react-tabs.css';
 import { useState } from 'react';
 
 export default function Habits(props) {
-    const [isHovering, setIsHovering] = useState(false)
-    // const [newHabitData, setNewHabitData] = useState({
-    //     name: '',
-    //     type: 'strength', // Set the default value here
-    //   });
-    const today = new Date(); // Current date and time
+    const [hoveredHabits, setHoveredHabits] = useState(Array(props.habits.length).fill(false));
+
+    const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
     const twoDaysAgo = new Date(today);
     twoDaysAgo.setDate(today.getDate() - 2);
 
-    function handleHover() {
-        setIsHovering(!isHovering)
+    function handleHover(index) {
+        const updatedHoveredHabits = [...hoveredHabits];
+        updatedHoveredHabits[index] = true;
+        setHoveredHabits(updatedHoveredHabits);
+    }
+
+    function handleHoverExit(index) {
+        const updatedHoveredHabits = [...hoveredHabits];
+        updatedHoveredHabits[index] = false;
+        setHoveredHabits(updatedHoveredHabits);
     }
 
     return (
         <div className='habits-container'>
             <h6>Habits</h6>
             <div className='all-habits'>
-                {props.habits.length > 0 ? props.habits.map((habit) => (
-                    <div key={habit.id} className='habit' onMouseEnter={handleHover} onMouseLeave={handleHover}>
-                    {isHovering &&
-                            <div>
-                                <img className='remove-button' src='red-x.png' onClick={() => props.deleteHabit(habit.id)}></img>
-                            </div>
-
+                {props.habits.length > 0 ? props.habits.map((habit, index) => (
+                    <div key={habit.id} className='habit' onMouseEnter={() => handleHover(index)} onMouseLeave={() => handleHoverExit(index)}>
+                        {hoveredHabits[index] &&
+                            <img className='remove-button' src='red-x.png' onClick={() => props.deleteHabit(habit.id)} />
                         }
                         <div className='habit-name'>{habit.name}</div>
-                       
 
                         <div className='habit-info'>
                             <img src="fastforward.png" alt="" className='fficon' />
                             <div className='habit-streak'>{habit.streak}</div>
                         </div>
                         <div>{habit.is_completed == false && habit.last_completed <= yesterday ? <img onClick={() => props.completeHabit(habit.id)} className='icon' src="frozen-flame.png" alt="" /> : <img onClick={() => props.completeHabit(habit.id)} className='icon' src="fire.gif" alt="" />}</div>
-                        {/* <div><button onClick={() => props.deleteHabit(habit.id)}>Delete</button></div> */}
-
                     </div>
                 )) : <div>
                     <h1>No Habits</h1>
-
                 </div>
                 }
                 {props.habits.length < 7 && <button className='add-habit' onClick={() => props.openOrCloseModal()}>Add Habit</button>}
@@ -78,16 +76,6 @@ export default function Habits(props) {
                     </div>
                 )}
             </div>
-
-
-
-
-
-
-
-
-
         </div>
-
     )
 }
