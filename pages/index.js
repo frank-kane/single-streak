@@ -389,8 +389,12 @@ export default function Home() {
   }
 
   async function addAnime(animeIndex) {
-    const animeToAdd = animeData.titles[animeIndex]; // Get the anime object from animeData
-
+    const animeDataFromList = animeData.titles[animeIndex]; // Get the anime object from animeData
+    const defaultValues = { week_day_air: "monday", active_season: false };
+  
+    // Combine the animeData with default values
+    const animeToAdd = { ...defaultValues, ...animeDataFromList };
+  
     try {
       // Add the anime object to your myAnimeRef collection in Firebase
       await addDoc(myAnimeRef, animeToAdd);
@@ -572,11 +576,11 @@ export default function Home() {
 
 
 
-        {/* <SiteAnime
+        <SiteAnime
           animeData={animeData}
           addAnime={addAnime}
 
-        /> */}
+        />
       </div>
 
      
