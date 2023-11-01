@@ -17,6 +17,7 @@ import { getAuth, signOut } from "firebase/auth";
 export default function SiteAnime(props) {
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredAnimeData, setFilteredAnimeData] = useState(props.animeData.titles);
+    const [filteredIndices, setFilteredIndices] = useState([...Array(props.animeData.titles.length).keys()]);
 
     // Function to update the search query and filter the animeData
     const handleSearch = (query) => {
@@ -25,6 +26,8 @@ export default function SiteAnime(props) {
         );
         setFilteredAnimeData(filteredData);
         setSearchQuery(query);
+        // Update the filtered indices
+        setFilteredIndices(filteredData.map((anime) => props.animeData.titles.indexOf(anime)));
     };
 
     return (
@@ -44,7 +47,7 @@ export default function SiteAnime(props) {
                         <div key={index}>
                             <div>{anime.name}</div>
                             <img src={anime.img} key={index} />
-                            <button onClick={() => props.addAnime(index)}>+</button>
+                            <button onClick={() => props.addAnime(filteredIndices[index])}>+</button>
                         </div>
                     ))}
                 </div>
