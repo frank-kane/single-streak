@@ -72,8 +72,8 @@ export default function Home() {
 
     setTimeout(() => {
       if (content === 0 && num === -1) {
-        setContent(2);
-      } else if (content === 2 && num === 1) {
+        setContent(3);
+      } else if (content === 3 && num === 1) {
         setContent(0);
       } else {
         setContent(content + num);
@@ -548,9 +548,16 @@ export default function Home() {
                   myAnimeTitles={myAnimeTitles}
                   deleteAnime={deleteAnime}
                   handleAnimeDayChange={handleAnimeDayChange}
-                /> : <FitnessInfo
+                /> 
+                : content ==2? <FitnessInfo
                   userInfo={userInfo}
-                />
+                /> 
+                : 
+                <SiteAnime
+          animeData={animeData}
+          addAnime={addAnime}
+
+        />
             }
           </div>
 
@@ -576,11 +583,11 @@ export default function Home() {
 
 
 
-        <SiteAnime
+        {/* <SiteAnime
           animeData={animeData}
           addAnime={addAnime}
 
-        />
+        /> */}
       </div>
 
      

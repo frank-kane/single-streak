@@ -4,6 +4,7 @@
 -Add fitness component Functionality
 -Adjusting Leveling System
 -Add Quests
+-Alphabetize anime lists
 [pages]
 -Add news page
 -Add Settings Page

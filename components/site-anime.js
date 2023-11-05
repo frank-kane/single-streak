@@ -32,25 +32,28 @@ export default function SiteAnime(props) {
 
     return (
         <div className='anime-site-container'>
-            <h1>Site Anime</h1>
-            <div className='search-bar'>
+        <div className='title-and-search-bar'>
+
+        
+            <h6>Site Anime</h6>
+            {/* <div className='search-bar'> */}
                 <input
                     type="text"
                     placeholder="Search by Anime Name"
                     value={searchQuery}
                     onChange={(e) => handleSearch(e.target.value)}
                 />
+            {/* </div> */}
             </div>
             <div className='anime-list'>
-                <div>
                     {filteredAnimeData.map((anime, index) => (
-                        <div key={index}>
-                            <div>{anime.name}</div>
-                            <img src={anime.img} key={index} />
-                            <button onClick={() => props.addAnime(filteredIndices[index])}>+</button>
+                        <div key={index} className='anime'>
+                            <div className='anime-name'>{anime.name}</div>
+                            <img src={anime.img} key={index} className='anime-icon' />
+                            <div><button onClick={() => props.addAnime(filteredIndices[index])}>+</button></div>
                         </div>
                     ))}
-                </div>
+                
             </div>
         </div>
     );
