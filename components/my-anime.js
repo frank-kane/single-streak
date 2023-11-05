@@ -5,7 +5,7 @@ import 'react-tabs/style/react-tabs.css';
 export default function MyAnime(props) {
 
   return (
-    <div className='anime-container'>
+    <div className='my-anime-container'>
       <h6>My Anime</h6>
       
         {props.myAnimeTitles &&
