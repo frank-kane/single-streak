@@ -18,6 +18,7 @@ export default function SiteAnime(props) {
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredAnimeData, setFilteredAnimeData] = useState(props.animeData.titles);
     const [filteredIndices, setFilteredIndices] = useState([...Array(props.animeData.titles.length).keys()]);
+    const [hoveredAnimes, setHoverAnimes] = useState(Array(props.animeData.length).fill(false));
 
     // Function to update the search query and filter the animeData
     const handleSearch = (query) => {
@@ -29,6 +30,18 @@ export default function SiteAnime(props) {
         // Update the filtered indices
         setFilteredIndices(filteredData.map((anime) => props.animeData.titles.indexOf(anime)));
     };
+
+    function handleHover(index) {
+        const updatedHoveredHabits = [...hoveredAnimes];
+        updatedHoveredHabits[index] = true;
+        setHoverAnimes(updatedHoveredHabits);
+    }
+
+    function handleHoverExit(index) {
+        const updatedHoveredHabits = [...hoveredAnimes];
+        updatedHoveredHabits[index] = false;
+        setHoverAnimes(updatedHoveredHabits);
+    }
 
     return (
         <div className='anime-site-container'>
@@ -47,10 +60,11 @@ export default function SiteAnime(props) {
             </div>
             <div className='anime-list'>
                     {filteredAnimeData.map((anime, index) => (
-                        <div key={index} className='anime'>
+                        <div key={index} className='site-anime' style={{ backgroundImage: `url(${anime.img})` }} onMouseEnter={() => handleHover(index)} onMouseLeave={() => handleHoverExit(index)}>
                             <div className='anime-name'>{anime.name}</div>
-                            <img src={anime.img} key={index} className='anime-icon' />
-                            <div><button onClick={() => props.addAnime(filteredIndices[index])}>+</button></div>
+                            {/* <img src={anime.img} key={index} className='anime-icon' /> */}
+                            {hoveredAnimes[index] &&
+                            <div><button onClick={() => props.addAnime(filteredIndices[index])} className='add-button'>+</button></div>}
                         </div>
                     ))}
                 

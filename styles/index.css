@@ -94,31 +94,47 @@
 
 
 .anime {
-  background-color: bisque;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   /* border: 2px solid blue; */
   border-radius: 5px;
   text-align: center;
-  height: fit-content;
+  height: 128px;
   margin: 10px;
   min-width: 150px;
   /* min-height: 200px; */
   width: fit-content;
   max-width: max-content;
+  background-size: cover;
+
+  /* align-items: center; */
+}
+
+.site-anime {
+  /* background-color: bisque; */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  /* border: 2px solid blue; */
+  border-radius: 5px;
+  text-align: center;
+  height: 128px;
+  margin: 10px;
+  min-width: 150px;
+  /* min-height: 200px; */
+  width: fit-content;
+  max-width: max-content;
+  background-size: cover;
+  /* background-position: 0%; */
 
   /* align-items: center; */
 }
 
 .anime-name {
+  background-color: rgba(0, 0, 0, 0.5);
+  font-weight: bold;
   font-size: smaller;
-  /* border: 2px solid blue; */
   min-height: 2.8em;
-  /* Adjust this value as needed to fit two lines of text */
   overflow: hidden;
   word-break: break-word;
-  /* Wrap long words */
-
-  /* justify-content: center; */
+  color:white;
 
 }
 
@@ -157,6 +173,10 @@
    /* height: fit-content; */
    width: 800px;
    text-align: center;
+}
+
+.anime-site-container::-webkit-scrollbar {
+  display: none;
 }
 
 .animeScroller {
@@ -482,6 +502,17 @@
   opacity: 50%;
 }
 
+.add-button{
+  /* position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  opacity: 50%; */
+
+}
+
 .remove-button:hover {
   /* border: 1px solid black; */
  position: absolute;
@@ -507,46 +538,64 @@
 .active-season-button{
   width: 40px;
   height: 40px;
+  
+  
   /* border-radius:100px ; */
 }
 
 .active-season-button-true{
   width: 40px;
   height: 40px;
-  background-color: azure;
+  background-color: rgba(0, 245, 16, 0.9);
   border-radius: 100%;
   cursor: pointer; 
-  animation: glowing 5s infinite;
-  margin-left: 5px;
-  margin-right: 5px;
+  /* animation: glowing 5s infinite; */
   
   /* border-radius:100% ; */
 }
-@keyframes glowing {
+/* @keyframes glowing {
   0% {
-    box-shadow: 0 0 5px rgba(255, 255, 0, 0.7); /* Start with a yellow glow */
+    box-shadow: 0 0 5px rgba(255, 255, 0, 0.7);
   }
   50% {
-    box-shadow: 0 0 20px rgba(255, 255, 0, 0.7); /* Intensify the glow at 50% of the animation */
+    box-shadow: 0 0 20px rgba(255, 255, 0, 0.7);
   }
   100% {
-    box-shadow: 0 0 5px rgba(255, 255, 0, 0.7); /* Return to the original glow */
+    box-shadow: 0 0 5px rgba(255, 255, 0, 0.7); 
   }
-}
+} */
 
 .active-season-button-false{
   width: 40px;
   height: 40px;
-  border-radius:100px ;
-  cursor: pointer; 
+  border-radius:100% ;
+  cursor: pointer;
+  background-color: rgb(245, 0, 0,0.9);
   
 }
 
+.delete-button{
+  width: 30px;
+  height: 40px;
+  border-radius:5% ;
+  cursor: pointer;
+  
+
+}
+
+.day-select{
+  background-color: aqua;
+}
+
 .anime-lower-content{
+  margin-top:50px ;
+  /* position:fixed; */
+  /* bottom: 0; */
   border: 1px solid black;
-  justify-content: center;
+  justify-content: space-between;
   display: flex;
   flex-direction: row;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 select {

@@ -12,11 +12,11 @@ export default function MyAnime(props) {
           props.myAnimeTitles.length > 0 ? props.myAnimeTitles.map((anime) => (
 
 
-            <div key={anime.id} className='anime'>
+            <div key={anime.id} className='anime' style={{ backgroundImage: `url(${anime.img})` }}>
 
               <div className='anime-name' key={anime.id}>{anime.name || 'No Name'}</div>
 
-              <div><img src={anime.img} key={anime.id} className='anime-icon' /></div>
+              {/* <div><img src={anime.img} key={anime.id} className='anime-icon' /></div> */}
               <div className='anime-lower-content'>
                 <img
                   name="active-season-button"
@@ -28,6 +28,7 @@ export default function MyAnime(props) {
                   name="type"
                   value={anime.week_day_air}
                   onChange={(e) => props.handleAnimeDayChange(e, anime.id)}
+                  className='day-select'
                 >
                   <option value="monday">M</option>
                   <option value="tuesday">T</option>
@@ -37,7 +38,7 @@ export default function MyAnime(props) {
                   <option value="saturday">St</option>
                   <option value="sunday">Sn</option>
                 </select>
-                <div><button onClick={() => props.deleteAnime(anime.id)}>-</button></div>
+                <div><button onClick={() => props.deleteAnime(anime.id)} className='delete-button'>-</button></div>
               </div>
 
 
