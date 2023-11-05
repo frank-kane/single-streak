@@ -86,7 +86,7 @@
 .anime {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   /* border: 2px solid blue; */
-  border-radius: 5px;
+  border-radius: 3px;
   text-align: center;
   height: 128px;
   margin: 10px;
@@ -595,17 +595,11 @@
   flex-direction: row;
 } */
 
-.active-season-button{
-  width: 40px;
-  height: 40px;
-  
-  
-  /* border-radius:100px ; */
-}
+
 
 .active-season-button-true{
-  width: 40px;
-  height: 40px;
+  width: 27px;
+  height: 27px;
   background-color: rgba(0, 245, 16, 0.9);
   border-radius: 100%;
   cursor: pointer; 
@@ -626,8 +620,8 @@
 } */
 
 .active-season-button-false{
-  width: 40px;
-  height: 40px;
+  width: 27px;
+  height: 27px;
   border-radius:100% ;
   cursor: pointer;
   background-color: rgb(245, 0, 0,0.9);
@@ -635,9 +629,9 @@
 }
 
 .delete-button{
-  width: 30px;
-  height: 40px;
-  border-radius:5% ;
+  width: 27px;
+  height: 27px;
+  border-radius: 100%;
   cursor: pointer;
   
 
@@ -645,17 +639,25 @@
 
 .day-select{
   background-color: aqua;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  /* border-radius: 100%; */
+  text-align: center;
+  /* vertical-align: text-top; */
 }
 
 .anime-lower-content{
-  margin-top:50px ;
+  
+  margin-top:59px ;
   /* position:fixed; */
   /* bottom: 0; */
-  border: 1px solid black;
+  border-top: 2px solid black;
   justify-content: space-between;
   display: flex;
   flex-direction: row;
   background-color: rgba(0, 0, 0, 0.5);
+  padding-bottom: 3px;
 }
 
 select {
