@@ -7,7 +7,7 @@ export default function MyAnime(props) {
   return (
     <div className='anime-container'>
       <h6>My Anime</h6>
-      <div className='all-my-anime'>
+      
         {props.myAnimeTitles &&
           props.myAnimeTitles.length > 0 ? props.myAnimeTitles.map((anime) => (
 
@@ -48,7 +48,7 @@ export default function MyAnime(props) {
 
         </div>
         }
-      </div>
+      
 
     </div>
 

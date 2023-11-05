@@ -573,9 +573,9 @@ export default function Home() {
 
       <div className='lower-tab'>
 
-        <div>
+        
           <img className='character-image' src='male-character-idle.gif' />
-        </div>
+        
         <MyTabs
           weapons={weapons}
           items={items}

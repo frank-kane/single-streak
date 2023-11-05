@@ -27,7 +27,7 @@ export default function Habits(props) {
     return (
         <div className='habits-container'>
             <h6 className='content-title'>Habits</h6>
-            <div className='all-habits'>
+            
                 {props.habits.length > 0 ? props.habits.map((habit, index) => (
                     <div key={habit.id} className='habit' onMouseEnter={() => handleHover(index)} onMouseLeave={() => handleHoverExit(index)}>
                         {hoveredHabits[index] &&
@@ -75,7 +75,7 @@ export default function Habits(props) {
                         <button onClick={() => props.openOrCloseModal()}>Cancel</button>
                     </div>
                 )}
-            </div>
+
         </div>
     )
 }
