@@ -415,7 +415,13 @@
   vertical-align: middle;
   flex-wrap: wrap;
   /* background-color: aqua; */
+  @media (max-width: 768px) {
+    flex-direction: column; /* Switch to a column layout for screens with a maximum width of 768px (typical for phones) */
+  }
 }
+
+
+
 
 .left {
   margin: auto;
