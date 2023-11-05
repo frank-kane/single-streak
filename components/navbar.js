@@ -42,7 +42,7 @@ export default function NavBar(props){
 
     return(
         <div className='nav-bar'>
-          <img src="favicon.ico" alt="" className='website-icon'  onClick={()=>router.push({
+          <img src="ramen-symbol.png" alt="" className='website-icon'  onClick={()=>router.push({
             pathname: '/',
           })}/>
           {/* <img src="my-anime-life.png" alt="" className='logo'  /> */}
