@@ -45,7 +45,7 @@ export default function NavBar(props){
           <img src="favicon.ico" alt="" className='website-icon'  onClick={()=>router.push({
             pathname: '/',
           })}/>
-          <img src="my-anime-life.png" alt="" className='logo'  />
+          {/* <img src="my-anime-life.png" alt="" className='logo'  /> */}
           <h3 onClick={()=>router.push({
             pathname: '/news',
           })}>News</h3>
