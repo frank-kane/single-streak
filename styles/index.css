@@ -253,7 +253,7 @@
   
   flex-wrap: wrap;
   border: 2px solid red;
-  /* position: relative; */
+  position: relative;
 }
 
 
