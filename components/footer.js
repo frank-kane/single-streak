@@ -22,7 +22,7 @@ export default function Footer(props){
 
     return(
         <div className='footer'>
-        <h1>Footer</h1>
+        <h3>Footer</h3>
           
         </div>
         

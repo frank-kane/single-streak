@@ -44,7 +44,7 @@
   /* max-width: 470px; */
   flex-wrap: wrap;
   display: flex;
-  width: 400px;
+  width: fit-content;
 
   & > .item { /* Apply styles to individual items */
     flex: 0 0 calc(33.33% - 8px); /* 3 items per row, considering margin */
@@ -69,7 +69,7 @@
   /* max-width: 470px; */
   flex-wrap: wrap;
   display: flex;
-  width: 400px;
+  width: fit-content;
 
   & > .weapon { /* Apply styles to individual items */
     flex: 0 0 calc(33.33% - 8px); /* 3 items per row, considering margin */
@@ -282,7 +282,7 @@
 
 .tabs{
   border: 2px solid blue;
-  width: 500px;
+  width: fit-content;
   height: 425px;
 
 }
@@ -293,7 +293,8 @@
 }
 
 .item-description-holder {
-  width: 500px;
+  width: fit-content;
+  max-width: 300px;
   border: 2px solid purple;
   /* overflow: auto; */
   display: flex;
@@ -304,13 +305,12 @@
 
 .inventory-container{
   border: 2px solid black;
-  /* margin-top: 150px; */
-  /* min-width: 500px; */
-  max-width: 100vw;
+  margin-bottom: 70px;
   background-color:#fff;
   height: 500px;
   border-radius: 5px;
   text-align: center;
+  
 
   
 }
@@ -368,6 +368,11 @@
 .exp-bar{
   min-width: 100px;
 }
+
+.exp-label{
+  color: red;
+}
+
 
 
 
