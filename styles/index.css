@@ -140,8 +140,9 @@
   /* border: 2px solid red; */
   overflow-x: scroll;
   /* height: fit-content; */
-  width: 80vw;
+  /* width: 80vw; */
   text-align: center;
+  max-width: 600px;
 }
 
 .anime-container::-webkit-scrollbar {
@@ -169,6 +170,7 @@
   /* height: fit-content; */
   width: 80vw;
   text-align: center;
+  max-width: 600px;
 }
 
 
@@ -227,6 +229,7 @@
   clear: right;
   /* background-color: #fff; */
   width: 100%;
+  color: #ccc;
 }
 
 
@@ -330,6 +333,7 @@
   min-width: 200px;
   width: min-content;
   text-align: center;
+  background-color: #ccc;
 }
 
 .stats-grid {
@@ -341,7 +345,7 @@
 }
 
 .upper-tab {
-  background-color: aquamarine;
+  background-color: #333;
   /* border: 1px dotted red; */
   display: flex;
   flex-wrap: wrap; 
@@ -409,8 +413,9 @@
 
 .content {
   display: flex;
-  border: 2px solid purple;
+  /* border: 2px solid purple; */
   /* background-color: blueviolet; */
+  max-width: 800px;
   text-align: center;
   vertical-align: middle;
   flex-wrap: wrap;
@@ -450,12 +455,13 @@
 
 .inner-content {
   display: flex;
-  border: 2px solid lime;
+  /* border: 2px solid lime; */
   /* background-color: blueviolet; */
   text-align: center;
   vertical-align: middle;
   flex-wrap: wrap;
   border-radius: 15px;
+  max-width: 605px;
 
 }
 
