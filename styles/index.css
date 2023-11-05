@@ -55,9 +55,9 @@
 .all-items::-webkit-scrollbar {
   display: none;
 }
-.all-weapons::-webkit-scrollbar {
+/* .all-weapons::-webkit-scrollbar {
   display: none;
-}
+} */
 
 .all-weapons {
   justify-content: flex-start;
@@ -65,7 +65,7 @@
   align-items: stretch;
   flex-direction: row;
   overflow-y: scroll;
-  /* max-height: 200px; */
+  max-height: 300px;
   /* max-width: 470px; */
   flex-wrap: wrap;
   display: flex;
@@ -204,6 +204,7 @@
   padding: 10px;
   border-radius: 3px;
   flex-wrap: wrap;
+  
 }
 
 .habit-info {
@@ -215,7 +216,7 @@
   /* border: 2px solid red; */
   text-align: center;
   height: fit-content;
-  width: 800px;
+  width: fit-content;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
