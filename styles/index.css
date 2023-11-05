@@ -252,18 +252,14 @@
   width: 100%;
   margin: 0 auto;
   flex-wrap: wrap;
-  border: 2px solid red;
+  /* border: 2px solid red; */
 }
 
-@media (min-width: 1251px) {
+/* @media (min-width: 1251px) {
   .index-container {
-    justify-content: center; /* Center the content horizontally */
+    justify-content: center; 
   }
-}
-
-.index-container * {
-  /* margin: 1px; */
-}
+} */
 
 .item {
   /* ... other styles ... */
