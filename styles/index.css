@@ -400,10 +400,11 @@
 
 
 .character-image {
-  margin-top: 150px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   width: 200px;
   height: 300px;
-  /* margin-right:150px; */
+  
 }
 
 .content {
@@ -462,7 +463,7 @@
   /* border: 2px solid red; */
   text-align: center;
   height: fit-content;
-  width: 800px;
+  width: fit-content;
   
 }
 
