@@ -27,7 +27,7 @@
   flex-direction: row;
   text-align: center;
   width: fit-content;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   display: flex;
 
   /* opacity: 0;
@@ -216,7 +216,17 @@
   text-align: center;
   height: fit-content;
   width: 800px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 
+}
+
+.content-title{
+  margin:0;
+  clear: right;
+  /* background-color: #fff; */
+  width: 100%;
 }
 
 
@@ -236,9 +246,13 @@
 .index-container {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center the content horizontally */
-  max-width: 1250px;
-  margin: 0 auto; /* Center the container horizontally on the page */
+  align-items: center;
+  justify-content: space-between; /* Add this line */
+  height: 100%; /* Add this line to take up the full viewport height */
+  width: 100%;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  border: 2px solid red;
 }
 
 @media (min-width: 1251px) {
@@ -292,11 +306,12 @@
   border: 2px solid black;
   /* margin-top: 150px; */
   /* min-width: 500px; */
-  width: 800px;
+  max-width: 100vw;
   background-color:#fff;
   height: 500px;
   border-radius: 5px;
   text-align: center;
+
   
 }
 
@@ -310,8 +325,9 @@
   background-repeat: no-repeat;
   background-position: 50% 100%;
   width: 100%;
-  height:530px;
+  /* height:530px; */
   justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 .main-stats {
@@ -333,11 +349,13 @@
   background-color: aquamarine;
   /* border: 1px dotted red; */
   display: flex;
+  flex-wrap: wrap; 
   width: 100%;
   min-height: 180px;
   /* height: fit-content; */
   max-height: fit-content;
   justify-content: space-evenly;
+  
 }
 
 .user-info {
@@ -385,7 +403,7 @@
   margin-top: 150px;
   width: 200px;
   height: 300px;
-  margin-right:150px;
+  /* margin-right:150px; */
 }
 
 .content {
@@ -394,6 +412,7 @@
   /* background-color: blueviolet; */
   text-align: center;
   vertical-align: middle;
+  flex-wrap: wrap;
   /* background-color: aqua; */
 }
 
@@ -485,10 +504,14 @@
 } */
 
 .footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
   width: 100%;
-  height: 50px;
-  background-color: aquamarine;
-  /* Remove "position: absolute;" and "bottom: 0;" to keep it within the container */
+  background-color: #333; /* Set your desired background color */
+  color: #fff; /* Set your desired text color */
+  text-align: center;
+  padding: 10px;
 }
 
 .remove-button {

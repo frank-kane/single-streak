@@ -583,15 +583,19 @@ export default function Home() {
 
 
 
-        {/* <SiteAnime
-          animeData={animeData}
-          addAnime={addAnime}
-
-        /> */}
+        
+        
       </div>
 
-     
+      
       <Footer className='footer'/>
+
+     
+
+      
+
+     
+      
 
 
       
