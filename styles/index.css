@@ -252,7 +252,7 @@
   width: 100%;
   
   flex-wrap: wrap;
-  /* border: 2px solid red; */
+  border: 2px solid red;
   /* position: relative; */
 }
 
