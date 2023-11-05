@@ -255,11 +255,11 @@
   /* border: 2px solid red; */
 }
 
-/* @media (min-width: 1251px) {
+@media (max-width: 768px) {
   .index-container {
-    justify-content: center; 
+      width: 100%; /* On smaller screens, take the full width */
   }
-} */
+}
 
 .item {
   /* ... other styles ... */
