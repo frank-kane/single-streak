@@ -45,16 +45,16 @@ export default function SiteAnime(props) {
 
     return (
         <div className='anime-site-container'>
-        <div className='title-and-search-bar'>
+        
 
-            <h6>Site Anime</h6>
+            
                 <input
                     type="text"
                     placeholder="Search by Anime Name"
                     value={searchQuery}
                     onChange={(e) => handleSearch(e.target.value)}
                 />
-            </div>
+            
             
                     {filteredAnimeData.map((anime, index) => (
                         <div key={index} className='site-anime' style={{ backgroundImage: `url(${anime.img})` }} onMouseEnter={() => handleHover(index)} onMouseLeave={() => handleHoverExit(index)}>

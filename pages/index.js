@@ -544,20 +544,27 @@ export default function Home() {
 
               />
               : content == 1
-                ? <MyAnime
+                ? <div>
+                <h6 className='content-title'>My Anime</h6>
+                
+                 <MyAnime
                   myAnimeTitles={myAnimeTitles}
                   deleteAnime={deleteAnime}
                   handleAnimeDayChange={handleAnimeDayChange}
                 /> 
-                : content ==2? <FitnessInfo
+                </div>
+                : content ==2
+                ? <FitnessInfo
                   userInfo={userInfo}
                 /> 
-                : 
+                :<div>
+                <h6 className='content-title'>Site Anime</h6> 
                 <SiteAnime
           animeData={animeData}
           addAnime={addAnime}
 
         />
+        </div>
             }
           </div>
 

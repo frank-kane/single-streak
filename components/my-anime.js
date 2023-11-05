@@ -6,7 +6,7 @@ export default function MyAnime(props) {
 
   return (
     <div className='my-anime-container'>
-      <h6>My Anime</h6>
+      j
       
         {props.myAnimeTitles &&
           props.myAnimeTitles.length > 0 ? props.myAnimeTitles.map((anime) => (
