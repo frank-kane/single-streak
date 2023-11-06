@@ -61,7 +61,7 @@ export default function MyTabs(props) {
                 <div>
                   <img className='item-image' src={`${item.name}.png`} />
                 </div>
-                <div key={item.id}>
+                <div key={item.id} className='item-name'>
                   {item.name}
                 </div>
                 <div>Heal: {item.heal}

@@ -45,6 +45,9 @@
   flex-wrap: wrap;
   display: flex;
   width: fit-content;
+  max-width: 400px;
+  border: 1px solid black;
+  min-height: 375px;
 
   & > .item { /* Apply styles to individual items */
     flex: 0 0 calc(33.33% - 8px); /* 3 items per row, considering margin */
@@ -55,9 +58,9 @@
 .all-items::-webkit-scrollbar {
   display: none;
 }
-/* .all-weapons::-webkit-scrollbar {
+.all-weapons::-webkit-scrollbar {
   display: none;
-} */
+}
 
 .all-weapons {
   justify-content: flex-start;
@@ -65,11 +68,14 @@
   align-items: stretch;
   flex-direction: row;
   overflow-y: scroll;
-  max-height: 300px;
+  /* max-height: 450px; */
   /* max-width: 470px; */
   flex-wrap: wrap;
   display: flex;
   width: fit-content;
+  border: 1px solid black;
+  min-height: 375px;
+  
 
   & > .weapon { /* Apply styles to individual items */
     flex: 0 0 calc(33.33% - 8px); /* 3 items per row, considering margin */
@@ -310,6 +316,7 @@
   height: 500px;
   border-radius: 5px;
   text-align: center;
+  max-width: 80vw;
   
 
   
@@ -684,4 +691,8 @@ select {
 .title-and-search-bar{
   display: flex;
   justify-content: space-evenly;
+}
+
+.item-name{
+  text-wrap: wrap;
 }
