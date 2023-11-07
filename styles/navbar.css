@@ -3,7 +3,7 @@
     justify-content:space-around;
     /* float:left; */
     /* clear:none;  */
-    /* border: 1px solid black; */
+    border: 1px solid black;
     min-height: 40px;
     width: 100%;
     height: fit-content;
@@ -36,7 +36,7 @@
 .user-account-icon{
     float: right;
     /* margin: 15px; */
-    margin: auto;
+    /* margin: auto; */
     /* margin-top: 2px; */
     width:35px;
     height: 35px;
