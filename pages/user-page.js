@@ -20,7 +20,7 @@ import FitnessInfo from '@/components/fitness-info';
 
 import Footer from '@/components/footer';
 
-export default function Home() {
+export default function UserPage() {
   const [content, setContent] = useState(0);
   const [myAnimeTitles, setMyAnimeTitles] = useState([]);
   const [userInfo, setUserInfo] = useState({});
@@ -356,17 +356,19 @@ export default function Home() {
           health_subtracted: today,
         });
 
-        alert(`You lost ${healthLoss} health!`)
+        
 
 
 
       } else {
         console.log('No Habits to update')
       }
+      alert(`You lost ${healthLoss} health!`)
 
     } else {
       console.log('Health has Already been Subtracted')
     }
+    
   }
 
 
