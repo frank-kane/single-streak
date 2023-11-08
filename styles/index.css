@@ -81,8 +81,7 @@
   /* align-items: stretch; */
   flex-direction: row;
   overflow-y: scroll;
-  height: 380px;
-  max-height: 380px;
+  height: 360px;
   max-width: 470px;
   flex-wrap: wrap;
   display: flex;
