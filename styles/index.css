@@ -1,3 +1,84 @@
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes glowing {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 255, 0, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 255, 0, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 255, 0, 0.7); 
+  }
+}
+
+/* *{
+  border: 1px solid black;
+
+}
+
+/* .str-icon{
+  width: 40px;
+  height: 40px;;
+}
+
+/*  */
+.active-season-button-false{
+  width: 27px;
+  height: 27px;
+  border-radius:100% ;
+  cursor: pointer;
+  background-color: rgb(245, 0, 0,0.9);
+  
+}
+
+/* .str-icon{
+  width: 40px;
+  height: 40px;;
+}
+
+.str-holder{
+  display: flex;
+  flex-direction: row;
+} */
+.active-season-button-true{
+  width: 27px;
+  height: 27px;
+  background-color: rgba(0, 245, 16, 0.9);
+  border-radius: 100%;
+  cursor: pointer; 
+  /* animation: glowing 5s infinite; */
+  
+  /* border-radius:100% ; */
+}
+
+.add-button{
+  /* position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  opacity: 50%; */
+
+}
+
 .add-habit {
   opacity: 0.5;
   background-color: bisque;
@@ -10,15 +91,6 @@
   flex-direction: column;
   padding: 10px;
   border-radius: 3px;
-}
-
-.user-info {
-  background-color: #fff;
-  /* padding: 20px; */
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-  display: flex;
-  height: fit-content;
 }
 
 .all-habits {
@@ -58,22 +130,6 @@
 .all-items::-webkit-scrollbar {
   display: none;
 }
-.all-weapons::-webkit-scrollbar {
-  display: none;
-}
-
-.habits-container::-webkit-scrollbar {
-  display: none;
-}
-
-.habit-name{
-  overflow: scroll;
-  height: 30px;
-}
-
-.habit-name::-webkit-scrollbar {
-  display: none;
-}
 
 .all-weapons {
   justify-content: flex-start;
@@ -96,13 +152,9 @@
   }
 }
 
-
-
-
-
-
-
-
+.all-weapons::-webkit-scrollbar {
+  display: none;
+}
 
 .anime {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
@@ -120,22 +172,22 @@
   /* align-items: center; */
 }
 
-.site-anime {
-  /* background-color: bisque; */
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-  /* border: 2px solid blue; */
-  border-radius: 5px;
-  text-align: center;
-  height: 128px;
-  margin: 10px;
-  min-width: 150px;
-  /* min-height: 200px; */
-  width: fit-content;
-  max-width: max-content;
-  background-size: cover;
-  /* background-position: 0%; */
+.anime-icon {
+  height: 50px;
+  width: 50px;
+}
 
-  /* align-items: center; */
+.anime-lower-content{
+  
+  margin-top:59px ;
+  /* position:fixed; */
+  /* bottom: 0; */
+  border-top: 2px solid black;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding-bottom: 3px;
 }
 
 .anime-name {
@@ -148,36 +200,6 @@
   color:white;
 
 }
-
-.my-anime-container {
-  align-content: space-between;
-  justify-content: flex-start;
-  /* border: 3px solid black; */
-  align-items: center;
-  flex-direction: row;
-  max-height: 250px;
-  flex-wrap: nowrap;
-  display: flex;
-  /* border: 2px solid red; */
-  overflow-x: scroll;
-  /* height: fit-content; */
-  width: 80vw;
-  text-align: center;
-  max-width: 600px;
-}
-
-
-
-.my-anime-container::-webkit-scrollbar {
-  display: none;
-}
-
-.anime-icon {
-  height: 50px;
-  width: 50px;
-}
-
-
 
 .anime-site-container {
   align-content: space-between;
@@ -196,7 +218,6 @@
   max-width: 600px;
 }
 
-
 .anime-site-container::-webkit-scrollbar {
   display: none;
 }
@@ -208,9 +229,148 @@
   height: 100px;
 }
 
+.character-image {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  width: 300px;
+  height: 500px;
+  
+}
+
+.content {
+  display: flex;
+  /* border: 2px solid purple; */
+  /* background-color: blueviolet; */
+  max-width: 800px;
+  text-align: center;
+  vertical-align: middle;
+  flex-wrap: wrap;
+  @media (max-width: 768px) {
+    flex-direction: column; /* Switch to a column layout for screens with a maximum width of 768px (typical for phones) */
+  }
+}
+  
+
+
+
+
+
+.left {
+  margin: auto;
+  height: 50px;
+  width: 50px;
+  transform: scaleX(-1);
+  z-index: 1000;
+  clear: left;
+  /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);; */
+}
+
+.content-title{
+  /* margin-right:100%; */
+  clear: right;
+  /* background-color: #fff; */
+  width: 100%;
+  color: #ccc;
+}
+
+.day-select{
+  background-color: aqua;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  /* border-radius: 100%; */
+  text-align: center;
+  /* vertical-align: text-top; */
+}
+
+.delete-button{
+  width: 27px;
+  height: 27px;
+  border-radius: 100%;
+  cursor: pointer;
+  
+
+}
+
+select {
+  -webkit-appearance: none; /* Remove arrow in Safari and older versions of Chrome */
+  -moz-appearance: none; /* Remove arrow in Firefox */
+  appearance: none; /* Remove arrow in newer versions of Chrome */
+  background-image: none; /* Remove the default dropdown arrow icon */
+  background-color: transparent; /* Set the background color to transparent so it blends with the page background */
+  padding-right: 0; /* Optionally, adjust the padding to ensure the text doesn't overlap the hidden arrow */
+}
+
+/* Style the dropdown to make it visually clear it's a dropdown */
+select {
+  border: 1px solid #ccc; /* Add a border for visual separation */
+  padding: 5px; /* Add some padding for better aesthetics */
+  border-radius: 4px; /* Round the corners to make it look like a button */
+}
+
+.exp-bar{
+  min-width: 100px;
+}
+
+.exp-label{
+  color: red;
+}
+
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.2s ease-in;
+}
+
+.fade-out-left {
+  opacity: 0;
+  transform: translateX(+50px); /* Adjust the distance you want to move */
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.fade-out-right {
+  opacity: 0;
+  transform: translateX(-50px); /* Adjust the distance you want to move */
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
 .fficon {
   height: 10px;
   width: 15px;
+}
+
+
+.fitness-container{
+  color: #fff;
+  align-content: space-between;
+  justify-content:center;
+  /* border: 3px solid black; */
+  align-items: center;
+  flex-direction: row;
+  max-height: 250px;
+  flex-wrap: nowrap;
+  display: flex;
+  /* border: 2px solid red; */
+  /* overflow-x: scroll; */
+  /* height: fit-content; */
+  width: 80vw;
+  text-align: center;
+  max-width: 600px;
+  
+}
+
+/* 
+
+ */
+.footer {
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
+  /* position: absolute; */
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #333; /* Set your desired background color */
+  color: #fff; /* Set your desired text color */
+  text-align: center;
+  padding: 10px;
 }
 
 .habit {
@@ -235,6 +395,15 @@
   align-items: center;
 }
 
+.habit-name{
+  overflow: scroll;
+  height: 30px;
+}
+
+.habit-name::-webkit-scrollbar {
+  display: none;
+}
+
 .habits-container {
   align-content: space-between;
   justify-content: flex-start;
@@ -253,15 +422,9 @@
 
 }
 
-.content-title{
-  /* margin-right:100%; */
-  clear: right;
-  /* background-color: #fff; */
-  width: 100%;
-  color: #ccc;
+.habits-container::-webkit-scrollbar {
+  display: none;
 }
-
-
 
 .health-progress {
   height: 50px;
@@ -273,7 +436,6 @@
   width: 50px;
   cursor: pointer;
 }
-
 
 .index-container {
   position:static;
@@ -290,28 +452,36 @@
   /* border: 2px solid green; */
 }
 
+.inner-content {
+  display: flex;
+  /* border: 2px solid lime; */
+  background-color: rgb(17, 17, 17);
+  text-align: center;
+  vertical-align: middle;
+  flex-wrap: wrap;
+  border-radius: 5px;
+  max-width: 605px;
 
+}
+
+.inventory-container{
+  border: 2px solid black;
+  margin-bottom: 70px;
+  background-color:#fff;
+  height: 500px;
+  border-radius: 5px;
+  text-align: center;
+  max-width: 80vw;
+  
+
+  
+}
 
 .item {
   /* ... other styles ... */
   width: fit-content;
   margin: 4px;
   /* overflow: hidden;  */
-}
-
-
-.items-container {
-  display: flex;
-  flex-direction: row;
-  border: 1px solid black;
-  height: 425px;
-}
-
-.tabs{
-  border-right: 2px solid blue;
-  width: fit-content;
-  height: 425px;
-
 }
 
 .item-description {
@@ -329,18 +499,26 @@
   overflow: hidden;
 }
 
-
-.inventory-container{
-  border: 2px solid black;
-  margin-bottom: 70px;
-  background-color:#fff;
-  height: 500px;
-  border-radius: 5px;
-  text-align: center;
-  max-width: 80vw;
+.item-image {
+  height: 80px;
+  width: 80px;
   
 
-  
+}
+
+.item-name{
+  text-wrap: wrap;
+}
+
+.items-container {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid black;
+  height: 425px;
+}
+
+.left:hover{
+  cursor: pointer;
 }
 
 .lower-tab {
@@ -369,12 +547,116 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
 
+.my-anime-container {
+  align-content: space-between;
+  justify-content: flex-start;
+  /* border: 3px solid black; */
+  align-items: center;
+  flex-direction: row;
+  max-height: 250px;
+  flex-wrap: nowrap;
+  display: flex;
+  /* border: 2px solid red; */
+  overflow-x: scroll;
+  /* height: fit-content; */
+  width: 80vw;
+  text-align: center;
+  max-width: 600px;
+}
+
+.my-anime-container::-webkit-scrollbar {
+  display: none;
+}
+
+.new-habit-modal {
+  /* position: fixed; */
+  width: fit-content;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+}
+
+.remove-button {
+   /* border: 1px solid black; */
+  position: absolute;
+  top: 0px; /* Adjust the vertical position as needed */
+  right: 0px; /* Adjust the horizontal position as needed */
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  opacity: 50%;
+}
+
+.remove-button:hover {
+  /* border: 1px solid black; */
+ position: absolute;
+ top: 0px; /* Adjust the vertical position as needed */
+ right: 0px; /* Adjust the horizontal position as needed */
+ width: 20px;
+ height: 20px;
+ cursor: pointer;
+ opacity: 100%;
+
+}
+
+.right {
+  margin: auto;
+  height: 50px;
+  width: 50px;
+  z-index: 1000;
+}
+
+.right:hover{
+  cursor: pointer;
+}
+
+.site-anime {
+  /* background-color: bisque; */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  /* border: 2px solid blue; */
+  border-radius: 5px;
+  text-align: center;
+  height: 128px;
+  margin: 10px;
+  min-width: 150px;
+  /* min-height: 200px; */
+  width: fit-content;
+  max-width: max-content;
+  background-size: cover;
+  /* background-position: 0%; */
+
+  /* align-items: center; */
+}
+
 .stats-grid {
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(3, 1fr);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
   display: grid;
+}
+
+.str-holder{
+  display: flex;
+  flex-direction: row;
+}
+
+.tabs{
+  border-right: 2px solid blue;
+  width: fit-content;
+  height: 425px;
+
+}
+
+/* Define the keyframes for the glowing effect */
+.title-and-search-bar{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.transition-content {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.2s ease-in, transform 0.2s ease-in;
 }
 
 .upper-tab {
@@ -394,22 +676,20 @@
 }
 
 .user-info {
+  background-color: #fff;
+  /* padding: 20px; */
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  height: fit-content;
+}
+
+.user-info {
   /* border: 3px solid black; */
   width: fit-content;
   padding-right: 5px;
   min-width: 100px;
 }
-
-.exp-bar{
-  min-width: 100px;
-}
-
-.exp-label{
-  color: red;
-}
-
-
-
 
 .weapon {
   /* ... other styles ... */
@@ -424,296 +704,5 @@
 
 }
 
-.item-image {
-  height: 80px;
-  width: 80px;
-  
+/* background-color: aqua; */
 
-}
-
-.new-habit-modal {
-  /* position: fixed; */
-  width: fit-content;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 5px;
-}
-
-
-.character-image {
-  margin-top: 15px;
-  margin-bottom: 15px;
-  width: 300px;
-  height: 500px;
-  
-}
-
-.content {
-  display: flex;
-  /* border: 2px solid purple; */
-  /* background-color: blueviolet; */
-  max-width: 800px;
-  text-align: center;
-  vertical-align: middle;
-  flex-wrap: wrap;
-  /* background-color: aqua; */
-  @media (max-width: 768px) {
-    flex-direction: column; /* Switch to a column layout for screens with a maximum width of 768px (typical for phones) */
-  }
-}
-
-
-
-
-.left {
-  margin: auto;
-  height: 50px;
-  width: 50px;
-  transform: scaleX(-1);
-  z-index: 1000;
-  clear: left;
-  /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);; */
-}
-
-.right {
-  margin: auto;
-  height: 50px;
-  width: 50px;
-  z-index: 1000;
-}
-
-.right:hover{
-  cursor: pointer;
-}
-
-.left:hover{
-  cursor: pointer;
-}
-
-.inner-content {
-  display: flex;
-  /* border: 2px solid lime; */
-  background-color: rgb(17, 17, 17);
-  text-align: center;
-  vertical-align: middle;
-  flex-wrap: wrap;
-  border-radius: 5px;
-  max-width: 605px;
-
-}
-
-
-/* *{
-  border: 1px solid black;
-
-} */
-
-.fitness-container{
-  color: #fff;
-  align-content: space-between;
-  justify-content:center;
-  /* border: 3px solid black; */
-  align-items: center;
-  flex-direction: row;
-  max-height: 250px;
-  flex-wrap: nowrap;
-  display: flex;
-  /* border: 2px solid red; */
-  /* overflow-x: scroll; */
-  /* height: fit-content; */
-  width: 80vw;
-  text-align: center;
-  max-width: 600px;
-  
-}
-
-.fade-in {
-  opacity: 1;
-  transition: opacity 0.2s ease-in;
-}
-
-.transition-content {
-  opacity: 1;
-  transform: translateX(0);
-  transition: opacity 0.2s ease-in, transform 0.2s ease-in;
-}
-
-.fade-out-right {
-  opacity: 0;
-  transform: translateX(-50px); /* Adjust the distance you want to move */
-  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
-}
-
-.fade-out-left {
-  opacity: 0;
-  transform: translateX(+50px); /* Adjust the distance you want to move */
-  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
-}
-
-/* @keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fade-out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-} */
-
-.footer {
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
-  /* position: absolute; */
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  background-color: #333; /* Set your desired background color */
-  color: #fff; /* Set your desired text color */
-  text-align: center;
-  padding: 10px;
-}
-
-.remove-button {
-   /* border: 1px solid black; */
-  position: absolute;
-  top: 0px; /* Adjust the vertical position as needed */
-  right: 0px; /* Adjust the horizontal position as needed */
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  opacity: 50%;
-}
-
-.add-button{
-  /* position: absolute;
-  top: 0px;
-  right: 0px;
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  opacity: 50%; */
-
-}
-
-.remove-button:hover {
-  /* border: 1px solid black; */
- position: absolute;
- top: 0px; /* Adjust the vertical position as needed */
- right: 0px; /* Adjust the horizontal position as needed */
- width: 20px;
- height: 20px;
- cursor: pointer;
- opacity: 100%;
-
-}
-
-/* .str-icon{
-  width: 40px;
-  height: 40px;;
-}
-
-.str-holder{
-  display: flex;
-  flex-direction: row;
-} */
-
-
-
-.active-season-button-true{
-  width: 27px;
-  height: 27px;
-  background-color: rgba(0, 245, 16, 0.9);
-  border-radius: 100%;
-  cursor: pointer; 
-  /* animation: glowing 5s infinite; */
-  
-  /* border-radius:100% ; */
-}
-/* @keyframes glowing {
-  0% {
-    box-shadow: 0 0 5px rgba(255, 255, 0, 0.7);
-  }
-  50% {
-    box-shadow: 0 0 20px rgba(255, 255, 0, 0.7);
-  }
-  100% {
-    box-shadow: 0 0 5px rgba(255, 255, 0, 0.7); 
-  }
-} */
-
-.active-season-button-false{
-  width: 27px;
-  height: 27px;
-  border-radius:100% ;
-  cursor: pointer;
-  background-color: rgb(245, 0, 0,0.9);
-  
-}
-
-.delete-button{
-  width: 27px;
-  height: 27px;
-  border-radius: 100%;
-  cursor: pointer;
-  
-
-}
-
-.day-select{
-  background-color: aqua;
-  width: 28px;
-  height: 28px;
-  cursor: pointer;
-  /* border-radius: 100%; */
-  text-align: center;
-  /* vertical-align: text-top; */
-}
-
-.anime-lower-content{
-  
-  margin-top:59px ;
-  /* position:fixed; */
-  /* bottom: 0; */
-  border-top: 2px solid black;
-  justify-content: space-between;
-  display: flex;
-  flex-direction: row;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding-bottom: 3px;
-}
-
-select {
-  -webkit-appearance: none; /* Remove arrow in Safari and older versions of Chrome */
-  -moz-appearance: none; /* Remove arrow in Firefox */
-  appearance: none; /* Remove arrow in newer versions of Chrome */
-  background-image: none; /* Remove the default dropdown arrow icon */
-  background-color: transparent; /* Set the background color to transparent so it blends with the page background */
-  padding-right: 0; /* Optionally, adjust the padding to ensure the text doesn't overlap the hidden arrow */
-}
-
-/* Style the dropdown to make it visually clear it's a dropdown */
-select {
-  border: 1px solid #ccc; /* Add a border for visual separation */
-  padding: 5px; /* Add some padding for better aesthetics */
-  border-radius: 4px; /* Round the corners to make it look like a button */
-}
-
-
-
-/* Define the keyframes for the glowing effect */
-
-
-.title-and-search-bar{
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.item-name{
-  text-wrap: wrap;
-}
