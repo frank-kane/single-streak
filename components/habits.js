@@ -26,7 +26,7 @@ export default function Habits(props) {
 
     return (
         <div className='habits-container'>
-            <h6 className='content-title'>Habits</h6>
+            {/* <h6 className='content-title'>Habits</h6> */}
             
                 {props.habits.length > 0 ? props.habits.map((habit, index) => (
                     <div key={habit.id} className='habit' onMouseEnter={() => handleHover(index)} onMouseLeave={() => handleHoverExit(index)}>

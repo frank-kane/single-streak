@@ -534,7 +534,9 @@ export default function UserPage() {
 
           <div className={`inner-content ${content === 0 || content === 2 ? 'transition-content' : 'fade-out'}`}>
             {content == 0
-              ? <Habits
+              ?<div>
+              <h6 className='content-title'>Habits</h6>
+               <Habits
                 habits={habits}
                 openOrCloseModal={openOrCloseModal}
                 createNewHabit={createNewHabit}
@@ -545,6 +547,7 @@ export default function UserPage() {
                 completeHabit={completeHabit}
 
               />
+              </div>
               : content == 1
                 ? <div>
                 <h6 className='content-title'>My Anime</h6>
