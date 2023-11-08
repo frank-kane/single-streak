@@ -142,6 +142,20 @@
   /* align-items: center; */
 }
 
+.stat-image{
+  height: 30px;
+  width: 30px;
+  /* filter: grayscale(); */
+}
+
+.stat-num{
+  /* border: 1px solid black;
+  border-radius: 100%;
+  width:auto;
+  height: auto; */
+  font-weight: 900;
+}
+
 .anime-name {
   background-color: rgba(0, 0, 0, 0.5);
   font-weight: bold;
@@ -213,8 +227,9 @@
 }
 
 .fficon {
-  height: 10px;
-  width: 15px;
+  height: 20px;
+  width: 20px;
+  margin-right: 2px;
 }
 
 .habit {

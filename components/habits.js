@@ -36,8 +36,8 @@ export default function Habits(props) {
                         <div className='habit-name'>{habit.name}</div>
 
                         <div className='habit-info'>
-                            <img src="fastforward.png" alt="" className='fficon' />
-                            <div className='habit-streak'>{habit.streak}</div>
+                            <img src={`${habit.type}-icon.png`}alt="" className='fficon' />
+                            <div className='habit-streak'> {habit.streak}</div>
                         </div>
                         <div>{habit.is_completed == false && habit.last_completed <= yesterday ? <img onClick={() => props.completeHabit(habit.id)} className='icon' src="frozen-flame.png" alt="" /> : <img onClick={() => props.completeHabit(habit.id)} className='icon' src="fire.gif" alt="" />}</div>
                     </div>
