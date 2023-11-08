@@ -305,8 +305,8 @@
 }
 
 .item-description-holder {
-  width: fit-content;
-  width: 350gpx;
+  /* width: fit-content; */
+  width: 350px;
   /* border: 2px solid purple; */
   /* overflow: auto; */
   display: flex;
