@@ -371,7 +371,7 @@ export default function UserPage() {
           health_subtracted: today,
         });
 
-        
+        alert(`You lost ${healthLoss} health!`)
 
 
 
@@ -385,7 +385,7 @@ export default function UserPage() {
     else {
       console.log('Health has Already been Subtracted')
     }
-    alert(`You lost ${healthLoss} health!`)
+    
     
   }
 
@@ -490,6 +490,7 @@ export default function UserPage() {
       });
 
     }
+    
     if (currentData.type == "strength") {
       await updateDoc(userDocRef, {
         'stats.strength': userCurrentData.stats.strength + statIncrease
@@ -499,9 +500,9 @@ export default function UserPage() {
         'stats.intellect': userCurrentData.stats.intellect + statIncrease
       });
 
-    } else if (currentData.type == "dexerity") {
+    } else if (currentData.type == "dexterity") {
       await updateDoc(userDocRef, {
-        'stats.dexerity': userCurrentData.stats.dexerity + statIncrease
+        'stats.dexterity': userCurrentData.stats.dexterity + statIncrease
       });
 
     }
