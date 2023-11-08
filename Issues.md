@@ -1,5 +1,5 @@
 ## issues
-
+https://www.notion.so/dd255983b85140f9a1440f15cf8151fa?v=b38306e34acf4bdfb5a4117539e9188e
 [basic-use-for-you]
 -Add fitness component Functionality
 -Adjusting Leveling System

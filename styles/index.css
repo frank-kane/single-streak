@@ -67,9 +67,13 @@
 }
 
 .habit-name{
+  
   overflow: scroll;
   height: 30px;
+  
 }
+
+
 
 .habit-name::-webkit-scrollbar {
   display: none;

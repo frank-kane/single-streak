@@ -28,6 +28,7 @@ export default function UserPage() {
   const [habits, setHabits] = useState([]);
   const [weapons, setWeapons] = useState([]);
   const [items, setItems] = useState([]);
+  const [quests, setQuests] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newHabitData, setNewHabitData] = useState({
     name: '',
@@ -38,6 +39,7 @@ export default function UserPage() {
   const habitsRef = collection(userDocRef, 'habits');
   const weaponsRef = collection(userDocRef, 'weapons');
   const itemsRef = collection(userDocRef, 'items');
+  const questsRef = collection(userDocRef, 'quests');
   const myAnimeRef = collection(userDocRef, 'anime');
   const today = new Date(); // Current date and time
   const yesterday = new Date(today);
@@ -277,6 +279,19 @@ export default function UserPage() {
     return unsubscribe
   }, []);
 
+  //===========================QUESTS============================//
+  React.useEffect(() => {
+    const unsubscribe = onSnapshot(questsRef, function (snapshot) {
+      // Sync up our local notes array with the snapshot data
+      const questsArr = snapshot.docs.map(doc => ({
+        ...doc.data(),
+        id: doc.id
+      }))
+      setQuests(questsArr)
+    })
+    return unsubscribe
+  }, []);
+
 
   React.useEffect(() => {
     const unsubscribe = onSnapshot(userDocRef, (docSnapshot) => {
@@ -360,14 +375,17 @@ export default function UserPage() {
 
 
 
-      } else {
+      } 
+      else {
         console.log('No Habits to update')
       }
-      alert(`You lost ${healthLoss} health!`)
+      
 
-    } else {
+    } 
+    else {
       console.log('Health has Already been Subtracted')
     }
+    alert(`You lost ${healthLoss} health!`)
     
   }
 
@@ -427,7 +445,7 @@ export default function UserPage() {
     const streak = currentData.is_completed ? -1 : 1;
     const level = currentData.is_completed ? -1 : 1;
     const new_next_exp = currentData.is_completed ? -1 : 1;
-    const statIncrease = currentData.is_completed ? -3 : 3;
+    const statIncrease = currentData.is_completed ? -0.5 : 0.5;
     const expIncrease = currentData.is_completed ? -10 : 10;
     const dateChange = currentData.is_completed ? yesterday : today;
 
@@ -591,6 +609,7 @@ export default function UserPage() {
         <MyTabs
           weapons={weapons}
           items={items}
+          quests={quests}
         />
 
 

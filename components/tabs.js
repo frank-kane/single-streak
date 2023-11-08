@@ -33,6 +33,7 @@ export default function MyTabs(props) {
         <TabList >
           <Tab>Weapons</Tab>
           <Tab>Healing Items</Tab>
+          <Tab>Quests</Tab>
         </TabList>
 
         <TabPanel>
@@ -70,6 +71,23 @@ export default function MyTabs(props) {
                 </div>
               </div>
             )) : <h1>No Items</h1>}
+          </div>
+        </TabPanel>
+
+        <TabPanel>
+        <div className='all-items'>
+            {props.quests.length > 0 ? props.quests.map((quest) => (
+              <div className='item' key={quest.id} onClick={() => handleItemClick(quest.description)}>
+                <div>
+                  <img className='item-image' src={`${quest.name}.png`} />
+                </div>
+                <div key={quest.id} className='item-name'>
+                  {quest.title}
+                </div>
+                <div>Reward: {quest.reward}
+                </div>
+              </div>
+            )) : <h1>No Quests</h1>}
           </div>
         </TabPanel>
       </Tabs>
