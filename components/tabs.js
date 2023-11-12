@@ -16,11 +16,27 @@ import { getAuth, signOut } from "firebase/auth";
 
 
 export default function MyTabs(props) {
+  const [selectedItemName, setSelectedItemName] = useState('');
+  const [selectedItemInfo, setSelectedItemInfo] = useState('');
+  const [selectedItemType, setSelectedItemType] = useState('');
   const [selectedItemDescription, setSelectedItemDescription] = useState('');
+  const [selectedQuestReward, setSelectedQuestReward] = useState();
 
   // Function to update the item description when an item is clicked
-  const handleItemClick = (description) => {
+  const handleItemClick = (description,name,info,type) => {
+    setSelectedItemName(name);
+    setSelectedItemInfo(info);
+    setSelectedItemType(type);
     setSelectedItemDescription(description);
+    setSelectedQuestReward();
+  };
+
+  const handleQuestClick = (description,name,info,type,reward) => {
+    setSelectedItemName(name);
+    setSelectedItemInfo(info);
+    setSelectedItemType(type);
+    setSelectedItemDescription(description);
+    setSelectedQuestReward(reward);
   };
 
 
@@ -39,17 +55,17 @@ export default function MyTabs(props) {
         <TabPanel>
           <div className='all-weapons'>
             {props.weapons.length > 0 ? props.weapons.map((weapon) => (
-              <div className='weapon' key={weapon.id} onClick={() => handleItemClick(weapon.description)}>
+              <div className='weapon' key={weapon.id} onClick={() => handleItemClick(weapon.description,weapon.name,weapon.damage,"dmg")}>
                 <div>
                   <img className='weapon-image' src={`${weapon.name}.png`} />
                 </div>
-                <div key={weapon.id}>
+                {/* <div key={weapon.id}>
                   {weapon.name}
                 </div>
                 <div>Dmg: {weapon.damage}
                 </div>
                 <div>{weapon.quantity}
-                </div>
+                </div> */}
               </div>
             )) : <h1>No Weapons</h1>}
           </div>
@@ -58,17 +74,17 @@ export default function MyTabs(props) {
         <TabPanel>
         <div className='all-items'>
             {props.items.length > 0 ? props.items.map((item) => (
-              <div className='item' key={item.id} onClick={() => handleItemClick(item.description)}>
+              <div className='item' key={item.id} onClick={() => handleItemClick(item.description,item.name,item.heal,"heal")}>
                 <div>
                   <img className='item-image' src={`${item.name}.png`} />
                 </div>
-                <div key={item.id} className='item-name'>
+                {/* <div key={item.id} className='item-name'>
                   {item.name}
                 </div>
                 <div>Heal: {item.heal}
                 </div>
                 <div>{item.quantity}
-                </div>
+                </div> */}
               </div>
             )) : <h1>No Items</h1>}
           </div>
@@ -77,15 +93,17 @@ export default function MyTabs(props) {
         <TabPanel>
         <div className='all-items'>
             {props.quests.length > 0 ? props.quests.map((quest) => (
-              <div className='item' key={quest.id} onClick={() => handleItemClick(quest.description)}>
+              <div className='item' key={quest.id} onClick={() => handleQuestClick(quest.description,quest.title,quest.type,"type",quest.reward)}>
                 <div>
-                  <img className='item-image' src={`${quest.name}.png`} />
+                  <img className='item-image' src="quest-icon.png" />
                 </div>
-                <div key={quest.id} className='item-name'>
+                {/* <div key={quest.id} className='item-name'>
                   {quest.title}
                 </div>
-                <div>Reward: {quest.reward}
-                </div>
+                <div>Reward: {quest.reward}</div>
+                <div>Type: {quest.type}</div>
+                <div>Habits: {quest.completed_habits}/{quest.required_num_of_habits}</div> */}
+                
               </div>
             )) : <h1>No Quests</h1>}
           </div>
@@ -93,7 +111,11 @@ export default function MyTabs(props) {
       </Tabs>
 
       <div className="item-description-holder">
-      <h1>Item Description</h1>
+      {/* <h1>Item Description</h1> */}
+      <h3>{selectedItemName}</h3>
+      <h5>{selectedItemType}: {selectedItemInfo}</h5>
+      {selectedQuestReward && <h5>Reward: {selectedQuestReward}</h5>}
+      <img src={`${selectedItemName}.png`}></img>
         <p className="item-description">{selectedItemDescription}</p>
       </div>
 

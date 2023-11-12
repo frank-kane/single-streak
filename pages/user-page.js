@@ -66,11 +66,11 @@ export default function UserPage() {
 
 
 
-  const handleContentChange = function (num,side) {
+  const handleContentChange = function (num, side) {
     const innerContent = document.querySelector('.inner-content');
 
     // Add the fade-out class to the inner content to trigger the fade-out and move animation
-    innerContent.classList.add('fade-out-'+side);
+    innerContent.classList.add('fade-out-' + side);
 
     setTimeout(() => {
       if (content === 0 && num === -1) {
@@ -83,41 +83,41 @@ export default function UserPage() {
 
       // After a brief delay, remove the fade-out class and add the transition-content class
       setTimeout(() => {
-        innerContent.classList.remove('fade-out-'+side);
+        innerContent.classList.remove('fade-out-' + side);
         innerContent.classList.add('transition-content');
       }, 100); // Adjust the delay duration as needed
     }, 500); // Adjust the duration to match the transition duration
   };
 
   const handleAnimeDayChange = async (e, animeId) => {
-      // Handle changes from the select dropdown
-  if (e.target.name === "type") {
-    const { value } = e.target;
+    // Handle changes from the select dropdown
+    if (e.target.name === "type") {
+      const { value } = e.target;
 
-    // Update the day of the week in Firestore
-    const animeDocRef = doc(myAnimeRef, animeId);
-    await updateDoc(animeDocRef, {
-      week_day_air: value,
-    });
+      // Update the day of the week in Firestore
+      const animeDocRef = doc(myAnimeRef, animeId);
+      await updateDoc(animeDocRef, {
+        week_day_air: value,
+      });
 
-    // Now update your local state or trigger a re-render as needed.
-  }
+      // Now update your local state or trigger a re-render as needed.
+    }
 
-  // Handle changes from the active season button
-  else if (e.target.name === "active-season-button") {
-    // alert('Changing Anime Active Season')
-    const activeSeason = e.target.classList.contains("active-season-button-true");
-    // alert(activeSeason)
+    // Handle changes from the active season button
+    else if (e.target.name === "active-season-button") {
+      // alert('Changing Anime Active Season')
+      const activeSeason = e.target.classList.contains("active-season-button-true");
+      // alert(activeSeason)
 
-    // Update the active season status in Firestore
-    const animeDocRef = doc(myAnimeRef, animeId);
-    await updateDoc(animeDocRef, {
-      active_season: !activeSeason,
-    });
+      // Update the active season status in Firestore
+      const animeDocRef = doc(myAnimeRef, animeId);
+      await updateDoc(animeDocRef, {
+        active_season: !activeSeason,
+      });
 
-    // Now update your local state or trigger a re-render as needed.
-  }
-  
+      // Now update your local state or trigger a re-render as needed.
+    }
+
     // Now update your local state or trigger a re-render as needed.
   };
 
@@ -137,6 +137,43 @@ export default function UserPage() {
       [name]: value,
     });
   };
+
+
+  React.useEffect(() => {
+    async function giveQuest() {
+
+      const newQuest = {
+        title: 'New Quest',
+        reward: '10 exp',
+        time_constraint: false,
+        type: 'all',
+        completed_habits: 0,
+        required_num_of_habits: 1,
+        description: "Earn 10 exp by completing a habit"
+
+      };
+
+
+
+      // Define a probability value (e.g., 0.2 for a 20% chance)
+      const probability = 0.05;
+
+      // Generate a random number between 0 and 1
+      const random = Math.random();
+      console.log(random)
+
+      if (random <= probability) {
+        // If no matching document is found, add a new document
+        await addDoc(questsRef, { ...newQuest });
+        alert("Received a Quest!");
+      }
+
+
+      // Check if the random number is less than or equal to the probability
+    }
+    // Call the function to give a health potion when the component mounts
+    giveQuest();
+  }, []);
 
 
 
@@ -375,18 +412,18 @@ export default function UserPage() {
 
 
 
-      } 
+      }
       else {
         console.log('No Habits to update')
       }
-      
 
-    } 
+
+    }
     else {
       console.log('Health has Already been Subtracted')
     }
-    
-    
+
+
   }
 
 
@@ -411,10 +448,10 @@ export default function UserPage() {
   async function addAnime(animeIndex) {
     const animeDataFromList = animeData.titles[animeIndex]; // Get the anime object from animeData
     const defaultValues = { week_day_air: "monday", active_season: false };
-  
+
     // Combine the animeData with default values
     const animeToAdd = { ...defaultValues, ...animeDataFromList };
-  
+
     try {
       // Add the anime object to your myAnimeRef collection in Firebase
       await addDoc(myAnimeRef, animeToAdd);
@@ -435,22 +472,55 @@ export default function UserPage() {
     const userDocRef = doc(usersCollection, '8yciXAQXy9GTxmuclEX6');
     const habitsRef = collection(userDocRef, 'habits');
 
-    const docRef = doc(habitsRef, noteId)
-    const docSnapshot = await getDoc(docRef);
+    const habitDocRef = doc(habitsRef, noteId)
+    const habitDocSnapshot = await getDoc(habitDocRef);
     const userSnapshot = await getDoc(userDocRef);
 
-    const currentData = docSnapshot.data();
+    const currentData = habitDocSnapshot.data();
     const userCurrentData = userSnapshot.data();
     const updatedIsCompleted = !currentData.is_completed; // Toggle the value
     const streak = currentData.is_completed ? -1 : 1;
     const level = currentData.is_completed ? -1 : 1;
     const new_next_exp = currentData.is_completed ? -1 : 1;
     const statIncrease = currentData.is_completed ? -0.5 : 0.5;
-    const expIncrease = currentData.is_completed ? -10 : 10;
+    var expIncrease = currentData.is_completed ? -10 : 10;
     const dateChange = currentData.is_completed ? yesterday : today;
 
+
+    try {
+      const querySnapshot = await getDocs(questsRef);
+
+      for (const quest of querySnapshot.docs) {
+        const questData = quest.data();
+
+        // Perform your logic with the document data
+        console.log('Document ID:', quest.id, 'Data:', questData);
+
+        if ((currentData.is_completed != true) && 
+        (questData.type === currentData.type || questData.type === "all") &&
+         questData.completed_habits + 1 === questData.required_num_of_habits) {
+          alert(`You completed a quest!\nQuest Data:\n${questData.title}\n${questData.reward}\n`);
+          const reward = questData.reward;
+          const extractedNumber = parseFloat(reward.match(/\d+(\.\d+)?/)[0]);
+          // alert(extractedNumber);
+          expIncrease = expIncrease + Number(extractedNumber)
+          alert('New Exp:' + String(expIncrease));
+
+          // Delete the document after performing logic
+          const questDocRef = doc(questsRef, quest.id);
+          console.log("DOC ID: "+quest.id)
+          await deleteDoc(questDocRef);
+
+        }
+      }
+    } catch (error) {
+      console.error('Error getting quests:', error);
+    }
+
+
+
     // Update the is_completed field with the new value
-    await updateDoc(docRef, {
+    await updateDoc(habitDocRef, {
       is_completed: updatedIsCompleted,
       streak: currentData.streak + streak,
       last_completed: dateChange,
@@ -490,7 +560,7 @@ export default function UserPage() {
       });
 
     }
-    
+
     if (currentData.type == "strength") {
       await updateDoc(userDocRef, {
         'stats.strength': userCurrentData.stats.strength + statIncrease
@@ -549,50 +619,56 @@ export default function UserPage() {
         </div>
 
         <div className='content'>
-          <img src='right arrow.png' className='left' onClick={() => handleContentChange(1,'right')}></img>
+          <img src='right arrow.png' className='left' onClick={() => handleContentChange(1, 'right')}></img>
 
-          <div className={`inner-content ${content === 0 || content === 2 ? 'transition-content' : 'fade-out'}`}>
-            {content == 0
-              ?<div>
-              <h6 className='content-title'>Habits</h6>
-               <Habits
-                habits={habits}
-                openOrCloseModal={openOrCloseModal}
-                createNewHabit={createNewHabit}
-                deleteHabit={deleteHabit}
-                isModalOpen={isModalOpen}
-                newHabitData={newHabitData}
-                handleInputChange={handleInputChange}
-                completeHabit={completeHabit}
+          <div className='inner-content-holder'>
 
-              />
-              </div>
-              : content == 1
+
+
+
+            <div className={`inner-content ${content === 0 || content === 2 ? 'transition-content' : 'fade-out'}`}>
+              {content == 0
                 ? <div>
-                <h6 className='content-title'>My Anime</h6>
-                
-                 <MyAnime
-                  myAnimeTitles={myAnimeTitles}
-                  deleteAnime={deleteAnime}
-                  handleAnimeDayChange={handleAnimeDayChange}
-                /> 
-                </div>
-                : content ==2
-                ? <FitnessInfo
-                  userInfo={userInfo}
-                /> 
-                :<div>
-                <h6 className='content-title'>Site Anime</h6> 
-                <SiteAnime
-          animeData={animeData}
-          addAnime={addAnime}
+                  <h6 className='content-title'>Habits</h6>
+                  <Habits
+                    habits={habits}
+                    openOrCloseModal={openOrCloseModal}
+                    createNewHabit={createNewHabit}
+                    deleteHabit={deleteHabit}
+                    isModalOpen={isModalOpen}
+                    newHabitData={newHabitData}
+                    handleInputChange={handleInputChange}
+                    completeHabit={completeHabit}
 
-        />
-        </div>
-            }
+                  />
+                </div>
+                : content == 1
+                  ? <div>
+                    <h6 className='content-title'>My Anime</h6>
+
+                    <MyAnime
+                      myAnimeTitles={myAnimeTitles}
+                      deleteAnime={deleteAnime}
+                      handleAnimeDayChange={handleAnimeDayChange}
+                    />
+                  </div>
+                  : content == 2
+                    ? <FitnessInfo
+                      userInfo={userInfo}
+                    />
+                    : <div>
+                      <h6 className='content-title'>Site Anime</h6>
+                      <SiteAnime
+                        animeData={animeData}
+                        addAnime={addAnime}
+
+                      />
+                    </div>
+              }
+            </div>
           </div>
 
-          <img src='right arrow.png' className='right' onClick={() => handleContentChange(-1,'left')}></img>
+          <img src='right arrow.png' className='right' onClick={() => handleContentChange(-1, 'left')}></img>
 
 
 
@@ -604,9 +680,9 @@ export default function UserPage() {
 
       <div className='lower-tab'>
 
-        
-          <img className='character-image' src='male-character-idle.gif' />
-        
+
+        <img className='character-image' src='male-character-idle.gif' />
+
         <MyTabs
           weapons={weapons}
           items={items}
@@ -615,22 +691,22 @@ export default function UserPage() {
 
 
 
-        
-        
+
+
       </div>
 
-      
-      <Footer className='footer'/>
 
-     
-
-      
-
-     
-      
+      <Footer className='footer' />
 
 
-      
+
+
+
+
+
+
+
+
 
     </div>
   );

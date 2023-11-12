@@ -36,18 +36,18 @@
 
 .all-items {
   justify-content: flex-start;
-  align-content: stretch;
-  align-items: stretch;
+  /* align-content: stretch; */
+  /* align-items: stretch; */
   flex-direction: row;
   overflow-y: scroll;
-  /* max-height: 200px; */
-  /* max-width: 470px; */
+  height: 360px;
+  width: 360px;
   flex-wrap: wrap;
   display: flex;
-  width: fit-content;
-  max-width: 400px;
-  border: 1px solid black;
-  min-height: 375px;
+  /* width: fit-content; */
+  /* border: 3px solid green; */
+  /* min-height: 375px; */
+  
 
   & > .item { /* Apply styles to individual items */
     flex: 0 0 calc(33.33% - 8px); /* 3 items per row, considering margin */
@@ -86,10 +86,10 @@
   flex-direction: row;
   overflow-y: scroll;
   height: 360px;
-  max-width: 470px;
+  width: 360px;
   flex-wrap: wrap;
   display: flex;
-  width: fit-content;
+  /* width: fit-content; */
   /* border: 3px solid green; */
   /* min-height: 375px; */
   
@@ -312,10 +312,15 @@
 
 
 .item {
-  /* ... other styles ... */
+  padding: 5px;
   width: fit-content;
   margin: 4px;
-  /* overflow: hidden;  */
+  background-color: #974242;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+  height: fit-content;
+  border-radius: 5px;
+  
+  
 }
 
 
@@ -345,7 +350,7 @@
   /* overflow: auto; */
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: scroll;
 }
 
 
@@ -357,6 +362,8 @@
   border-radius: 5px;
   text-align: center;
   max-width: 80vw;
+  /* background-image: url("../public/inventory-background.png");
+  background-size:100% */
   
 
   
@@ -431,10 +438,13 @@
 
 
 .weapon {
-  /* ... other styles ... */
+  padding: 5px;
   width: fit-content;
   margin: 4px;
-  /* overflow: hidden; */
+  background-color: #974242;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+  height: fit-content;
+  border-radius: 5px;
 }
 
 .weapon-image {
@@ -511,12 +521,24 @@
 .inner-content {
   display: flex;
   /* border: 2px solid lime; */
-  background-color: rgb(17, 17, 17);
+  /* background-color: rgb(17, 17, 17); */
   text-align: center;
   vertical-align: middle;
   flex-wrap: wrap;
   border-radius: 5px;
   max-width: 605px;
+
+}
+
+.inner-content-holder {
+  /* display: flex; */
+  /* border: 2px solid lime; */
+  background-color: rgb(17, 17, 17);
+  /* text-align: center;
+  vertical-align: middle;
+  flex-wrap: wrap;
+  border-radius: 5px;
+  max-width: 605px; */
 
 }
 
@@ -552,19 +574,19 @@
 
 .transition-content {
   opacity: 1;
-  transform: translateX(0);
+  /* transform: translateX(0); */
   transition: opacity 0.2s ease-in, transform 0.2s ease-in;
 }
 
 .fade-out-right {
   opacity: 0;
-  transform: translateX(-50px); /* Adjust the distance you want to move */
+  /* transform: translateX(-20px); */
   transition: opacity 0.2s ease-out, transform 0.2s ease-out;
 }
 
 .fade-out-left {
   opacity: 0;
-  transform: translateX(+50px); /* Adjust the distance you want to move */
+  /* transform: translateX(+20px);  */
   transition: opacity 0.2s ease-out, transform 0.2s ease-out;
 }
 
