@@ -156,7 +156,7 @@ export default function UserPage() {
 
 
       // Define a probability value (e.g., 0.2 for a 20% chance)
-      const probability = 0.05;
+      const probability = 0.2;
 
       // Generate a random number between 0 and 1
       const random = Math.random();
