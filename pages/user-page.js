@@ -699,6 +699,14 @@ export default function UserPage() {
 
       <div className='lower-tab'>
 
+      <div className="video-background">
+      <video autoPlay loop muted>
+        <source src="live-wallpaper.mp4" type="video/mp4" />
+        {/* Add additional source elements for different video formats (webm, ogg, etc.) */}
+        Your browser does not support the video tag.
+      </video>
+      </div>
+
 
         <img className='character-image' src='male-character-idle.gif' />
 
