@@ -797,3 +797,18 @@ select {
   width: 100px;
   border-radius: 50%;
 }
+
+.site-profile-pic:hover{
+  border: 8px solid #3498db; 
+
+  animation: fadeInBorder 1s ease-in-out; 
+}
+
+@keyframes fadeInBorder {
+  0% {
+    border-color: transparent;
+  }
+  100% {
+    border-color: #3498db; /* Adjust the color as needed */
+  }
+}
