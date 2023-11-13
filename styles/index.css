@@ -758,3 +758,42 @@ select {
 .item-name{
   text-wrap: wrap;
 }
+
+.profile-pic-holder{
+  display: flex;
+  justify-content: center;
+  /* text-align: center; */
+  border: #974242 solid 10px;
+  border-radius: 50%;
+  height: 200px;
+  width: 200px;
+}
+
+.profile-pic{
+  margin: auto;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  
+}
+
+.all-profile-pics{
+  background-color: #fff;
+  border: #974242 solid 5px;
+  margin-left:50%;
+  position: absolute;
+  width: 300px;
+  height: 500px;
+  overflow-y: scroll;
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.site-profile-pic{
+  margin: 5px;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+}

@@ -17,6 +17,7 @@ import UserInfo from '@/components/user-info';
 import { Elsie_Swash_Caps } from 'next/font/google';
 
 import FitnessInfo from '@/components/fitness-info';
+import ProfilePic from '@/components/profile-pic';
 
 import Footer from '@/components/footer';
 
@@ -138,24 +139,42 @@ export default function UserPage() {
     });
   };
 
+  const handleProfilePicChange = async (url) => {
+
+    try {
+      // Use the updateDoc function to update the specific field
+      await updateDoc(userDocRef, {
+        profile_pic_url: url, // Replace 'fieldName' with the actual field name
+      });
+  
+      console.log('Field updated successfully!');
+    } catch (error) {
+      console.error('Error updating field:', error);
+    }
+
+
+    }
+
 
   React.useEffect(() => {
     async function giveQuest() {
+      const traits = ["strength", "dexterity", "charisma", "constritute", "intellect", "wisdom", "all"]
 
+      var randomTraitNumber = Math.floor(Math.random() * 7) + 1;
+      var randomTrait = traits[randomTraitNumber];
+      var habitNumber = Math.floor(Math.random() * 3) + 1;
+
+      var expReward = 5 * habitNumber;
       const newQuest = {
-        title: 'New Quest',
-        reward: '10 exp',
+        title: `${habitNumber} ${randomTrait} Habits`,
+        reward: `${expReward} exp`,
         time_constraint: false,
-        type: 'all',
+        type: randomTrait,
         completed_habits: 0,
-        required_num_of_habits: 1,
-        description: "Earn 10 exp by completing a habit"
+        required_num_of_habits: habitNumber,
+        description: `Earn ${expReward} exp for completing ${habitNumber} ${randomTrait} habits`
 
       };
-
-
-
-      // Define a probability value (e.g., 0.2 for a 20% chance)
       const probability = 0.2;
 
       // Generate a random number between 0 and 1
@@ -165,13 +184,11 @@ export default function UserPage() {
       if (random <= probability) {
         // If no matching document is found, add a new document
         await addDoc(questsRef, { ...newQuest });
-        alert("Received a Quest!");
+        alert("Received a New Quest!");
       }
 
 
-      // Check if the random number is less than or equal to the probability
     }
-    // Call the function to give a health potion when the component mounts
     giveQuest();
   }, []);
 
@@ -341,7 +358,8 @@ export default function UserPage() {
           money: userData.money,
           height: userData.height,
           weight: userData.weight,
-          bfp: userData.bfp
+          bfp: userData.bfp,
+          profile_pic_url: userData.profile_pic_url
         })
         setStats(userStats);
         console.log(stats)
@@ -496,9 +514,9 @@ export default function UserPage() {
         // Perform your logic with the document data
         console.log('Document ID:', quest.id, 'Data:', questData);
 
-        if ((currentData.is_completed != true) && 
-        (questData.type === currentData.type || questData.type === "all") &&
-         questData.completed_habits + 1 === questData.required_num_of_habits) {
+        if ((currentData.is_completed != true) &&
+          (questData.type === currentData.type || questData.type === "all") &&
+          questData.completed_habits + 1 === questData.required_num_of_habits) {
           alert(`You completed a quest!\nQuest Data:\n${questData.title}\n${questData.reward}\n`);
           const reward = questData.reward;
           const extractedNumber = parseFloat(reward.match(/\d+(\.\d+)?/)[0]);
@@ -508,7 +526,7 @@ export default function UserPage() {
 
           // Delete the document after performing logic
           const questDocRef = doc(questsRef, quest.id);
-          console.log("DOC ID: "+quest.id)
+          console.log("DOC ID: " + quest.id)
           await deleteDoc(questDocRef);
 
         }
@@ -604,6 +622,7 @@ export default function UserPage() {
       <NavBar />
 
       <div className='upper-tab'>
+        <ProfilePic profile_pic_url = {userInfo.profile_pic_url} handleProfilePicChange = {handleProfilePicChange}/>
         <UserInfo
           stats={stats}
           userInfo={userInfo}
