@@ -767,6 +767,7 @@ select {
   border-radius: 50%;
   height: 200px;
   width: 200px;
+  transition: border-color 0.3s ease-in-out;
 }
 
 .profile-pic{
@@ -776,6 +777,14 @@ select {
   border-radius: 50%;
   
 }
+
+.profile-pic-holder:hover{
+  /* border: 8px solid #3498db;  */
+
+  border-color: #cacaca; 
+}
+
+
 
 .all-profile-pics{
   background-color: #fff;
