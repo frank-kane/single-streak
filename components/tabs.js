@@ -112,10 +112,15 @@ export default function MyTabs(props) {
 
       <div className="item-description-holder">
       {/* <h1>Item Description</h1> */}
+      {selectedItemName &&
+      <div>
       <h3>{selectedItemName}</h3>
       <h5>{selectedItemType}: {selectedItemInfo}</h5>
+      </div>}
       {selectedQuestReward && <h5>Reward: {selectedQuestReward}</h5>}
-      <img src={`${selectedItemName}.png`}></img>
+      {selectedItemName &&
+      <img src={`${selectedItemName}.png`}></img>}
+      
         <p className="item-description">{selectedItemDescription}</p>
       </div>
 

@@ -41,7 +41,7 @@
   flex-direction: row;
   overflow-y: scroll;
   height: 360px;
-  width: 360px;
+  /* width: 360px; */
   flex-wrap: wrap;
   display: flex;
   /* width: fit-content; */
@@ -86,7 +86,7 @@
   flex-direction: row;
   overflow-y: scroll;
   height: 360px;
-  width: 360px;
+  /* width: 360px; */
   flex-wrap: wrap;
   display: flex;
   /* width: fit-content; */
@@ -325,15 +325,21 @@
 
 
 .items-container {
+  text-align: center;
   display: flex;
-  flex-direction: row;
-  border: 1px solid black;
-  height: 425px;
+  /* flex-direction: row; */
+  border: 5px solid rgb(36, 147, 155);
+  /* height: fit-content; */
+  flex-wrap:wrap;
+  width: fit-content;
+  @media (max-width: 715px) {
+    width: min-content; /* Switch to a column layout for screens with a maximum width of 768px (typical for phones) */
+  }
 }
 
 .tabs{
-  border-right: 2px solid blue;
-  width: fit-content;
+  border: 2px solid blue;
+  width: 350px;
   height: 425px;
 
 }
@@ -346,7 +352,8 @@
 .item-description-holder {
   /* width: fit-content; */
   width: 350px;
-  /* border: 2px solid purple; */
+  height: 425px;
+  border: 2px solid purple;
   /* overflow: auto; */
   display: flex;
   flex-direction: column;
@@ -355,13 +362,17 @@
 
 
 .inventory-container{
-  border: 2px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction:column;
+  border: 4px solid rgb(230, 68, 68);
   margin-bottom: 70px;
   background-color:#fff;
-  height: 500px;
+  height: fit-content;
   border-radius: 5px;
   text-align: center;
-  max-width: 80vw;
+  /* max-width: 80vw; */
+  width: fit-content;
   /* background-image: url("../public/inventory-background.png");
   background-size:100% */
   
@@ -374,7 +385,7 @@
   /* border: 1px dotted blue; */
   display: flex;
   /* margin-top: 100px; */
-  /* background-image: url("../public/anime-background.jpg"); */
+  background-image: url("../public/anime-background.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 100%;
@@ -827,9 +838,11 @@ select {
   margin: 0;
   position: absolute;
   width: 100%;
-  height: 75vh;
-  overflow: hidden;
+  height: 100%;
+  /* overflow: hidden; */
   z-index: -1000;
+  border: 8px solid #3498db; 
+ 
 }
 
 video {
