@@ -21,6 +21,8 @@ import ProfilePic from '@/components/profile-pic';
 
 import Footer from '@/components/footer';
 
+import LeftTab from '@/components/left-tab';
+
 export default function UserPage() {
   const [content, setContent] = useState(0);
   const [myAnimeTitles, setMyAnimeTitles] = useState([]);
@@ -146,14 +148,14 @@ export default function UserPage() {
       await updateDoc(userDocRef, {
         profile_pic_url: url, // Replace 'fieldName' with the actual field name
       });
-  
+
       console.log('Field updated successfully!');
     } catch (error) {
       console.error('Error updating field:', error);
     }
 
 
-    }
+  }
 
 
   React.useEffect(() => {
@@ -175,7 +177,7 @@ export default function UserPage() {
         description: `Earn ${expReward} exp for completing ${habitNumber} ${randomTrait} habits`
 
       };
-      const probability = 0.2;
+      const probability = 0.1;
 
       // Generate a random number between 0 and 1
       const random = Math.random();
@@ -619,9 +621,13 @@ export default function UserPage() {
 
   return (
     <div className='index-container'>
-      <NavBar />
 
-      <div className='upper-tab'>
+      <div className='all-content'>
+        <NavBar />
+
+
+
+        {/* <div className='upper-tab'>
         <ProfilePic profile_pic_url = {userInfo.profile_pic_url} handleProfilePicChange = {handleProfilePicChange}/>
         <UserInfo
           stats={stats}
@@ -694,12 +700,28 @@ export default function UserPage() {
 
         </div>
 
-      </div>
+      </div> */}
 
 
-      <div className='lower-tab'>
+        <div className='lower-tab'>
 
-      {/* <div className="video-background">
+          <LeftTab habits={habits}
+            openOrCloseModal={openOrCloseModal}
+            createNewHabit={createNewHabit}
+            deleteHabit={deleteHabit}
+            isModalOpen={isModalOpen}
+            newHabitData={newHabitData}
+            handleInputChange={handleInputChange}
+            completeHabit={completeHabit}
+            myAnimeTitles={myAnimeTitles}
+            deleteAnime={deleteAnime}
+            handleAnimeDayChange={handleAnimeDayChange}
+            userInfo={userInfo}
+            animeData={animeData}
+            addAnime={addAnime}
+          />
+
+          {/* <div className="video-background">
       <video autoPlay loop muted>
         <source src="live-wallpaper.mp4" type="video/mp4" />
         
@@ -707,35 +729,41 @@ export default function UserPage() {
       </div> */}
 
 
-        <img className='character-image' src='male-character-idle.gif' />
 
-        <MyTabs
+
+          <img className='character-image' src='male-character-idle.gif' />
+
+          {/* <MyTabs
           weapons={weapons}
           items={items}
           quests={quests}
-        />
+        /> */}
+
+
+
+
+
+        </div>
+
+
+        <Footer className='footer' />
+
+
+
+
+
+
 
 
 
 
 
       </div>
-
-
-      <Footer className='footer' />
-
-
-
-
-
-
-
-
-
-
-
     </div>
   );
+
+
+
 
 
 
