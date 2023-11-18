@@ -43,9 +43,18 @@ export default function LeftTab(props) {
     const [showContent, setShowContent] = useState(false);
 
     async function handleTabButtonClick(contentNum) {
-        setShowContent(!showContent)
 
-        setContent(contentNum)
+        if(content != contentNum && showContent == true){
+            setContent(contentNum)
+
+
+        }else{
+            setShowContent(!showContent)
+
+            setContent(contentNum)
+
+        }
+        
 
     }
 
@@ -85,8 +94,24 @@ export default function LeftTab(props) {
             <div className='left-tab-content'>
 
             {
-                
                 content == 0
+                ? <div className='upper-tab'>
+        <ProfilePic profile_pic_url = {props.userInfo.profile_pic_url} handleProfilePicChange = {props.handleProfilePicChange}/>
+        <UserInfo
+          stats={props.stats}
+          userInfo={props.userInfo}
+        />
+        <div>
+          {props.stats && (
+            <Stats
+              stats={props.stats}
+            />
+          )}
+          </div>
+          </div>
+                :
+                
+                content == 1
                 ? <div>
                   <h6 className='content-title'>Habits</h6>
                   <Habits
@@ -101,7 +126,7 @@ export default function LeftTab(props) {
 
                   />
                 </div>
-                : content == 1
+                : content == 2
                   ? <div>
                     <h6 className='content-title'>My Anime</h6>
 
@@ -111,11 +136,11 @@ export default function LeftTab(props) {
                       handleAnimeDayChange={props.handleAnimeDayChange}
                     />
                   </div>
-                  : content == 2
+                  : content == 3
                     ? <FitnessInfo
                       userInfo={props.userInfo}
                     />
-                    : content == 3
+                    : content == 4
                     ? <div>
                       <h6 className='content-title'>Site Anime</h6>
                       <SiteAnime
@@ -124,7 +149,7 @@ export default function LeftTab(props) {
 
                       />
                     </div>
-                    : content == 4
+                    : content == 5
                     ? <FitnessInfo
                       userInfo={props.userInfo}
                     />

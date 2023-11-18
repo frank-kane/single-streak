@@ -719,6 +719,8 @@ export default function UserPage() {
             userInfo={userInfo}
             animeData={animeData}
             addAnime={addAnime}
+            stats={stats}
+            handleProfilePicChange = {handleProfilePicChange}
           />
 
           {/* <div className="video-background">
