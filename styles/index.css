@@ -321,7 +321,7 @@
   justify-content: space-between; /* Add this line */
   height: 100vh; /* Add this line to take up the full viewport height */
   width: 100vw;
-  /* max-width: 850px; */
+  max-width: 850px;
   max-height: 100vh;
   flex-wrap: wrap;
   border: 2px solid green;
@@ -406,10 +406,10 @@
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
   /* margin-top: 100px; */
-  background-image: url("../public/anime-background.jpg");
+  background-image: url("../public/character-background-2.jpg");
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: 50% 100%;
+  /* background-position: 50% 100%; */
   width: 100%;
   /* height:530px; */
   justify-content: space-around;
@@ -448,7 +448,7 @@
   max-height: fit-content;
   justify-content: space-evenly;
   padding: 5px;
-  box-shadow: 10px 0px 0px rgba(0, 0, 0, 1);
+  /* box-shadow: 10px 0px 0px rgba(0, 0, 0, 1); */
   
   
 }
@@ -503,8 +503,9 @@
 
 
 .character-image {
-  position: relative;
-  margin: auto;
+  position: absolute;
+  margin-left: 40vw;
+  margin-top: 35vh;
   width: 100px;
   height: 300px;
   z-index: 1;
@@ -886,50 +887,58 @@ video {
   height: 35px;
   /* border: solid 2px red; */
   border-radius: 5px;
-  margin-left: 15px;
+  /* margin-left: 15px; */
   background-image: url("../public/favicon.ico");
   background-size: cover;
 }
 
 .left-tab{
+  padding: 5px;
+  text-align: center;
+  background-color: rgb(68, 0, 57);
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  /* border: solid 2px rgb(255, 0, 255) */
+  border: solid 1px rgb(56, 56, 56);
+  border-radius: 3px;
 }
 
 .left-tab-container {
   /* border: solid 2px green; */
   display: flex;
   justify-content:flex-start;
-  width: 800px;
+  width: 100%;
   left: 0;
-  position: absolute;
-  height: 650px;
+  /* position: absolute; */
+  height: 683px;
+  max-width: 850px;
 }
 
 .left-tab-content {
+  margin-top: 60px;
   display: flex;
   /* margin-left: 100%; */
-  border: solid 2px purple;
-  position: absolute;
-  width: 500px;
-  height: 600px;
+  /* border: solid 2px purple; */
+  /* position: absolute; */
+  width: 400px;
+  height: 500px;
   flex-wrap: wrap;
-  z-index: 2;
+  z-index: 3;
+  background-color: #333;
+  box-shadow: 5px 5px 5px rgb(0, 0, 0);
 }
 
 .left-tab-content-holder {
+  /* padding: 20px; */
   display: flex;
-  justify-content: center;
+  justify-content:center;
+  /* flex-direction: column; */
   /* margin-left: 50%; */
   /* position: absolute; */
   background-color: rgba(0, 0, 0, 0.5);
-  height: 650px;
-  width: 700px;
+  height: 684px;
+  width: 100%;
+  z-index: 2;
 
-  @media (max-width: 715px) {
-    margin-left: 0; /* Switch to a column layout for screens with a maximum width of 715px (adjust as needed) */
-  }
 }
