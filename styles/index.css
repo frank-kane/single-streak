@@ -129,7 +129,7 @@
   /* border: 2px solid blue; */
   border-radius: 3px;
   text-align: center;
-  height: 60%;
+  /* height: 60%; */
   margin: 10px;
   /* min-width: 150px; */
   min-height: 50%;
@@ -139,6 +139,7 @@
   /* background-position: 0%; */
 
   /* align-items: center; */
+padding-bottom: 15%;
 }
 
 .stat-image{
@@ -222,7 +223,7 @@
   /* border: 5px solid black; */
   width: fit-content;
   overflow: scroll;
-  height: 100px;
+  height: 10%;
 }
 
 .fficon {
@@ -287,8 +288,8 @@
 }
 
 .icon {
-  height: 10%;
-  width: 10%;
+  height: 70%;
+  width: 70%;
   cursor: pointer;
 }
 
@@ -911,7 +912,7 @@ video {
   width: 100%;
   left: 0;
   /* position: absolute; */
-  height: 683px;
+  height: 100%;
   max-width: 850px;
 }
 
