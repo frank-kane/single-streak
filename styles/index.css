@@ -301,8 +301,10 @@
   flex-direction: row;
   /* align-items: center; */
   justify-content: center;
-  height: 100%; /* Add this line to take up the full viewport height */
+  height: 90%; /* Add this line to take up the full viewport height */
   width: 100%;
+  border: 3px solid red;
+  max-height: 100vh;
  
   
   
@@ -317,12 +319,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between; /* Add this line */
-  height: 100%; /* Add this line to take up the full viewport height */
-  width: 830px;
+  height: 100vh; /* Add this line to take up the full viewport height */
+  width: 100vw;
   /* max-width: 850px; */
-  
+  max-height: 100vh;
   flex-wrap: wrap;
-  /* border: 2px solid green; */
+  border: 2px solid green;
 }
 
 
@@ -398,7 +400,7 @@
 
 .lower-tab {
   /* background-color: antiquewhite; */
-  position: relative;
+  position: static;
   /* border: 5px solid blue; */
   display: grid;
   grid-template-columns: 1fr;
@@ -412,9 +414,9 @@
   /* height:530px; */
   justify-content: space-around;
   flex-wrap: wrap;
-  padding: 5px;
-  height:87vh;
-  overflow: hidden;
+  /* padding: 5px; */
+  height:86vh;
+  /* overflow: hidden; */
 }
 
 .main-stats {
@@ -503,8 +505,8 @@
 .character-image {
   position: relative;
   margin: auto;
-  width: 300px;
-  height: 500px;
+  width: 100px;
+  height: 300px;
   z-index: 1;
   
 }
@@ -880,8 +882,8 @@ video {
 
 
 .tab-button{
-  width: 100px;
-  height: 100px;
+  width: 35px;
+  height: 35px;
   /* border: solid 2px red; */
   border-radius: 5px;
   margin-left: 15px;
