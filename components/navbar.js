@@ -46,12 +46,12 @@ export default function NavBar(props){
             pathname: '/',
           })}/>
           {/* <img src="my-anime-life.png" alt="" className='logo'  /> */}
-          <h3 onClick={()=>router.push({
+          <h4 onClick={()=>router.push({
             pathname: '/news',
-          })}>News</h3>
-          <h3>Party</h3>
-          <h3>About</h3>  
-          <h3>Help</h3>
+          })}>News</h4>
+          <h4>Party</h4>
+          <h4>About</h4>  
+          <h4>Help</h4>
           
           <img src="user-account-icon.png" alt="" className='user-account-icon' onClick={()=> setShowUserInfo(true)} />
           {showUserInfo &&

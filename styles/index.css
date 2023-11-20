@@ -129,12 +129,12 @@
   /* border: 2px solid blue; */
   border-radius: 3px;
   text-align: center;
-  height: 12%;
+  height: 60%;
   margin: 10px;
-  min-width: 150px;
-  /* min-height: 200px; */
+  /* min-width: 150px; */
+  min-height: 50%;
   width: 30%;
-  max-width: max-content;
+  /* max-width: max-content; */
   background-size: cover;
   /* background-position: 0%; */
 
