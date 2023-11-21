@@ -20,6 +20,7 @@ import FitnessInfo from '@/components/fitness-info';
 import ProfilePic from '@/components/profile-pic';
 
 import Footer from '@/components/footer';
+import { useRouter } from 'next/router';
 
 export default function UserPage() {
   const [content, setContent] = useState(0);
@@ -35,8 +36,9 @@ export default function UserPage() {
     name: '',
     type: 'strength',
   });
+  const userUID = sessionStorage.getItem('userUID');
   const usersCollection = collection(db, 'users'); // Reference to the "users" collection
-  const userDocRef = doc(usersCollection, '8yciXAQXy9GTxmuclEX6'); // Reference to the specific user document
+  const userDocRef = doc(usersCollection, userUID); // Reference to the specific user document
   const habitsRef = collection(userDocRef, 'habits');
   const weaponsRef = collection(userDocRef, 'weapons');
   const itemsRef = collection(userDocRef, 'items');
@@ -51,6 +53,8 @@ export default function UserPage() {
   const handleToggle = () => {
     setShow(!show);
   };
+
+  const router = useRouter();
 
   const duration = 300; // Animation duration in milliseconds
   // Custom styles for the enter animation

@@ -43,15 +43,24 @@ export default function Home() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      // Your login logic here
-    
-      // After successful login, navigate to '/user-page'
-      // history.push('/user-page');
+      const { email, password } = formData;
+
+      // Use Firebase signInWithEmailAndPassword function
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Store the user's UID in the session (you might want to use a more secure session management approach)
+      sessionStorage.setItem('userUID', user.uid);
+
+      // After successful login, push to the user-page
       router.push('/user-page');
     } catch (error) {
-      alert("Error logging in: " + error);
+      alert("Error logging in: " + error.message);
     }
   };
+
+  // ... (rest of the code)
+
   // const handleRegister = async(e) => {
   //   e.preventDefault();
   //   // You can add your login logic here, e.g., send a request to your authentication API
