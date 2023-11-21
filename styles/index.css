@@ -621,7 +621,7 @@
 
 .footer {
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
-  /* position: absolute; */
+  position: absolute;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -854,4 +854,19 @@ video {
   height: 100%;
   object-fit: cover;
   z-index: -1000;
+}
+
+.login-form{
+  text-align: center;
+  padding: 40px;
+  background-color:#333;
+  width: fit-content;
+  margin: 10%;
+  border-radius: 5px;
+  color:#fff;
+}
+
+.login-content-holder{
+  display: flex;
+  justify-content: center;
 }

@@ -77,10 +77,11 @@ export default function Home() {
   // }
 
   return (
-    <div className='login-page'>
+    <div className='login-page-container'>
       <NavBar />
+      <div className='login-content-holder'>
+      <form onSubmit={handleLogin} className='login-form'>
       <h2>Login</h2>
-      <form onSubmit={handleLogin}>
         <div>
           <label htmlFor="username">Username</label>
           <input
@@ -113,6 +114,7 @@ export default function Home() {
         </div>
         <button type="submit">Login</button>
       </form>
+      </div>
 
       {/* <h2>Register</h2>
       <form onSubmit={handleRegister}>
