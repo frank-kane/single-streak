@@ -1,6 +1,9 @@
 {
   "name": "single-streak",
   "version": "0.1.0",
+  "engines": {
+    "node": "21.1.0"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev",

@@ -20,10 +20,6 @@ import { Link, useHistory } from 'react-router-dom';
 import { useRouter } from 'next/router';
 import FitnessInfo from '@/components/fitness-info';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-
-
-
-
 import Footer from '@/components/footer';
 
 export default function Home() {
