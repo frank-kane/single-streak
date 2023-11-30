@@ -38,6 +38,14 @@ export default function UserPage() {
     type: 'strength',
   });
    const userUID = isBrowser ? sessionStorage.getItem('userUID') : null;
+
+   if (!userUID) {
+    // Handle the case where userUID is null or empty
+    console.error('userUID is null or empty');
+    return (
+      alert("Something went wrong")
+    );
+  }
   const usersCollection = collection(db, 'users'); // Reference to the "users" collection
   const userDocRef = doc(usersCollection, userUID); // Reference to the specific user document
   const habitsRef = collection(userDocRef, 'habits');
