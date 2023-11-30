@@ -21,6 +21,7 @@ import ProfilePic from '@/components/profile-pic';
 
 import Footer from '@/components/footer';
 import { useRouter } from 'next/router';
+const isBrowser = typeof window !== 'undefined';
 
 export default function UserPage() {
   const [content, setContent] = useState(0);
@@ -36,7 +37,7 @@ export default function UserPage() {
     name: '',
     type: 'strength',
   });
-  const userUID = sessionStorage.getItem('userUID');
+  const userUID = isBrowser ? sessionStorage.getItem('userUID') : null;
   const usersCollection = collection(db, 'users'); // Reference to the "users" collection
   const userDocRef = doc(usersCollection, userUID); // Reference to the specific user document
   const habitsRef = collection(userDocRef, 'habits');
