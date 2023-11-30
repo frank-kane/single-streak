@@ -43,7 +43,7 @@ export default function UserPage() {
     // Handle the case where userUID is null or empty
     console.error('userUID is null or empty');
     return (
-      alert("Something went wrong")
+      null
     );
   }
   const usersCollection = collection(db, 'users'); // Reference to the "users" collection
