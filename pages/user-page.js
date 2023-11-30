@@ -37,7 +37,7 @@ export default function UserPage() {
     name: '',
     type: 'strength',
   });
-  const userUID = isBrowser ? sessionStorage.getItem('userUID') : null;
+   const userUID = isBrowser ? sessionStorage.getItem('userUID') : null;
   const usersCollection = collection(db, 'users'); // Reference to the "users" collection
   const userDocRef = doc(usersCollection, userUID); // Reference to the specific user document
   const habitsRef = collection(userDocRef, 'habits');
