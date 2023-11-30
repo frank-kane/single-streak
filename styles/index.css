@@ -621,7 +621,7 @@
 
 .footer {
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
-  position: absolute;
+  position: relative;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -864,9 +864,12 @@ video {
   margin: 10%;
   border-radius: 5px;
   color:#fff;
+  height:fit-content;
 }
 
 .login-content-holder{
   display: flex;
   justify-content: center;
+  height: 87vh; /* Add this line to take up the full viewport height */
+  width: 100%;
 }
